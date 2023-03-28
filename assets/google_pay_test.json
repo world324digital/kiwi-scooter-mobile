@@ -1,0 +1,38 @@
+{
+  "provider": "google_pay",
+  "data": {
+    "environment": "TEST",
+    "apiVersion": 2,
+    "apiVersionMinor": 0,
+    "allowedPaymentMethods": [
+      {
+        "type": "CARD",
+        "tokenizationSpecification": {
+          "type": "PAYMENT_GATEWAY",
+          "parameters": {
+            "gateway": "stripe",
+            "stripe:version": "2022-08-01",
+            "stripe:publishableKey": "pk_test_51LcxWOBr5GZ1QA4FPir30ahW1nqCZh50TbIAzOxu8Z7EQvKLIDOmfnvesfLvIC9sCezfagywgU7pEGCHHxx4Hlsp00DgiWVH9B"
+          }
+        },
+        "parameters": {
+          "allowedCardNetworks": ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "VISA"],
+          "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+          "billingAddressRequired": true,
+          "billingAddressParameters": {
+            "format": "FULL",
+            "phoneNumberRequired": true
+          }
+        }
+      }
+    ],
+    "merchantInfo": {
+      "merchantId": "BCR2DN4TYS45LHR4",
+      "merchantName": "Move eMobility"
+    },
+    "transactionInfo": {
+      "countryCode": "US",
+      "currencyCode": "USD"
+    }
+  }
+}
