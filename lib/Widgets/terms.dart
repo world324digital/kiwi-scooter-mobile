@@ -1,4 +1,4 @@
-import 'package:Move/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
 import 'package:flutter/material.dart';
 
 Widget TermsTitle({

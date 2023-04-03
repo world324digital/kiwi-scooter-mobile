@@ -1,5 +1,6 @@
-import 'package:Move/Pages/QRScanPage/allow_camera.dart';
-import 'package:Move/Pages/QRScanPage/qr_scan_page.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Pages/QRScanPage/allow_camera.dart';
+import 'package:KiwiCity/Pages/QRScanPage/qr_scan_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 // import 'package:openstreetmap/qr_scan.dart';
@@ -94,7 +95,7 @@ class _ContEmail extends State<ContEmail> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -166,7 +167,7 @@ class _ContEmail extends State<ContEmail> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -177,7 +178,7 @@ class _ContEmail extends State<ContEmail> {
                             _passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable
@@ -253,12 +254,12 @@ class _ContEmail extends State<ContEmail> {
           padding: const EdgeInsets.only(left: 14, right: 14),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromRGBO(52, 202, 52, 1),
+              backgroundColor: ColorConstants.cPrimaryBtnColor,
               textStyle: const TextStyle(
                   color: Colors.white, fontFamily: 'Montserrat'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(13),
-                side: const BorderSide(color: Color.fromRGBO(52, 202, 52, 1)),
+                side: const BorderSide(color: ColorConstants.cPrimaryBtnColor),
               ),
             ),
             onPressed: () {

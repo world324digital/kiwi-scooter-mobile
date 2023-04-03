@@ -1,8 +1,8 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
@@ -97,7 +97,7 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
 
@@ -156,7 +156,7 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Restart app when set permissions of App
    */
 
@@ -252,7 +252,8 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
       child: Column(
         children: [
           Container(
-            height: 165,
+            // height: 165,
+            height: MediaQuery.of(context).size.height * 0.4,
             margin: const EdgeInsets.only(bottom: 30),
             child: Image.asset('assets/images/bigbell.png'),
           ),

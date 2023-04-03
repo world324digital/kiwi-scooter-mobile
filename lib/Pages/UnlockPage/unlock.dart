@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Models/review_model.dart';
-import 'package:Move/Models/card_model.dart';
-import 'package:Move/Models/price_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/TermsSectionPage/index.dart';
-import 'package:Move/Pages/UnlockPage/jumping_dot.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Models/review_model.dart';
+import 'package:KiwiCity/Models/card_model.dart';
+import 'package:KiwiCity/Models/price_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/TermsSectionPage/index.dart';
+import 'package:KiwiCity/Pages/UnlockPage/jumping_dot.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

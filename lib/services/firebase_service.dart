@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Models/card_model.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Models/card_model.dart';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:Move/Models/price_model.dart';
-import 'package:Move/Models/review_model.dart';
-import 'package:Move/Models/scooterObject.dart';
-import 'package:Move/Models/term_model.dart';
-import 'package:Move/Models/user_model.dart';
+import 'package:KiwiCity/Models/price_model.dart';
+import 'package:KiwiCity/Models/review_model.dart';
+import 'package:KiwiCity/Models/scooterObject.dart';
+import 'package:KiwiCity/Models/term_model.dart';
+import 'package:KiwiCity/Models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,8 +39,8 @@ class FirebaseService {
   );
 
   /***********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.10
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.10
    * @Desc: Initialize Firebase
    */
 
@@ -51,8 +51,8 @@ class FirebaseService {
   }
 
   /***********************************************
-  * @Auth: Geniusdev0813@gmail.com
-  * @Date: 2022.12.10
+  * @Auth: world324digital@gmail.com
+  * @Date: 2023.03.10
   * @Desc: Google Sigin
   */
   Future<UserCredential?> signInwithGoogle() async {
@@ -91,8 +91,8 @@ class FirebaseService {
   }
 
   /***********************************************
-  * @Auth: Geniusdev0813@gmail.com
-  * @Date: 2022.12.10
+  * @Auth: world324digital@gmail.com
+  * @Date: 2023.03.10
   * @Desc: Apple SignIn
   */
   Future<User> signInWithApple() async {
@@ -155,8 +155,8 @@ class FirebaseService {
   }
 
   /******************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.11
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.11
    * @Desc: Create User Profile
    */
   Future<bool> createUser(UserModel userModel) async {
@@ -196,8 +196,8 @@ class FirebaseService {
   }
 
   /******************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Get UserData
    */
   Future<UserModel?> getUser(String uid) async {
@@ -290,8 +290,8 @@ class FirebaseService {
   }
 
   /*******************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: check scooter id is valid
    */
   Future<bool> isValidScooterID({required String scooterID}) async {
@@ -300,8 +300,8 @@ class FirebaseService {
   }
 
   /*******************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Get Prices
    */
   Future<List<PriceModel>> getPrices() async {
@@ -381,8 +381,8 @@ class FirebaseService {
   }
 
   /***********************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.14
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.14
    * @Desc: Update User Card
    */
   Future<bool> updateCard(UserModel user) async {
@@ -411,8 +411,8 @@ class FirebaseService {
   }
 
   /********************************
-   * @Auth: geniusdev0813
-   * @Date: 2022.12.16
+   * @Auth: world324digital
+   * @Date: 2023.03.16
    * @Desc: Upload Image
    */
   Future<String> uploadImage(

@@ -1,7 +1,7 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Models/term_model.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/terms.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Models/term_model.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/terms.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

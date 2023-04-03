@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,8 +45,8 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   /*******************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Login with Email
    */
 
@@ -148,7 +148,7 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
                                     borderRadius: BorderRadius.circular(15.0)),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.green,
+                                    color: ColorConstants.cPrimaryBtnColor,
                                   ),
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),

@@ -1,19 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Models/card_model.dart';
-import 'package:Move/Models/price_model.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/PaymentPage/payment_helper.dart';
-import 'package:Move/Pages/UnlockPage/unlock.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
-import 'package:Move/services/httpService.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Models/card_model.dart';
+import 'package:KiwiCity/Models/price_model.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/PaymentPage/payment_helper.dart';
+import 'package:KiwiCity/Pages/UnlockPage/unlock.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
+import 'package:KiwiCity/services/httpService.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,8 +75,8 @@ class _PayMethod extends State<PayMethod> {
   }
 
   /****************************
-   * @Auth: geniusdev0813
-   * @Date: 2022.12.12
+   * @Auth: world324digital
+   * @Date: 2023.03.29
    * @Desc: Complete Payment
    */
   Future<void> paySubmit(CardModel card) async {
@@ -306,8 +306,8 @@ class _PayMethod extends State<PayMethod> {
   }
 
   /******************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.13
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.13
    * @Desc: Power On Scooter
    */
   Future<void> payWithAppleGoogle() async {
@@ -409,7 +409,7 @@ class _PayMethod extends State<PayMethod> {
 
     /*********************
      * @Auth: leopard
-     * @Date: 2022.12.12
+     * @Date: 2023.03.29
      * @Desc: Selected Card Section
      */
     Widget paySection = InkWell(
@@ -489,7 +489,7 @@ class _PayMethod extends State<PayMethod> {
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           fontFamily: 'Montserrat-Bold',
-                          color: Color.fromRGBO(52, 202, 52, 1)),
+                          color: ColorConstants.cPrimaryBtnColor),
                     ),
                   ),
                 )
@@ -502,7 +502,7 @@ class _PayMethod extends State<PayMethod> {
 
     /*********************
      * @Auth: leopard
-     * @Date: 2022.12.12
+     * @Date: 2023.03.29
      * @Desc: Card Input Section
      */
     Widget cardSection = Container(
@@ -565,7 +565,7 @@ class _PayMethod extends State<PayMethod> {
                       borderRadius: BorderRadius.circular(15.0)),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.green,
+                      color: ColorConstants.cPrimaryBtnColor,
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -626,7 +626,7 @@ class _PayMethod extends State<PayMethod> {
                       borderRadius: BorderRadius.circular(15.0)),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.green,
+                      color: ColorConstants.cPrimaryBtnColor,
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -699,7 +699,7 @@ class _PayMethod extends State<PayMethod> {
                               borderRadius: BorderRadius.circular(15.0)),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.green,
+                              color: ColorConstants.cPrimaryBtnColor,
                             ),
                             borderRadius: BorderRadius.circular(15.0),
                           ),
@@ -768,7 +768,7 @@ class _PayMethod extends State<PayMethod> {
                               borderRadius: BorderRadius.circular(15.0)),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.green,
+                              color: ColorConstants.cPrimaryBtnColor,
                             ),
                             borderRadius: BorderRadius.circular(15.0),
                           ),
@@ -843,7 +843,7 @@ class _PayMethod extends State<PayMethod> {
 
     /*********************
      * @Auth: leopard
-     * @Date: 2022.12.12
+     * @Date: 2023.03.29
      * @Desc: Add Payment Button
      */
     Widget plusSection = Container(

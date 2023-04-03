@@ -1,6 +1,6 @@
-import 'package:Move/Models/card_model.dart';
-import 'package:Move/Models/location_model.dart';
-import 'package:Move/Models/price_model.dart';
+import 'package:KiwiCity/Models/card_model.dart';
+import 'package:KiwiCity/Models/location_model.dart';
+import 'package:KiwiCity/Models/price_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';

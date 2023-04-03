@@ -1,6 +1,6 @@
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/SplashPage/splash_page.dart';
-import 'package:Move/Routes/route_generator.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/SplashPage/splash_page.dart';
+import 'package:KiwiCity/Routes/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';

@@ -1,10 +1,10 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
@@ -70,7 +70,7 @@ class _Settings extends State<Settings> {
 
   /************************************
    * @Auth: leopard.live0122@gmail.com
-   * @Date: 2022.12.11
+   * @Date: 2023.03.11
    * @Desc: Update Account
    */
   Future<void> _updateAccount() async {
@@ -242,7 +242,7 @@ class _Settings extends State<Settings> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -295,7 +295,7 @@ class _Settings extends State<Settings> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -354,7 +354,7 @@ class _Settings extends State<Settings> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -419,7 +419,7 @@ class _Settings extends State<Settings> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -436,7 +436,7 @@ class _Settings extends State<Settings> {
                           child: Icon(
                             Icons.calendar_month,
                             size: 20,
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                         ),
                       ),
@@ -513,7 +513,7 @@ class _Settings extends State<Settings> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -530,7 +530,7 @@ class _Settings extends State<Settings> {
                             _passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable
@@ -589,7 +589,7 @@ class _Settings extends State<Settings> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -606,7 +606,7 @@ class _Settings extends State<Settings> {
                             _passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable

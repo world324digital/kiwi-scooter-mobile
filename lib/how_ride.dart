@@ -1,13 +1,13 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Models/location_model.dart';
-import 'package:Move/Models/review_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/PaymentPage/payment_helper.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Services/firebase_service.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Models/location_model.dart';
+import 'package:KiwiCity/Models/review_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/PaymentPage/payment_helper.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Services/firebase_service.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
@@ -42,7 +42,7 @@ class _HowRide extends State<HowRide> {
 
   /****************************
    * @Auth: geniusdev
-   * @Date: 2022.12.17
+   * @Date: 2023.03.17
    * @Desc: Save Scooter Review
    */
   Future<void> saveReview(ReviewModel review) async {
@@ -73,7 +73,7 @@ class _HowRide extends State<HowRide> {
     var card = appProvider.currentUser.card;
     String scooter_id = appProvider.scooterID;
     String user_id = appProvider.currentUser.id;
-    String scooter_type = "Move eScooter";
+    String scooter_type = "Kiwi eScooter";
     DateTime start_time = appProvider.startRideTime;
     DateTime end_time = appProvider.endRideTime;
     int duration = appProvider.usedTime;

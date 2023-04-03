@@ -2,14 +2,14 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/StartRidingPage/start_riding_page.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/toast.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/StartRidingPage/start_riding_page.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
@@ -94,95 +94,100 @@ class _QRScanPageState extends State<QRScanPage> {
   }
 
   /************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Confirm Scooter ID
    */
   Future<void> confirmScooterID(String _code) async {
     if (_code.isNotEmpty) {
-      // cameraController.stop();
+      cameraController.stop();
       print("??????????????????????? $_code");
-      // ========= Check Scooter ID is valid =======
-      FirebaseService service = FirebaseService();
-      try {
-        bool isValid =
-            await service.isValidScooterID(scooterID: _code.toUpperCase());
 
-        if (isValid) {
-          HelperUtility.showProgressDialog(context: context, key: _keyLoader);
-          cameraController.stop();
+      Future.delayed(const Duration(seconds: 1), () async {
+        try {
+          // ========= Check Scooter ID is valid =======
+          FirebaseService service = FirebaseService();
 
-          // --- Save Scooter ID
-          AppProvider.of(context).setScooterID(_code.toUpperCase());
-          await storeDataToLocal(
-              key: AppLocalKeys.SCOOTER_ID,
-              value: code,
-              type: StorableDataType.String);
+          bool isValid =
+              await service.isValidScooterID(scooterID: _code.toUpperCase());
 
-          HelperUtility.closeProgressDialog(_keyLoader);
-          Future.delayed(const Duration(milliseconds: 100), () {
-            HelperUtility.goPageReplace(
-                context: context,
-                routeName: Routes.START_RIDING,
-                arg: {
-                  "isMore": false,
-                });
-          });
-        } else {
-          setState(() {
-            isShowError = true;
-          });
-          // showDialog<String>(
-          //   context: context,
-          //   builder: (BuildContext context) => AlertDialog(
-          //     title: Text(
-          //       'Scan Scooter QR',
-          //       style: TextStyle(
-          //         color: ColorConstants.cPrimaryTitleColor,
-          //         fontSize: 20,
-          //         fontFamily: FontStyles.fSemiBold,
-          //       ),
-          //     ),
-          //     content: const Text('Invalid Scooter ID'),
-          //     actions: <Widget>[
-          //       TextButton(
-          //         onPressed: () {
-          //           Navigator.pop(context, 'Cancel');
-          //           Future.delayed(const Duration(milliseconds: 1000), () {
-          //             cameraController.start();
-          //           });
-          //         },
-          //         child: const Text('RETRY'),
-          //       ),
-          //       TextButton(
-          //         onPressed: () {
-          //           Navigator.pop(context, 'OK');
-          //           Navigator.pop(context);
-          //         },
-          //         child: const Text('CANCEL'),
-          //       ),
-          //     ],
-          //   ),
-          // );
-          // Alert.showMessage(
-          //     type: TypeAlert.error,
-          //     title: "ERROR",
-          //     message: Messages.ERROR_INVALID_SCOOTERID);
+          if (isValid) {
+            HelperUtility.showProgressDialog(context: context, key: _keyLoader);
+            cameraController.stop();
+
+            // --- Save Scooter ID
+            AppProvider.of(context).setScooterID(_code.toUpperCase());
+            await storeDataToLocal(
+                key: AppLocalKeys.SCOOTER_ID,
+                value: code,
+                type: StorableDataType.String);
+
+            HelperUtility.closeProgressDialog(_keyLoader);
+            Future.delayed(const Duration(milliseconds: 100), () {
+              HelperUtility.goPageReplace(
+                  context: context,
+                  routeName: Routes.START_RIDING,
+                  arg: {
+                    "isMore": false,
+                  });
+            });
+          } else {
+            setState(() {
+              isShowError = true;
+            });
+
+            // showDialog<String>(
+            //   context: context,
+            //   builder: (BuildContext context) => AlertDialog(
+            //     title: Text(
+            //       'Scan Scooter QR',
+            //       style: TextStyle(
+            //         color: ColorConstants.cPrimaryTitleColor,
+            //         fontSize: 20,
+            //         fontFamily: FontStyles.fSemiBold,
+            //       ),
+            //     ),
+            //     content: const Text('Invalid Scooter ID'),
+            //     actions: <Widget>[
+            //       TextButton(
+            //         onPressed: () {
+            //           Navigator.pop(context, 'Cancel');
+            //           Future.delayed(const Duration(milliseconds: 1000), () {
+            //             cameraController.start();
+            //           });
+            //         },
+            //         child: const Text('RETRY'),
+            //       ),
+            //       TextButton(
+            //         onPressed: () {
+            //           Navigator.pop(context, 'OK');
+            //           Navigator.pop(context);
+            //         },
+            //         child: const Text('CANCEL'),
+            //       ),
+            //     ],
+            //   ),
+            // );
+            // Alert.showMessage(
+            //     type: TypeAlert.error,
+            //     title: "ERROR",
+            //     message: Messages.ERROR_INVALID_SCOOTERID);
+            // setState(() {
+            //   isConfirming = false;
+            // });
+          }
+        } catch (e) {
+          print(e);
+          cameraController.start();
+
           // setState(() {
           //   isConfirming = false;
           // });
+          // HelperUtility.closeProgressDialog(_keyLoader);
+          // Alert.showMessage(
+          //     type: TypeAlert.error, title: "ERROR", message: e.toString());
         }
-      } catch (e) {
-        print(e);
-        cameraController.start();
-
-        // setState(() {
-        //   isConfirming = false;
-        // });
-        // HelperUtility.closeProgressDialog(_keyLoader);
-        // Alert.showMessage(
-        //     type: TypeAlert.error, title: "ERROR", message: e.toString());
-      }
+      });
     } else {
       // setState(() {
       //   isConfirming = false;
@@ -223,7 +228,11 @@ class _QRScanPageState extends State<QRScanPage> {
                   }
 
                   print(">>>>>>>>>>>>>>>> Code : $code");
-                  await confirmScooterID(code);
+
+                  var codearr = code.split("/");
+                  String deviceID = codearr.last;
+
+                  await confirmScooterID(deviceID);
                 },
               ),
             ),

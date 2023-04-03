@@ -149,7 +149,7 @@ class _ScotterState extends State<Scotter> {
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: Color.fromRGBO(52, 202, 52, 1)),
+                                  color: ColorConstants.cPrimaryBtnColor),
                               child: Text(
                                 '5',
                                 style: TextStyle(
@@ -185,7 +185,7 @@ class _ScotterState extends State<Scotter> {
                               height: 40,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: Color.fromRGBO(52, 202, 52, 1)),
+                                  color: ColorConstants.cPrimaryBtnColor),
                               child: Text(
                                 '15',
                                 style: TextStyle(
@@ -596,20 +596,20 @@ class _ScotterState extends State<Scotter> {
                       width: 30,
                       height: 30,
                     )),
-                    label: const Text('Ride Now',
+                    label: const Text('Ride Now dfds',
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.white,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(52, 204, 52, 1),
+                      backgroundColor: Colors.white,
                       textStyle: const TextStyle(
-                          color: Colors.white, fontFamily: 'Montserrat'),
+                          color: ColorConstants.cPrimaryBackColor, fontFamily: 'Montserrat'),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.0),
                         side: const BorderSide(
-                            color: Color.fromRGBO(52, 202, 52, 1)),
+                            color: Colors.white),
                       ),
                     ),
                     onPressed: () {
@@ -652,7 +652,7 @@ class _ScotterState extends State<Scotter> {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: Color.fromRGBO(52, 202, 52, 1)),
+                                    color: Colors.white),
                                 child: TextButton(
                                   onPressed: () => Navigator.pop(context, 'OK'),
                                   child: const Text(

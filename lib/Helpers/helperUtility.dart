@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/dialog.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -56,8 +56,8 @@ class HelperUtility {
   }
 
   /***************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.10
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.25
    * @Desc: Show Circle Progress Dialog
    */
   static void showProgressDialog(

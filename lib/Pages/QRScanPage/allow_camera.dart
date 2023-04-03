@@ -1,6 +1,6 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Routes/routes.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -40,8 +40,8 @@ class _AllowCamera extends State<AllowCamera> {
   }
 
   /************************************
-   * @Auth: geniusdev0813
-   * @Date: 2022.12.19
+   * @Auth: world324digital
+   * @Date: 2023.03.19
    * @Desc: Allow Camera Permission
    */
   Future<void> allowCamera() async {
@@ -57,7 +57,7 @@ class _AllowCamera extends State<AllowCamera> {
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
 
@@ -111,7 +111,7 @@ class _AllowCamera extends State<AllowCamera> {
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Restart app when set permissions of App
    */
 
@@ -157,7 +157,7 @@ class _AllowCamera extends State<AllowCamera> {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 30, bottom: 30),
+            margin: const EdgeInsets.only(top: 100, bottom: 30),
             child: Image.asset('assets/images/allowcamera.png'),
           ),
           const Text(
@@ -202,12 +202,12 @@ class _AllowCamera extends State<AllowCamera> {
           padding: const EdgeInsets.only(left: 30, right: 30),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromRGBO(52, 202, 52, 1),
+              backgroundColor: ColorConstants.cPrimaryBtnColor,
               textStyle: const TextStyle(
                   color: Colors.white, fontFamily: 'Montserrat'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(13.0),
-                side: const BorderSide(color: Color.fromRGBO(52, 202, 52, 1)),
+                side: const BorderSide(color: ColorConstants.cPrimaryBtnColor),
               ),
             ),
             onPressed: () async {

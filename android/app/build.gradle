@@ -53,7 +53,7 @@ apply plugin: 'com.google.gms.google-services'
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.ridemove.co"
+        applicationId "com.kiwicity.co"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 21
@@ -66,12 +66,19 @@ apply plugin: 'com.google.gms.google-services'
     }
 
    signingConfigs {
-       release {
-           keyAlias keystoreProperties['keyAlias']
-           keyPassword keystoreProperties['keyPassword']
-           storeFile file(keystoreProperties['storeFile'])
-           storePassword keystoreProperties['storePassword']
-       }
+    //    release {
+    //        keyAlias keystoreProperties['keyAlias']
+    //        keyPassword keystoreProperties['keyPassword']
+    //        storeFile file(keystoreProperties['storeFile'])
+    //        storePassword keystoreProperties['storePassword']
+    //    } 
+        release {
+            storeFile file('kiwicity.jks')
+            storePassword 'kiwicity'
+            keyAlias 'kiwicitykey'
+            keyPassword 'kiwicity'
+
+        }
    }
     buildTypes {
     

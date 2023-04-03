@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Models/scooterObject.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/MenuPage/main_menu.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/CachedNetworkTileProvider.dart';
-import 'package:Move/Widgets/batteryBar.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
-import 'package:Move/Widgets/unableAlert.dart';
-import 'package:Move/services/httpService.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Models/scooterObject.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/MenuPage/main_menu.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/CachedNetworkTileProvider.dart';
+import 'package:KiwiCity/Widgets/batteryBar.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
+import 'package:KiwiCity/Widgets/unableAlert.dart';
+import 'package:KiwiCity/services/httpService.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 // import 'package:openstreetmap/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,8 +55,8 @@ class _HomePageState extends State<HomePage>
   bool isReportError = false;
 
   /***********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.5
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.5
    * @Desc: Get User's Location Information
    */
   late Position userLocation;
@@ -84,8 +84,8 @@ class _HomePageState extends State<HomePage>
   // String _authStatus = "TrackingStatus.authorized"; // For Andriod
 
   /***********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.5)
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.5)
    * @Desc: Get Scooters from Firebase at?
    */
   bool _alertShown = false;
@@ -144,48 +144,40 @@ class _HomePageState extends State<HomePage>
         switch (change.type) {
           case DocumentChangeType.added:
             markerObject.add(scooterObject(
-              scooterID: change.doc.id ?? '',
+              scooterID: change.doc.data()!['id'] ?? '',
               address: change.doc.data()!['address'] ?? '',
-              b: change.doc.data()!['b'] ?? 0,
-              c: change.doc.data()!['c'] ?? 0,
-              g: change.doc.data()!['g'] ?? '',
-              lat: change.doc.data()!['lat'] ?? '',
-              lng: change.doc.data()!['lng'] ?? '',
-              r: change.doc.data()!['r'] ?? 0,
-              s: change.doc.data()!['s'] ?? 0,
-              t: change.doc.data()!['t'] ?? 0,
-              v: change.doc.data()!['v'] ?? 0,
-              x: change.doc.data()!['x'] ?? 0,
-              inuse: change.doc.data()!['inUse'] == null
-                  ? 'false'
-                  : change.doc.data()!['inUse']
-                      ? 'true'
-                      : 'false',
+              soc: change.doc.data()!['soc'] ?? 0,
+              // c: change.doc.data()!['c'] ?? 0,
+              // g: change.doc.data()!['g'] ?? '',
+              lat: change.doc.data()!['la'] ?? 0,
+              lng: change.doc.data()!['lo'] ?? 0,
+              // r: change.doc.data()!['r'] ?? 0,
+              // s: change.doc.data()!['s'] ?? 0,
+              // t: change.doc.data()!['t'] ?? 0,
+              // v: change.doc.data()!['v'] ?? 0,
+              // x: change.doc.data()!['x'] ?? 0,
+              status: change.doc.data()!['status'] ?? '',
             ));
             break;
           case DocumentChangeType.modified:
             print("Modified City: ${change.doc.data()}");
             markerObject.removeWhere(
-                (element) => element.scooterID == change.doc.data()!['i']);
+                (element) => element.scooterID == change.doc.data()!['id']);
             print(change.doc.data());
             markerObject.add(scooterObject(
-              scooterID: change.doc.id ?? '',
+              scooterID: change.doc.data()!['id'] ?? '',
               address: change.doc.data()!['address'] ?? '',
-              b: change.doc.data()!['b'] ?? 0,
-              c: change.doc.data()!['c'] ?? 0,
-              g: change.doc.data()!['g'] ?? '',
-              lat: change.doc.data()!['lat'] ?? '',
-              lng: change.doc.data()!['lng'] ?? '',
-              r: change.doc.data()!['r'] ?? 0,
-              s: change.doc.data()!['s'] ?? 0,
-              t: change.doc.data()!['t'] ?? 0,
-              v: change.doc.data()!['v'] ?? 0,
-              x: change.doc.data()!['x'] ?? 0,
-              inuse: change.doc.data()!['inUse'] == null
-                  ? 'false'
-                  : change.doc.data()!['inUse']
-                      ? 'true'
-                      : 'false',
+              soc: change.doc.data()!['soc'] ?? 0,
+              // c: change.doc.data()!['c'] ?? 0,
+              // g: change.doc.data()!['g'] ?? '',
+              lat: change.doc.data()!['la'] ?? 0,
+              lng: change.doc.data()!['lo'] ?? 0,
+              // r: change.doc.data()!['r'] ?? 0,
+              // s: change.doc.data()!['s'] ?? 0,
+              // t: change.doc.data()!['t'] ?? 0,
+              // v: change.doc.data()!['v'] ?? 0,
+              // x: change.doc.data()!['x'] ?? 0,
+              status: change.doc.data()!['status'] ?? '',
             ));
             break;
           case DocumentChangeType.removed:
@@ -201,12 +193,15 @@ class _HomePageState extends State<HomePage>
        */
       var tempmarkers = <Marker>[];
       markerObject.forEach((element) {
-        int battery = int.parse(element.b.toString());
-        if ((element.lat.isNotEmpty) &&
-            (element.lng.isNotEmpty) &&
-            element.inuse != 'true') {
+        // int battery = int.parse(element.b.toString());
+        int battery = element.soc;
+        if ((element.lat != 0) &&
+            (element.lng != 0) &&
+            // element.inuse != 'true') {
+            element.status == 'available') {
+          print("-----------");
           print(
-              ":::::: Scooter Position ::::: ${element.lat} , ${element.lng}, abc , ${element.inuse}, ${element.scooterID}");
+              ":::::: Scooter Position ::::: ${element.lat} , ${element.lng}, abc , ${element.status}, ${element.scooterID}");
           tempmarkers.add(showMarker(scooter: element));
         }
       });
@@ -224,34 +219,35 @@ class _HomePageState extends State<HomePage>
    * Get Bike Image
    */
   Widget getBike({required scooterObject scooter}) {
-    int battery = int.parse(scooter.b.toString());
+    // int battery = int.parse(scooter.b.toString());
+    int battery = scooter.soc;
 
     late Widget bikeImage;
     if (_selectedBikeID != scooter.scooterID) {
       if (battery > 65)
         bikeImage = Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/bikemarker.png'),
-                fit: BoxFit.fill),
-          ),
-        );
-      else if (battery > 35)
-        bikeImage = Container(
-          width: 40,
-          height: 40,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/images/greenbike.png'),
                 fit: BoxFit.fill),
           ),
         );
+      else if (battery > 35)
+        bikeImage = Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/midbike.png'),
+                fit: BoxFit.fill),
+          ),
+        );
       else
         bikeImage = Container(
-          width: 40,
-          height: 40,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/images/redbike.png'),
@@ -294,15 +290,16 @@ class _HomePageState extends State<HomePage>
   }
 
   /****************************
-   * @softwinner813
-   * @2022.12.7
+   * @world324digtal
+   * @2022.04.03
    * @Draw Map Scooter Marker
    */
   showMarker({required scooterObject scooter}) {
     return Marker(
       height: 60,
       width: 60,
-      point: new LatLng(double.parse(scooter.lat), double.parse(scooter.lng)),
+      // point: new LatLng(double.parse(scooter.lat), double.parse(scooter.lng)),
+      point: new LatLng(scooter.lat, scooter.lng),
       builder: (ctx) => Container(
         child: Stack(
           children: <Widget>[
@@ -325,8 +322,10 @@ class _HomePageState extends State<HomePage>
                 distance = Geolocator.distanceBetween(
                     userLocation.latitude,
                     userLocation.longitude,
-                    double.parse(scooter.lat),
-                    double.parse(scooter.lng));
+                    // double.parse(scooter.lat),
+                    // double.parse(scooter.lat),
+                    scooter.lat,
+                    scooter.lng);
                 print("DISTANCE::::::::::\r\n");
                 print(distance);
 
@@ -345,16 +344,20 @@ class _HomePageState extends State<HomePage>
                   getRoute(
                     LatLng(userLocation.latitude, userLocation.longitude),
                     LatLng(
-                      double.parse(scooter.lat),
-                      double.parse(scooter.lng),
+                      // double.parse(scooter.lat),
+                      // double.parse(scooter.lng),
+                      scooter.lat,
+                      scooter.lng,
                     ),
                   );
                 }
 
                 // ========= Zoom out for Bike Location ======
                 _animatedMapMove(
-                    LatLng(double.parse(scooter.lat) - 0.002,
-                        double.parse(scooter.lng)),
+                    // LatLng(double.parse(scooter.lat) - 0.002,
+                    //     double.parse(scooter.lng)),
+                    // 16);
+                    LatLng(scooter.lat - 0.002, scooter.lng),
                     16);
 
                 setState(
@@ -369,8 +372,9 @@ class _HomePageState extends State<HomePage>
                       width: 250,
                       height: 106,
                       anchorPos: AnchorPos.align(AnchorAlign.right),
-                      point: LatLng(double.parse(scooter.lat) - 0.0004,
-                          double.parse(scooter.lng) - 0.0005),
+                      // point: LatLng(double.parse(scooter.lat) - 0.0004,
+                      //     double.parse(scooter.lng) - 0.0005),
+                      point: LatLng(scooter.lat - 0.0004, scooter.lng - 0.0005),
                       builder: (ctx) => Container(
                         margin: const EdgeInsets.only(top: 70),
                         // height: 120,
@@ -384,7 +388,7 @@ class _HomePageState extends State<HomePage>
                               height: 36,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                color: Color.fromRGBO(52, 204, 52, 1),
+                                color: ColorConstants.cPrimaryBtnColor,
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -463,7 +467,7 @@ class _HomePageState extends State<HomePage>
 
   /******************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Get Route between user and selected Bike
    */
   Future<void> getRoute(LatLng userPos, LatLng destination) async {
@@ -540,8 +544,8 @@ class _HomePageState extends State<HomePage>
   }
 
   /******************************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.5
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.5
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   void showBikeDetailModal() {
@@ -643,7 +647,7 @@ class _HomePageState extends State<HomePage>
                             children: [
                               MyFont.text(
                                 // _selectedBike.g,
-                                "Move eScooter",
+                                "Kiwi eScooter",
                                 color: ColorConstants.cPrimaryTitleColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -656,20 +660,30 @@ class _HomePageState extends State<HomePage>
                                     const EdgeInsets.symmetric(vertical: 8),
                                 child: MyFont.text(
                                   // '#3451A - Christ Church',
-                                  "#${_selectedBike.scooterID} ${_selectedBike.address.split(",")[0]}",
+                                  // "#${_selectedBike.scooterID} ${_selectedBike.address.split(",")[0]}",
+                                  "#${_selectedBike.scooterID}",
                                   color: ColorConstants.cTxtColor2,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w300,
                                   fontFamily: FontStyles.fLight,
                                 ),
                               ),
                               Row(children: [
-                                BatteryBar(
-                                    level:
-                                        int.parse(_selectedBike.b.toString())),
+                                // BatteryBar(
+                                //     level:
+                                //         // int.parse(_selectedBike.b.toString())),
+                                //         _selectedBike.soc),
+                                Image.asset(
+                                  ((_selectedBike.soc > 65)
+                                      ? ImageConstants.HIGH_BATTERY
+                                      : (_selectedBike.soc > 35)
+                                          ? ImageConstants.MIDDLE_BATTERY
+                                          : ImageConstants.LOW_BATTERY),
+                                  width: 25,
+                                  height: 25,
+                                ),
                                 MyFont.text(
-                                  // '84km (92%)'
-                                  " ${_selectedBike.b.toString()}%",
+                                  " ${_selectedBike.soc.toString()}%",
                                   color: ColorConstants.cPrimaryTitleColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -939,10 +953,10 @@ class _HomePageState extends State<HomePage>
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 6),
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(229, 249, 224, 1),
+                        color: ColorConstants.cPrimaryShadowColor,
                         borderRadius: BorderRadius.circular(16.0),
                         border: Border.all(
-                          color: Color.fromRGBO(229, 249, 224, 1),
+                          color: ColorConstants.cPrimaryShadowColor,
                         ),
                       ),
                       child: Row(
@@ -957,7 +971,7 @@ class _HomePageState extends State<HomePage>
                               text: TextSpan(
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: 'Ride for less than ',
+                                    text: 'Ride first with only €1 and pay after riding ',
                                     style: TextStyle(
                                       color: ColorConstants.cTxtColor2,
                                       fontSize: 13,
@@ -967,7 +981,7 @@ class _HomePageState extends State<HomePage>
                                     ),
                                   ),
                                   TextSpan(
-                                    text: '\$0.25 ',
+                                    text: '\€0.25 ',
                                     style: TextStyle(
                                       color: ColorConstants.cPrimaryTitleColor,
                                       fontSize: 12,
@@ -987,7 +1001,7 @@ class _HomePageState extends State<HomePage>
                                     ),
                                   ),
                                 ],
-                              ))
+                              )),
                         ],
                       ),
                     ),
@@ -1033,7 +1047,7 @@ class _HomePageState extends State<HomePage>
                     title: "Ride Now",
                     icon: Container(
                       child: Image.asset(
-                        'assets/images/whitebike.png',
+                        'assets/images/ridenowbike.png',
                         width: 30,
                         height: 30,
                       ),
@@ -1056,8 +1070,8 @@ class _HomePageState extends State<HomePage>
   }
 
   /******************************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.5
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.5
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   Future<void> sendReportEmail(String scooterID, String content) async {
@@ -1096,8 +1110,8 @@ class _HomePageState extends State<HomePage>
   }
 
   /******************************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.5
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.5
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   Future<void> sendRing() async {
@@ -1203,7 +1217,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.18
+   * @Date: 2023.03.18
    * @Desc: Check Permission
    */
   Future<void> setUserLocationAndMarker() async {
@@ -1298,7 +1312,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.18
+   * @Date: 2023.03.18
    * @Desc: Check App Tracking Permission
    */
 
@@ -1372,7 +1386,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
 
@@ -1421,7 +1435,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Restart app when set permissions of App
    */
 
@@ -1462,7 +1476,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: geniusdev
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Enable/Disable User's Geolocation service 
    */
   void _toggleServiceStatusStream() {
@@ -1504,7 +1518,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: geniusdev
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: User's Geolocation Position Tracking 
    */
   void _toggleListening() {
@@ -1559,7 +1573,7 @@ class _HomePageState extends State<HomePage>
 
   /*************************
    * @Auth: geniusdev
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Go Back to User's Location on Map
    */
   void moveToUserLocation() {
@@ -1568,7 +1582,7 @@ class _HomePageState extends State<HomePage>
 
   /********************************
    * @Auth: geniusdev
-   * @Date: 2022.12.6
+   * @Date: 2023.03.6
    * @Desc: Show Stop Ring Dialog
    */
   void showRingDialog() {
@@ -1773,7 +1787,8 @@ class _HomePageState extends State<HomePage>
                 )
               else
                 Center(
-                  child: CircularProgressIndicator(color: Colors.green),
+                  child: CircularProgressIndicator(
+                      color: ColorConstants.cPrimaryBtnColor),
                 ),
 
               Row(

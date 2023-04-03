@@ -1,7 +1,7 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/services/httpService.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/services/httpService.dart';
 import 'package:flutter/material.dart';
 
 Future<void> unableAlert({

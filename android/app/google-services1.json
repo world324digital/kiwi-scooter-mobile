@@ -1,0 +1,175 @@
+{
+  "project_info": {
+    "project_number": "257318589642",
+    "firebase_url": "https://ride-move-default-rtdb.firebaseio.com",
+    "project_id": "ride-move",
+    "storage_bucket": "ride-move.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257318589642:android:3cfcdae9c41e5831235033",
+        "android_client_info": {
+          "package_name": "com.example.openstreetmapflutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257318589642-1di1htnp11tlpg9a495pjvt22emqgq56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBenZZ4X5Owq9kA9MM2zrJq9RUvwidPd-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257318589642-1di1htnp11tlpg9a495pjvt22emqgq56.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "257318589642-11680j7g315o803pc3duolpikipjo6mo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ridemove.co"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257318589642:android:638a8a7fdca89ca3235033",
+        "android_client_info": {
+          "package_name": "com.rideisland.move"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257318589642-dik4fvbfvo45kbjo8es8v6hdirc3ljgq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rideisland.move",
+            "certificate_hash": "8dadb8ea950b37032675e10820c34b8688004bb3"
+          }
+        },
+        {
+          "client_id": "257318589642-g8j5jfjn19t6jcl2s2uu3bern2e5q5pq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rideisland.move",
+            "certificate_hash": "c9b23aa4009aab3a44c3b655ee11da5685bd7671"
+          }
+        },
+        {
+          "client_id": "257318589642-1di1htnp11tlpg9a495pjvt22emqgq56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBenZZ4X5Owq9kA9MM2zrJq9RUvwidPd-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257318589642-1di1htnp11tlpg9a495pjvt22emqgq56.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "257318589642-11680j7g315o803pc3duolpikipjo6mo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ridemove.co"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257318589642:android:08f75311eda6a1c3235033",
+        "android_client_info": {
+          "package_name": "com.kiwicity.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257318589642-5ka3u9i0db7kncjikb2tffac4qq8fhlq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiwicity.co",
+            "certificate_hash": "f54d6d56b2f71f78c8928178345031c441908224"
+          }
+        },
+        {
+          "client_id": "257318589642-5ohi525fo5sa844559oje4ht894407vh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiwicity.co",
+            "certificate_hash": "24b50b704e8ed0dd049038c6e519ca64601bc339"
+          }
+        },
+        {
+          "client_id": "257318589642-kkt3pqic8d9g9tlb1kn6o4le4ppqg0ek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiwicity.co",
+            "certificate_hash": "c9b23aa4009aab3a44c3b655ee11da5685bd7671"
+          }
+        },
+        {
+          "client_id": "257318589642-tg5m353hb78uk9klqj021d41nloo1rgh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiwicity.co",
+            "certificate_hash": "d77bcb17940d57f9528af699c3a8e66bc6b8f255"
+          }
+        },
+        {
+          "client_id": "257318589642-u2k1574v0jnnlm4vdpgs6i17fhblrmo2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiwicity.co",
+            "certificate_hash": "3218b8dbff65fe09441aee90142db106a92a5916"
+          }
+        },
+        {
+          "client_id": "257318589642-1di1htnp11tlpg9a495pjvt22emqgq56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBenZZ4X5Owq9kA9MM2zrJq9RUvwidPd-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257318589642-1di1htnp11tlpg9a495pjvt22emqgq56.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "257318589642-11680j7g315o803pc3duolpikipjo6mo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ridemove.co"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

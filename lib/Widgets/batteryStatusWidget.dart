@@ -1,8 +1,8 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Models/scooterObject.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/services/firebase_service.dart';
-import 'package:Move/services/httpService.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Models/scooterObject.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
+import 'package:KiwiCity/services/httpService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -32,21 +32,21 @@ class _BatteryStatusState extends State<BatteryStatus> {
           _scooter = scooterObject(
             scooterID: event.id ?? '',
             address: data['address'] ?? '',
-            b: data['b'] ?? 0,
-            c: data['c'] ?? 0,
-            g: data['g'] ?? '',
+            soc: data['soc'] ?? 0,
+            // c: data['c'] ?? 0,
+            // g: data['g'] ?? '',
             lat: data['lat'] ?? '',
             lng: data['lng'] ?? '',
-            r: data['r'] ?? 0,
-            s: data['s'] ?? 0,
-            t: data['t'] ?? 0,
-            v: data['v'] ?? 0,
-            x: data['x'] ?? 0,
-            inuse: data['inuse'] ?? '',
+            // r: data['r'] ?? 0,
+            // s: data['s'] ?? 0,
+            // t: data['t'] ?? 0,
+            // v: data['v'] ?? 0,
+            // x: data['x'] ?? 0,
+            status: data['status'] ?? '',
           );
         });
 
-        if (_scooter!.b < AppConstants.lowBatteryLevel) {
+        if (_scooter!.soc < AppConstants.lowBatteryLevel) {
           HttpService()
               .sendReportEmail(scooterID: scooterID, content: "Low Baterry!");
         }
@@ -74,9 +74,9 @@ class _BatteryStatusState extends State<BatteryStatus> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
               color: _scooter != null
-                  ? (_scooter!.b > 65)
+                  ? (_scooter!.soc > 65)
                       ? const Color(0xff34CC34)
-                      : (_scooter!.b > 35)
+                      : (_scooter!.soc > 35)
                           ? Color.fromARGB(255, 144, 209, 144)
                           : Colors.red
                   : Colors.red,
@@ -92,7 +92,7 @@ class _BatteryStatusState extends State<BatteryStatus> {
               // right: 10,
             ),
             child: Text(
-              '${_scooter != null ? (_scooter!.b * 0.92).toStringAsFixed(2) : 0}km (${_scooter != null ? _scooter!.b : 0}%)',
+              '${_scooter != null ? (_scooter!.soc * 0.92).toStringAsFixed(2) : 0}km (${_scooter != null ? _scooter!.soc : 0}%)',
               style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,

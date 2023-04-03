@@ -1,6 +1,6 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'Pages/MenuPage/main_menu.dart';
@@ -66,7 +66,7 @@ class _Video extends State<Video> {
                     TextSpan(
                       text: ' eScooter',
                       style: TextStyle(
-                        color: Color.fromRGBO(52, 202, 52, 1),
+                        color: ColorConstants.cPrimaryBtnColor,
                         fontFamily: 'Montserrat-SemiBold',
                         fontSize: 20,
                       ),
@@ -115,7 +115,7 @@ class _Video extends State<Video> {
                   TextSpan(
                     text: ' eScooter',
                     style: TextStyle(
-                      color: Color.fromRGBO(52, 202, 52, 1),
+                      color: ColorConstants.cPrimaryBtnColor,
                       fontFamily: 'Montserrat-SemiBold',
                       fontSize: 20,
                     ),

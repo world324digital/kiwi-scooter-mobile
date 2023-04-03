@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +28,8 @@ class _LoginState extends State<Login> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   /***********************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: SignIn with Google
    */
   Future<void> googleSignIn() async {
@@ -146,8 +146,8 @@ class _LoginState extends State<Login> {
   }
 
   /***********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: SignIn With Apple
    */
   Future<void> appleSignIn() async {
@@ -372,19 +372,23 @@ class _LoginState extends State<Login> {
               child: ListView(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 40),
+                    margin: EdgeInsets.only(top: 80),
                     child: Image.asset(
                       'assets/images/logo.png',
                       width: MediaQuery.of(context).size.width * 0.48,
-                      height: MediaQuery.of(context).size.height * 0.045,
+                      height: MediaQuery.of(context).size.height * 0.07,
                     ),
                   ),
                   titleSection,
                   Container(
-                      margin: const EdgeInsets.only(top: 45),
+                      margin: const EdgeInsets.only(top: 40),
                       width: double.infinity,
-                      child: Image.asset('assets/images/bikerun.png',
-                          fit: BoxFit.fill))
+                      child: Image.asset(
+                        'assets/images/bikerun.png',
+                        // width: MediaQuery.of(context).size.width * 0.48,
+                        height: MediaQuery.of(context).size.height * 0.40,
+                        // fit: BoxFit.fill
+                      ))
                 ],
               ),
             ),

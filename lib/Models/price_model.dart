@@ -1,4 +1,4 @@
-import 'package:Move/Models/card_model.dart';
+import 'package:KiwiCity/Models/card_model.dart';
 
 class PriceModel {
   String id = "";

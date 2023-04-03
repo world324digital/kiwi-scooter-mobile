@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
 class ColorConstants {
-  static const Color cPrimaryBtnColor = const Color(0xff34CC34);
+  static const Color cPrimaryBtnColor = const Color(0xff3668EF);
   static const Color cPrimaryBackColor = Colors.white;
+  static const Color cPrimaryShadowColor = const Color(0xffC6D5F6);
   static const Color cPrimaryTitleColor = const Color(0xff0B0B0B);
   static const Color cTxtColor2 = const Color(0xff666666);
 }
@@ -47,24 +48,24 @@ enum LoginType {
 
 class AppConstants {
   static const String mapBoxAccessToken =
-      'pk.eyJ1IjoiaG9lMDA3IiwiYSI6ImNsYzVsZzRnaTBvMnIzb3Q4Z3R4aDZ3dmcifQ.rVCt6p4JHYrzyElgzjbS7Q';
+      'pk.eyJ1Ijoicm9sYW5keiIsImEiOiJjbGcwbXkyOXgxZGo1M2VxeW1nM2ttc2QxIn0.XhSysU0eukqhSWbAdgKmjg';
   // static const String mapBoxAccessToken =
   //     'pk.eyJ1IjoicmlkZW1vdmUiLCJhIjoiY2xhaXc1d2hqMDB6aDNxbzVycm1xcXl3MiJ9.W2LLRXE5nDkh9OcNa999lw';  // For Nick
 
   // static const String mapBoxStyleId = 'claixbrwy000014pmbypc3qzp';
 
-  static const String mapBoxStyleId = 'clb8m10q2000914nylpi69vkn';
+  static const String mapBoxStyleId = 'clg0n8s1o002101myonakrjgu';
 
-  static const username = 'ridemove';
+  static const username = 'rolandsz';
 
-  static final myLocation = LatLng(51.5090214, -0.1982948);
+  static final myLocation = LatLng(56.95231867792938, 21.99634696058461);
   static int lowBatteryLevel = 15;
   static double scooterSpeedPerSeconds = 12.5; // Unit is second
   /**************** Nick Token */
   // static const String urlTemplate =
   //     'https://api.mapbox.com/styles/v1/${AppConstants.username}/${AppConstants.mapBoxStyleId}/tiles/256/{z}/{x}/{y}@2x?access_token=${AppConstants.mapBoxAccessToken}';
   static const String urlTemplate =
-      'https://api.mapbox.com/styles/v1/hoe007/clbuewk9m000316nztxrg696c/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiaG9lMDA3IiwiYSI6ImNsYzVsZzRnaTBvMnIzb3Q4Z3R4aDZ3dmcifQ.rVCt6p4JHYrzyElgzjbS7Q';
+      'https://api.mapbox.com/styles/v1/rolandz/clg0n8s1o002101myonakrjgu/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoicm9sYW5keiIsImEiOiJjbGcwbXkyOXgxZGo1M2VxeW1nM2ttc2QxIn0.XhSysU0eukqhSWbAdgKmjg';
 
   static const String backServiceIdenitfier = "rideMoveTask";
   // static const String publishKey =
@@ -123,26 +124,30 @@ class Messages {
 }
 
 class ImageConstants {
-  static const String RIDE_HISTORY_ACTIVE = "assets/images/history.png";
+  static const String RIDE_HISTORY_ACTIVE = "assets/images/history_active.png";
   static const String RIDE_HISTORY = "assets/images/history.png";
 
-  static const String PAYMENT_ACTIVE = "assets/images/paybike.png";
+  static const String PAYMENT_ACTIVE = "assets/images/paybike_active.png";
   static const String PAYMENT = "assets/images/paybike.png";
 
   static const String RIDE_NOW_ACTIVE = "assets/images/ridebike.png";
   static const String RIDE_NOW = "assets/images/ridenowbike.png";
 
-  static const String HOW_TO_RIDE_ACTIVE = "assets/images/rideicon.png";
+  static const String HOW_TO_RIDE_ACTIVE = "assets/images/rideicon_active.png";
   static const String HOW_TO_RIDE = "assets/images/rideicon.png";
 
-  static const String TERMS_ACTIVE = "assets/images/services.png";
+  static const String TERMS_ACTIVE = "assets/images/services_active.png";
   static const String TERMS = "assets/images/services.png";
 
-  static const String SUPPORT_ACTIVE = "assets/images/support.png";
+  static const String SUPPORT_ACTIVE = "assets/images/support_active.png";
   static const String SUPPORT = "assets/images/support.png";
 
-  static const String SETTINGS_ACTIVE = "assets/images/setting.png";
+  static const String SETTINGS_ACTIVE = "assets/images/setting_active.png";
   static const String SETTINGS = "assets/images/setting.png";
+
+  static const String HIGH_BATTERY = "assets/images/high_battery.png";
+  static const String MIDDLE_BATTERY = "assets/images/middle_battery.png";
+  static const String LOW_BATTERY = "assets/images/low_battery.png";
 }
 
 class PayMethodStr {

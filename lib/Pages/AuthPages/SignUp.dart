@@ -1,11 +1,11 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -68,8 +68,8 @@ class _SignUpPage extends State<SignUpPage> {
   }
 
   /*****************************
-   * @Auth: geniusdev0813
-   * @Date: 2022.12.10
+   * @Auth: world324digital
+   * @Date: 2023.03.10
    * @Desc: Launch URL
    */
   _launchURL(String url) async {
@@ -87,8 +87,8 @@ class _SignUpPage extends State<SignUpPage> {
   }
 
   /************************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.11
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.11
    * @Desc: Sign Up with Email
    */
   Future<void> _signUp() async {
@@ -228,7 +228,7 @@ class _SignUpPage extends State<SignUpPage> {
               TextSpan(
                   text: 'Terms \& Conditions',
                   style: TextStyle(
-                    color: Color.fromRGBO(52, 202, 52, 1),
+                    color: ColorConstants.cPrimaryBtnColor,
                     fontSize: 12,
                     fontFamily: FontStyles.fMedium,
                     decoration: TextDecoration.underline,
@@ -247,7 +247,7 @@ class _SignUpPage extends State<SignUpPage> {
               TextSpan(
                   text: 'Privacy Policy',
                   style: TextStyle(
-                    color: Color.fromRGBO(52, 202, 52, 1),
+                    color: ColorConstants.cPrimaryBtnColor,
                     fontSize: 12,
                     fontFamily: FontStyles.fMedium,
                     decoration: TextDecoration.underline,
@@ -320,7 +320,7 @@ class _SignUpPage extends State<SignUpPage> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -384,7 +384,7 @@ class _SignUpPage extends State<SignUpPage> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -445,7 +445,7 @@ class _SignUpPage extends State<SignUpPage> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -514,7 +514,7 @@ class _SignUpPage extends State<SignUpPage> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -535,7 +535,7 @@ class _SignUpPage extends State<SignUpPage> {
                           child: Icon(
                             Icons.calendar_month,
                             size: 20,
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                         ),
                       ),
@@ -615,7 +615,7 @@ class _SignUpPage extends State<SignUpPage> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -636,7 +636,7 @@ class _SignUpPage extends State<SignUpPage> {
                             _passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable
@@ -695,7 +695,7 @@ class _SignUpPage extends State<SignUpPage> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -716,7 +716,7 @@ class _SignUpPage extends State<SignUpPage> {
                             _passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable

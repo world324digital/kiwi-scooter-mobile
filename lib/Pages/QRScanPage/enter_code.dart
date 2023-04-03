@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/toast.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
@@ -36,8 +36,8 @@ class _EnterCode extends State<EnterCode> {
   }
 
   /************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Confirm Scooter ID
    */
   Future<void> confirmScooterID() async {
@@ -115,7 +115,7 @@ class _EnterCode extends State<EnterCode> {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15.0),
-              border: Border.all(color: Colors.black)),
+              border: Border.all(color: ColorConstants.cPrimaryBtnColor)),
           child: TextField(
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -130,7 +130,7 @@ class _EnterCode extends State<EnterCode> {
               contentPadding: const EdgeInsets.only(top: 5),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: ColorConstants.cPrimaryBtnColor,
                 ),
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -149,15 +149,15 @@ class _EnterCode extends State<EnterCode> {
       padding: const EdgeInsets.only(left: 14, right: 14),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color.fromRGBO(52, 202, 52, 1),
+          backgroundColor: ColorConstants.cPrimaryBtnColor,
           textStyle:
               const TextStyle(color: Colors.black, fontFamily: 'Montserrat'),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
                 HelperUtility.screenWidth(context) * 0.04),
-            side: const BorderSide(
-                color: Color.fromRGBO(255, 219, 209, 1),
-                style: BorderStyle.solid),
+            // side: const BorderSide(
+            //     color: Color.fromRGBO(255, 219, 209, 1),
+            //     style: BorderStyle.solid),
           ),
         ),
         onPressed: () async {
@@ -165,7 +165,7 @@ class _EnterCode extends State<EnterCode> {
         },
         child: const Text('CONFIRM',
             style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 16.0,
                 fontFamily: 'Montserrat-Bold',
                 fontWeight: FontWeight.w700)),

@@ -1,15 +1,15 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Models/term_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/TermsSectionPage/drink.dart';
-import 'package:Move/Pages/TermsSectionPage/helmet.dart';
-import 'package:Move/Pages/TermsSectionPage/prohibit.dart';
-import 'package:Move/Pages/TermsSectionPage/term_item.dart';
-import 'package:Move/Pages/TermsSectionPage/terms_service.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Services/firebase_service.dart';
-import 'package:Move/Widgets/toast.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Models/term_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/TermsSectionPage/drink.dart';
+import 'package:KiwiCity/Pages/TermsSectionPage/helmet.dart';
+import 'package:KiwiCity/Pages/TermsSectionPage/prohibit.dart';
+import 'package:KiwiCity/Pages/TermsSectionPage/term_item.dart';
+import 'package:KiwiCity/Pages/TermsSectionPage/terms_service.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Services/firebase_service.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -190,7 +190,7 @@ class _TermsSectionPage extends State<TermsSectionPage> {
         backgroundColor: Colors.white,
         body: isLoading
             ? Center(
-                child: CircularProgressIndicator(color: Colors.green),
+                child: CircularProgressIndicator(color: ColorConstants.cPrimaryBtnColor),
               )
             : _buildBody(),
       ),

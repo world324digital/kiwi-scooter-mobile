@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/unableAlert.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/unableAlert.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:camerawesome/camerawesome_plugin.dart' as CameraAwesome;
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -112,7 +112,7 @@ class PhotoScooterOldState extends State<PhotoScooterOld> {
 
   /******************************************
    * @Auth: geniusdev
-   * @Date: 2022.12.16
+   * @Date: 2023.03.16
    * @Desc: Upload Image into FireStore
    */
   Future<void> uploadPhoto(

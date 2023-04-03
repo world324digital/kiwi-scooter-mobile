@@ -1,8 +1,8 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Pages/App/app.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/services/httpService.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Pages/App/app.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/services/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -62,8 +62,8 @@ Future<void> changePower(bool isUnlock, Function callback) async {
 }
 
 /********************************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.21
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.28
    * @Desc: Turn On/Off Light
    */
 Future<void> changeLightStatus(bool isOn) async {

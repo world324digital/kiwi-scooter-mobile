@@ -1,9 +1,9 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Models/location_model.dart';
-import 'package:Move/Models/review_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/PaymentPage/payment_helper.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Models/location_model.dart';
+import 'package:KiwiCity/Models/review_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/PaymentPage/payment_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

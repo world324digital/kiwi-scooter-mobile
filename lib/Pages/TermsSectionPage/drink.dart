@@ -1,7 +1,7 @@
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/terms.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../RideNowPage/ride_now.dart';
@@ -32,7 +32,7 @@ class _Drink extends State<Drink> {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 30),
+            // margin: EdgeInsets.only(bottom: 30),
             child: Image.asset('assets/images/drink.png'),
           ),
           TermsTitle(text: 'Finally! Don\'t Drink \& Ride'),

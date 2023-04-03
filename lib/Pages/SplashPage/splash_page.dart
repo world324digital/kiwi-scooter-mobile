@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:Move/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
 
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Models/term_model.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app.dart';
-import 'package:Move/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Models/term_model.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
 
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';

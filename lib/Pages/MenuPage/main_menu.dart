@@ -1,10 +1,10 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Pages/App/app.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Widgets/menuItem.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Pages/App/app.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Widgets/menuItem.dart';
 import 'package:flutter/material.dart';
-import 'package:Move/Pages/PaymentPage/pay_method.dart';
+import 'package:KiwiCity/Pages/PaymentPage/pay_method.dart';
 import 'package:provider/provider.dart';
 import '../../Routes/routes.dart';
 import '../History/ride_history.dart';
@@ -38,12 +38,13 @@ class _MainMenu extends State<MainMenu> {
       builder: (context, value, child) {
         return Container(
           width: 286,
+          color: ColorConstants.cPrimaryBtnColor,
           child: Column(
             children: [
               Container(
-                height: 212,
+                height: 227,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 50.0),
+                  padding: EdgeInsets.only(top: 0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -58,7 +59,7 @@ class _MainMenu extends State<MainMenu> {
                                     style: TextStyle(
                                       fontSize: 24.0,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(52, 204, 52, 1),
+                                      color: ColorConstants.cPrimaryBtnColor,
                                       fontFamily: 'Montserrat-Medium ',
                                     ),
                                     //textAlign: TextAlign.left,
@@ -71,7 +72,7 @@ class _MainMenu extends State<MainMenu> {
                                     style: TextStyle(
                                       fontSize: 24.0,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(52, 204, 52, 1),
+                                      color: ColorConstants.cPrimaryBtnColor,
                                       fontFamily: 'Montserrat-Bold',
                                     ),
                                     //textAlign: TextAlign.left,
@@ -120,7 +121,6 @@ class _MainMenu extends State<MainMenu> {
                     ImageConstants.RIDE_HISTORY_ACTIVE,
                     width: 18,
                     height: 18,
-                    color: ColorConstants.cPrimaryTitleColor,
                   ),
                 ),
               if (value.isLogin)
@@ -188,7 +188,7 @@ class _MainMenu extends State<MainMenu> {
                   text: "Sign Out",
                   routeName: Routes.SIGN_OUT,
                   img: Icon(Icons.logout_outlined,
-                      color: ColorConstants.cTxtColor2, size: 20),
+                      color: Colors.white, size: 20),
                   activeImg: Image.asset(ImageConstants.SETTINGS_ACTIVE,
                       width: 18, height: 18),
                 ),

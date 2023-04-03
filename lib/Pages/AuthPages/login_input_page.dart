@@ -1,11 +1,11 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,8 +48,8 @@ class _LoginInputPage extends State<LoginInputPage> {
   }
 
   /*******************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Login with Email
    */
   Future<void> loginWithEmail() async {
@@ -236,7 +236,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                             borderRadius: BorderRadius.circular(15.0)),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -313,7 +313,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -328,7 +328,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                             _passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Colors.green,
+                            color: ColorConstants.cPrimaryBtnColor,
                           ),
                           onPressed: () {
                             // Update the state i.e. toogle the state of passwordVisible variable

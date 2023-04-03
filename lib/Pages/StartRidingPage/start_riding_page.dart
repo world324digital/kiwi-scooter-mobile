@@ -1,13 +1,13 @@
 import 'dart:core';
 import 'dart:io';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Models/price_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/PaymentPage/pay_method.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/slideItem.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Models/price_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/PaymentPage/pay_method.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/slideItem.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -211,7 +211,7 @@ class _StartRiding extends State<StartRiding> {
                   },
                   icon: Icon(
                     Icons.arrow_back,
-                    color: Colors.green,
+                    color: ColorConstants.cPrimaryBtnColor,
                   ),
                 ),
               ),
@@ -220,7 +220,7 @@ class _StartRiding extends State<StartRiding> {
             ),
             body: isLoading
                 ? Center(
-                    child: CircularProgressIndicator(color: Colors.green),
+                    child: CircularProgressIndicator(color: ColorConstants.cPrimaryBtnColor),
                   )
                 : isError
                     ? Center(
@@ -287,7 +287,7 @@ class _StartRiding extends State<StartRiding> {
                                 Container(
                                   alignment: Alignment.center,
                                   child: CarouselIndicator(
-                                    activeColor: Color.fromRGBO(52, 202, 52, 1),
+                                    activeColor: ColorConstants.cPrimaryBtnColor,
                                     width: 10,
                                     height: 3,
                                     count: _prices.length,

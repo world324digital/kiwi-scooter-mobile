@@ -1,5 +1,5 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Models/price_model.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Models/price_model.dart';
 import 'package:flutter/material.dart';
 
 import '../Helpers/helperUtility.dart';
@@ -15,8 +15,8 @@ Widget SlideItem(
       // height: HelperUtility.screenHeight(context) * 0.45,
       width: HelperUtility.screenWidth(context) * 0.8,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(229, 249, 224, 1),
-        border: Border.all(color: Color.fromRGBO(229, 249, 224, 1), width: 1),
+        color: ColorConstants.cPrimaryBtnColor,
+        border: Border.all(color: ColorConstants.cPrimaryBtnColor, width: 1),
         borderRadius: BorderRadius.circular(24),
       ),
       child: FittedBox(

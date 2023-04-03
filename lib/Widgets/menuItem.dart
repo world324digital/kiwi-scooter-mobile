@@ -1,6 +1,6 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/services/firebase_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,10 +23,10 @@ Widget MenuBarItem({
           margin: const EdgeInsets.only(left: 16, right: 16),
           padding: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: Color(0xFFE5F9E0),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: Color.fromRGBO(229, 249, 224, 1),
+              color: Colors.white,
             ),
           ),
           child: ListTile(
@@ -81,7 +81,7 @@ Widget MenuBarItem({
               style: TextStyle(
                   fontSize: 16,
                   fontFamily: 'Montserrat-SemiBold',
-                  color: Colors.black),
+                  color: ColorConstants.cPrimaryBtnColor),
             ),
           ),
         )
@@ -146,7 +146,7 @@ Widget MenuBarItem({
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: 'Montserrat-SemiBold',
-                  color: Color.fromRGBO(102, 102, 102, 1),
+                  color: Colors.white,
                 ),
               ),
             ),

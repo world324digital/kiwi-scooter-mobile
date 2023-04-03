@@ -3,25 +3,25 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Helpers/local_storage.dart';
-import 'package:Move/Models/location_model.dart';
-import 'package:Move/Models/price_model.dart';
-import 'package:Move/Models/user_model.dart';
-import 'package:Move/Pages/App/app_provider.dart';
-import 'package:Move/Pages/MenuPage/main_menu.dart';
-import 'package:Move/Pages/PaymentPage/payment_helper.dart';
-import 'package:Move/Pages/StartRidingPage/start_riding_page.dart';
-import 'package:Move/Routes/routes.dart';
-import 'package:Move/services/firebase_service.dart';
-import 'package:Move/Widgets/CachedNetworkTileProvider.dart';
-import 'package:Move/Widgets/batteryStatusWidget.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/toast.dart';
-import 'package:Move/Widgets/unableAlert.dart';
-import 'package:Move/services/httpService.dart';
-import 'package:Move/services/local_notification_service.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Helpers/local_storage.dart';
+import 'package:KiwiCity/Models/location_model.dart';
+import 'package:KiwiCity/Models/price_model.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Pages/MenuPage/main_menu.dart';
+import 'package:KiwiCity/Pages/PaymentPage/payment_helper.dart';
+import 'package:KiwiCity/Pages/StartRidingPage/start_riding_page.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
+import 'package:KiwiCity/Widgets/CachedNetworkTileProvider.dart';
+import 'package:KiwiCity/Widgets/batteryStatusWidget.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
+import 'package:KiwiCity/Widgets/unableAlert.dart';
+import 'package:KiwiCity/services/httpService.dart';
+import 'package:KiwiCity/services/local_notification_service.dart';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -265,7 +265,7 @@ class _RideNowState extends State<RideNow>
 
   /**************************
    * @Auth: Leopard
-   * @Date: 2022.12.14
+   * @Date: 2023.03.14
    * @Desc: Get Usage Time Seconds
    */
   int getDuraion() {
@@ -282,7 +282,7 @@ class _RideNowState extends State<RideNow>
 
 /********************
  * @Auth Leopard
- * @Date 2022.12.12
+ * @Date 2023.03.29
  * @Desc count down timer
  */
   Widget CountDownTimer({required int time_value, TextStyle? textStyle}) {
@@ -308,7 +308,7 @@ class _RideNowState extends State<RideNow>
 
 /********************
  * @Auth Leopard
- * @Date 2022.12.12
+ * @Date 2023.03.29
  * @Desc Add zero to number
  * @exam  1->01
  */
@@ -320,8 +320,8 @@ class _RideNowState extends State<RideNow>
   }
 
   /********************************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.21
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.21
    * @Desc: Turn On/Off Light
    */
   Future<void> changeLightStatus(bool isOn) async {
@@ -798,7 +798,7 @@ class _RideNowState extends State<RideNow>
 
   /********************************
    * @Auth: geniusdev
-   * @Date: 2022.12.16
+   * @Date: 2023.03.16
    * @Desc: Handle Back Button
    */
   Future<bool> _handleBackButton() async {
@@ -809,7 +809,7 @@ class _RideNowState extends State<RideNow>
 
   /**********************************
    * @Auth: geniusdev
-   * @Date: 2022.12.16
+   * @Date: 2023.03.16
    * @Desc: Start Riding
    */
   Future<void> startRiding() async {
@@ -851,7 +851,7 @@ class _RideNowState extends State<RideNow>
 
   /*********************************
    * @Auth: leopard.live0122@gmail.com
-   * @Date: 2022.12.27
+   * @Date: 2023.03.27
    * @Desc: Save Tempreivew on Local storag when user close app forcely
    */
 
@@ -892,8 +892,8 @@ class _RideNowState extends State<RideNow>
   }
 
   /*********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.16
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.16
    * @Desc: Schedule Notification
    */
   void scheduleNotification(
@@ -1000,7 +1000,7 @@ class _RideNowState extends State<RideNow>
 
   /****************** 
    * @Auth: Leopard
-   * @Date: 2022.12.12
+   * @Date: 2023.03.29
    * @Desc: ShowBottomDialog
    * *************************/
   void showBottomDialog({

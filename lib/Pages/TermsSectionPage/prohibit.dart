@@ -1,5 +1,5 @@
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/terms.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

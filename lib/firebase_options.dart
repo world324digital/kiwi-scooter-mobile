@@ -47,33 +47,34 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC6iia2353HlEK8Xzp8u0xPAg_pjlTHqFM',
-    appId: '1:257318589642:web:8f453933ac8c3a22235033',
-    messagingSenderId: '257318589642',
-    projectId: 'ride-move',
-    authDomain: 'ride-move.firebaseapp.com',
-    databaseURL: 'https://ride-move-default-rtdb.firebaseio.com',
-    storageBucket: 'ride-move.appspot.com',
-    measurementId: 'G-FXK8V2Y03F',
+    apiKey: "AIzaSyC38dUucuCo7XKjJJZuC-Ssv7xzEI5P7G4",
+    authDomain: "kiwi-city.firebaseapp.com",
+    databaseURL: "https://kiwi-city-default-rtdb.firebaseio.com",
+    projectId: "kiwi-city",
+    storageBucket: "kiwi-city.appspot.com",
+    messagingSenderId: "71253473213",
+    appId: "1:71253473213:web:ef6b8bdb0081604a7204d4",
+    measurementId: "G-VQ5EZWNQHQ",
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBenZZ4X5Owq9kA9MM2zrJq9RUvwidPd-o',
-    appId: '1:257318589642:android:3cfcdae9c41e5831235033',
-    messagingSenderId: '257318589642',
-    projectId: 'ride-move',
-    databaseURL: 'https://ride-move-default-rtdb.firebaseio.com',
-    storageBucket: 'ride-move.appspot.com',
+    apiKey: 'AIzaSyD1fxtUagoG5mInMobTBwPegUyZ84Y0rsA',
+    appId: '1:71253473213:android:c19bb5330fbe85127204d4',
+    messagingSenderId: '71253473213',
+    projectId: 'kiwi-city',
+    databaseURL: 'https://kiwi-city-default-rtdb.firebaseio.com',
+    storageBucket: 'kiwi-city.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDZJQYQbQzdZ95_jN8bE41GZq9I_9jNU7w',
-    appId: '1:257318589642:ios:23c80c2bc232d6f3235033',
-    messagingSenderId: '257318589642',
-    projectId: 'ride-move',
-    databaseURL: 'https://ride-move-default-rtdb.firebaseio.com',
-    storageBucket: 'ride-move.appspot.com',
-    iosClientId: '257318589642-eq4mkf5e8hbcvatmdieo45fdk65ugbtf.apps.googleusercontent.com',
-    iosBundleId: 'com.example.openstreetmap',
+    apiKey: 'AIzaSyCW21HIZqugLnr1OAuWNaqyCaZGCBi0BB8',
+    appId: '1:71253473213:ios:c2f086aee2aba3ef7204d4',
+    messagingSenderId: '71253473213',
+    projectId: 'kiwi-city',
+    databaseURL: 'https://kiwi-city-default-rtdb.firebaseio.com',
+    storageBucket: 'kiwi-city.appspot.com',
+    iosClientId:
+        '71253473213-mnjcumqv2ac09ttpbj79tn2q7e4kk8hd.apps.googleusercontent.com',
+    iosBundleId: 'com.kiwicity.co',
   );
 }

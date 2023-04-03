@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:math';
-import 'package:Move/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -18,8 +18,8 @@ class HttpService {
   String basicUrl = URLS.BASE_URL;
   String apiPrefix = URLS.API_PREFIX;
   /*******************************
-   * @Auth: Geniusdev0813@gmail.com
-   * @Date: 2022.12.6
+   * @Auth: world324digital@gmail.com
+   * @Date: 2023.03.6
    * @Desc: SetHeader
    */
   Future<Map<String, String>> getHeader(
@@ -56,8 +56,8 @@ class HttpService {
   }
 
   /*********************************
-   * @Auth: Geniusdev0813@gmail.com
-   * @Date: 2022.12.5
+   * @Auth: world324digital@gmail.com
+   * @Date: 2023.03.5
    * @Desc: Create Http tails
    */
   Future<String> httpBuildQuery(Map<String, String> data) async {
@@ -70,7 +70,7 @@ class HttpService {
   }
 
   /*********************************
-   * @Auth: Geniusdev0813@gmail.com
+   * @Auth: world324digital@gmail.com
    * @Date: 2022.10.26
    * @Desc: Check Network connectivity
    */
@@ -85,7 +85,7 @@ class HttpService {
   }
 
   /*********************************
-   * @Auth: Geniusdev0813@gmail.com
+   * @Auth: world324digital@gmail.com
    * @Date: 2022.10.26
    * @Desc: Send Report Email
    */
@@ -115,7 +115,7 @@ class HttpService {
   }
 
   /*********************************
-   * @Auth: Geniusdev0813@gmail.com
+   * @Auth: world324digital@gmail.com
    * @Date: 2022.10.26
    * @Desc: Send Report Email
    */
@@ -143,8 +143,8 @@ class HttpService {
   }
 
   /*********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Stripe Card Pay
    */
   Future cardPay({
@@ -205,8 +205,8 @@ class HttpService {
   }
 
   /*********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Change Power Status ( On/Off ) of scooter
    */
   Future changePowerStatus({
@@ -237,8 +237,8 @@ class HttpService {
   }
 
   /*********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Change Power Status ( On/Off ) of scooter
    */
   Future changeLockStatus({
@@ -271,8 +271,8 @@ class HttpService {
   }
 
   /*********************************
-   * @Auth: geniusdev0813@gmail.com
-   * @Date: 2022.12.12
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.29
    * @Desc: Change Power Status ( On/Off ) of scooter
    */
   Future changeLightStatus({

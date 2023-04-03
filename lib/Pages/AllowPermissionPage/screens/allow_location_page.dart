@@ -1,9 +1,9 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Helpers/helperUtility.dart';
-import 'package:Move/Widgets/toast.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
-import 'package:Move/Pages/AllowPermissionPage/screens/allow_notification_page.dart';
+import 'package:KiwiCity/Pages/AllowPermissionPage/screens/allow_notification_page.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:geolocator/geolocator.dart';
@@ -43,7 +43,7 @@ class _AllowLocationPage extends State<AllowLocationPage> {
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
 
@@ -137,7 +137,7 @@ class _AllowLocationPage extends State<AllowLocationPage> {
 
   /*****************************
    * @Auth: Leopard
-   * @Date: 2022.12.5
+   * @Date: 2023.03.5
    * @Desc: Restart app when set permissions of App
    */
 
@@ -178,8 +178,8 @@ class _AllowLocationPage extends State<AllowLocationPage> {
   }
 
   /***************************
-   * @Auth: geniusdev0813
-   * @Date: 2022.12.19
+   * @Auth: world324digital
+   * @Date: 2023.03.19
    * @Desc: Allow Location
    */
   Future<void> initPlugin() async {

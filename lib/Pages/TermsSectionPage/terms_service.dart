@@ -1,7 +1,7 @@
-import 'package:Move/Helpers/constant.dart';
-import 'package:Move/Pages/TermsSectionPage/prohibit.dart';
-import 'package:Move/Widgets/primaryButton.dart';
-import 'package:Move/Widgets/terms.dart';
+import 'package:KiwiCity/Helpers/constant.dart';
+import 'package:KiwiCity/Pages/TermsSectionPage/prohibit.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/Widgets/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -71,7 +71,7 @@ class _TermsService extends State<TermsService> {
                         fontWeight: FontWeight.w400,
                         height: 1.6),
                   ),
-                  // TextSpan(text: ' our Terms of Use',style: TextStyle(color:Color.fromRGBO(52, 202, 52, 1))),
+                  // TextSpan(text: ' our Terms of Use',style: TextStyle(color:ColorConstants.cPrimaryBtnColor)),
                 ],
               )),
         ),
