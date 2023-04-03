@@ -69,7 +69,7 @@ class _Settings extends State<Settings> {
   }
 
   /************************************
-   * @Auth: leopard.live0122@gmail.com
+   * @Auth: world324digital.
    * @Date: 2023.03.11
    * @Desc: Update Account
    */

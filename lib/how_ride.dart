@@ -41,7 +41,7 @@ class _HowRide extends State<HowRide> {
   FirebaseService service = FirebaseService();
 
   /****************************
-   * @Auth: geniusdev
+   * @Auth: world324digital
    * @Date: 2023.03.17
    * @Desc: Save Scooter Review
    */
@@ -72,13 +72,14 @@ class _HowRide extends State<HowRide> {
     var appProvider = AppProvider.of(context);
     var card = appProvider.currentUser.card;
     String scooter_id = appProvider.scooterID;
+    String imei = appProvider.imei;
     String user_id = appProvider.currentUser.id;
     String scooter_type = "Kiwi eScooter";
     DateTime start_time = appProvider.startRideTime;
     DateTime end_time = appProvider.endRideTime;
     int duration = appProvider.usedTime;
     double reservation_price = 0.0;
-    double ride_price = appProvider.selectedPrice?.totalCost??0.0;
+    double ride_price = appProvider.selectedPrice?.startCost??0.0;
     double vat_price = 0.0;
     double total_price = reservation_price + ride_price + vat_price;
     String card_type = card?.cardType??"";

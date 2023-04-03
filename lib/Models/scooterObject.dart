@@ -2,6 +2,7 @@
 
 class scooterObject {
   final String scooterID;
+  final String imei;
   final String address;
   // final b;
   // final c;
@@ -16,7 +17,8 @@ class scooterObject {
   final soc;
   final String status;
   scooterObject(
-      {this.scooterID = '',
+      {this.imei = '',
+      this.scooterID = '',
       this.address = '',
       // this.b = 0,
       // this.c = 0,

@@ -7,6 +7,7 @@ class UserModel {
   String lastName = "";
   String email = "";
   String dob = "";
+  double balance = 0.0;
   late CardModel? card;
 
   UserModel({
@@ -16,6 +17,7 @@ class UserModel {
     required this.email,
     required this.dob,
     required this.card,
+    required this.balance,
   });
 
   UserModel.fromMap({required dynamic data, required String id}) {
@@ -25,6 +27,7 @@ class UserModel {
       this.lastName = data.data()['lastName'] ?? "";
       this.email = data.data()['email'] ?? "";
       this.dob = data.data()['dob'] ?? "";
+      this.balance = data.data()['balance'] ?? 0.0;
       this.card = data.data()['card'] != null
           ? CardModel.fromMap(data: data.data()['card'], id: id)
           : null;
@@ -40,6 +43,7 @@ class UserModel {
     returnedMap["lastName"] = this.lastName;
     returnedMap["email"] = this.email;
     returnedMap["dob"] = this.dob;
+    returnedMap["balance"] = this.balance;
     returnedMap["card"] = (this.card != null) ? this.card!.toMap() : null;
     return returnedMap;
   }

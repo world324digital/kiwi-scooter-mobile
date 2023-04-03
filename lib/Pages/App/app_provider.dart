@@ -81,6 +81,14 @@ class AppProvider extends ChangeNotifier {
     if (isNotifiable) notifyListeners();
   }
 
+  // Selected Scooter IMEI
+  String _imei = "";
+  String get imei => _imei;
+  void setScooterImei(String imei, {bool isNotifiable = true}) {
+    _imei = imei;
+    if (isNotifiable) notifyListeners();
+  }
+
   // Selected Price ID
   PriceModel? _priceModel;
   PriceModel? get selectedPrice => _priceModel;

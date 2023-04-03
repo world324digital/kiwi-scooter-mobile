@@ -2,38 +2,26 @@ import 'package:KiwiCity/Models/card_model.dart';
 
 class PriceModel {
   String id = "";
-  double cost = 0.0;
-  int order = 2;
+  double startCost = 0.0;
   String plan = "";
-  double totalCost = 0.0;
-  int usageTime = 0;
-  String usageTimeUnit = "";
+  double costPerMinute = 0.0;
 
   PriceModel({
     required this.id,
-    required this.cost,
-    required this.order,
+    required this.startCost,
     required this.plan,
-    required this.totalCost,
-    required this.usageTime,
-    required this.usageTimeUnit,
+    required this.costPerMinute,
   });
 
   PriceModel.fromMap({required data}) {
     try {
-      this.id = data['id'] ?? "";
-      this.cost =
-          data['cost'] != null ? double.parse(data['cost'].toString()) : 0.0;
-      this.order =
-          data['order'] != null ? int.parse(data['order'].toString()) : 0;
+      // this.id = data['id'] ?? "";
+      this.startCost =
+          data['startCost'] != null ? double.parse(data['startCost']) : 0.0;
       this.plan = data['plan'] ?? "";
-      this.totalCost = data['totalCost'] != null
-          ? double.parse(data['totalCost'].toString())
+      this.costPerMinute = data['costPerMinute'] != null
+          ? double.parse(data['costPerMinute'])
           : 0.0;
-      this.usageTime = data['usageTime'] != null
-          ? int.parse(data['usageTime'].toString())
-          : 0;
-      this.usageTimeUnit = data['usageTimeUnit'] ?? "";
     } catch (e) {
       throw ("Couldn't get price data correctly");
     }
@@ -42,12 +30,9 @@ class PriceModel {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> returnedMap = {};
     returnedMap["id"] = this.id;
-    returnedMap["cost"] = this.cost;
-    returnedMap["order"] = this.order;
+    returnedMap["startCost"] = this.startCost;
     returnedMap["plan"] = this.plan;
-    returnedMap["totalCost"] = this.totalCost;
-    returnedMap["usageTime"] = this.usageTime;
-    returnedMap["usageTimeUnit"] = this.usageTimeUnit;
+    returnedMap["costPerMinute"] = this.costPerMinute;
 
     return returnedMap;
   }

@@ -75,12 +75,12 @@ class AppConstants {
 }
 
 class URLS {
-  static const String BASE_URL = "http://69.172.211.116";
-  // static const String BASE_URL = "http://192.168.121.16:8080";
+  static const String BASE_URL = "http://185.96.163.118:4000";
   static const String API_PREFIX = "/api";
+  static const String MQTT_PREFIX = "/mqtt";
 
   static const String SEND_REPORT_EMAIL = "/sendReport";
-  static const String SEND_RING = "/sendAlarm";
+  static const String SEND_RING_ON = "/alarmon";
   static const String CARD_PAY = "/cardPay";
   static const String NATIVE_PAY = "/create-payment-intent";
   static const String CHANGE_POWER_STATUS = "/changePowerStatus";
@@ -121,6 +121,8 @@ class Messages {
       "Permission denied permanently";
   static const String NOTIFY_MESSAGE =
       "This app needs location permission to find scooter near you";
+  static const String INSUFFICIENT_BALANCE =
+      "Insufficient balance. Please add more money to your account before proceeding.";
 }
 
 class ImageConstants {

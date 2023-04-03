@@ -295,8 +295,8 @@ class FirebaseService {
    * @Desc: check scooter id is valid
    */
   Future<bool> isValidScooterID({required String scooterID}) async {
-    var res = await firestore.collection('scooters').doc(scooterID).get();
-    return res.exists;
+    var res = await firestore.collection('scooters').where('id', isEqualTo: scooterID).get();
+    return res.docs.length > 0;
   }
 
   /*******************************
@@ -308,12 +308,11 @@ class FirebaseService {
     try {
       QuerySnapshot querySnapshot = await firestore
           .collection('pricings')
-          .orderBy('order', descending: false)
           .get();
 
       List<PriceModel> _prices = [];
       querySnapshot.docs.forEach((doc) {
-        print(doc);
+        print(doc.id);
         _prices.add(PriceModel.fromMap(data: doc.data()));
       });
       return _prices;

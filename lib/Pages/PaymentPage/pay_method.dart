@@ -82,7 +82,7 @@ class _PayMethod extends State<PayMethod> {
   Future<void> paySubmit(CardModel card) async {
     print(card.cardType);
     String scooterID = AppProvider.of(context).scooterID;
-    String amount = AppProvider.of(context).selectedPrice!.totalCost.toString();
+    // String amount = AppProvider.of(context).selectedPrice!.totalCost.toString();
 
     setState(() {
       isUnlocking = true;
@@ -95,7 +95,8 @@ class _PayMethod extends State<PayMethod> {
           expiredMonth: card.expMonth,
           expiredYear: card.expYear,
           cvv: card.cvv,
-          amount: amount);
+          // amount: amount);
+          amount: "0");
       print("Stripe Result :::::::::::::>");
       print(res);
 
@@ -125,10 +126,10 @@ class _PayMethod extends State<PayMethod> {
 
           // ========== Calculate Ride Time ===========
           PriceModel _priceModel = AppProvider.of(context).selectedPrice!;
-          int _time = (_priceModel.totalCost / _priceModel.cost).toInt() * 60;
+          // int _time = (_priceModel.totalCost / _priceModel.cost).toInt() * 60;
 
           if (widget.data['isMore']) {
-            Navigator.of(context).pop(_time);
+            // Navigator.of(context).pop(_time);
           } else {
             Future.delayed(const Duration(milliseconds: 200), () {
               AppProvider.of(context).setCurrentUser(currentUser);
@@ -185,9 +186,10 @@ class _PayMethod extends State<PayMethod> {
         params: FlutterStripe.ApplePayPresentParams(
           cartItems: [
             FlutterStripe.ApplePayCartSummaryItem.immediate(
-              label: 'Move eMobility',
+              label: 'Kiwi City',
               amount:
-                  AppProvider.of(context).selectedPrice!.totalCost.toString(),
+                  // AppProvider.of(context).selectedPrice!.totalCost.toString(),
+                  "0",
             ),
           ],
           requiredShippingAddressFields: [],
@@ -299,7 +301,8 @@ class _PayMethod extends State<PayMethod> {
     required String paymethod,
   }) async {
     return await HttpService().nativePay(
-      amount: AppProvider.of(context).selectedPrice!.totalCost.toString(),
+      // amount: AppProvider.of(context).selectedPrice!.totalCost.toString(),
+      amount: "0",
       email: AppProvider.of(context).currentUser.email,
       paymethod: paymethod,
     );
@@ -314,7 +317,7 @@ class _PayMethod extends State<PayMethod> {
     print("----- Goole Apple Pay Functions");
     // ========== Calculate Ride Time ===========
     PriceModel _priceModel = AppProvider.of(context).selectedPrice!;
-    int _time = _priceModel.totalCost ~/ _priceModel.cost * 60;
+    // int _time = _priceModel.totalCost ~/ _priceModel.cost * 60;
     CardModel extracard;
 
     if (Platform.isAndroid) {
@@ -342,7 +345,7 @@ class _PayMethod extends State<PayMethod> {
     AppProvider.of(context).setCurrentUser(currentUser);
 
     if (widget.data['isMore']) {
-      Navigator.of(context).pop(_time);
+      // Navigator.of(context).pop(_time);
     } else {
       setState(() {
         isUnlocking = false;
@@ -386,8 +389,9 @@ class _PayMethod extends State<PayMethod> {
   List<PaymentItem> getPriceItem() {
     return [
       PaymentItem(
-        label: 'RideMove',
-        amount: AppProvider.of(context).selectedPrice!.totalCost.toString(),
+        label: 'Kiwi City',
+        // amount: AppProvider.of(context).selectedPrice!.totalCost.toString(),
+        amount: "0",
         status: PaymentItemStatus.final_price,
       )
     ];
@@ -408,7 +412,7 @@ class _PayMethod extends State<PayMethod> {
     var appProvider = AppProvider.of(context);
 
     /*********************
-     * @Auth: leopard
+     * @Auth: world324digital
      * @Date: 2023.03.29
      * @Desc: Selected Card Section
      */
@@ -501,7 +505,7 @@ class _PayMethod extends State<PayMethod> {
     );
 
     /*********************
-     * @Auth: leopard
+     * @Auth: world324digital
      * @Date: 2023.03.29
      * @Desc: Card Input Section
      */
@@ -842,7 +846,7 @@ class _PayMethod extends State<PayMethod> {
     );
 
     /*********************
-     * @Auth: leopard
+     * @Auth: world324digital
      * @Date: 2023.03.29
      * @Desc: Add Payment Button
      */

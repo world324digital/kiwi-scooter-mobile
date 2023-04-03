@@ -30,6 +30,7 @@ class AppLocalKeys {
 
   static String TOTAL_RIDE_TIME = "totalrideTime";
   static String SCOOTER_ID = "scooterID";
+  static String IMEI = "IMEI";
 }
 
 Future<void> storeDataToLocal({

@@ -21,6 +21,7 @@ class Routes {
   static const String HOWRIDE = "/how_ride";
 
   static const String MANAGE_PAYMETHOD = "/manage_paymethod";
+  static const String WALLET = "/wallet";
 
   static const String SIGN_OUT = "signout";
 

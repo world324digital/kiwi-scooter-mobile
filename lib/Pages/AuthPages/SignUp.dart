@@ -135,6 +135,7 @@ class _SignUpPage extends State<SignUpPage> {
             email: email,
             dob: _dobController.text,
             card: null,
+            balance: 0.0,
           );
 
           service.createUser(userModel).then((res) async {

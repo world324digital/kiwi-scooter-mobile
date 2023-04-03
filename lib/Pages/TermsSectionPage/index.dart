@@ -54,7 +54,7 @@ class _TermsSectionPage extends State<TermsSectionPage> {
   }
 
   /*****************
-   * @Auth leopard.live0122@gmail.com
+   * @Auth World324.
    * @Date 2022.12.18
    * @Desc Get Term Lists from Firebase
    */

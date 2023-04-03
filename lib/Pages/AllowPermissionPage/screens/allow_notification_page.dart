@@ -96,7 +96,7 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
       );
 
   /*****************************
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.5
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
@@ -155,7 +155,7 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
   }
 
   /*****************************
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.5
    * @Desc: Restart app when set permissions of App
    */

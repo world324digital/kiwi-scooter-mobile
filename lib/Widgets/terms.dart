@@ -20,7 +20,7 @@ Widget TermsContent({
   required String text,
 }) {
   return Container(
-    alignment: Alignment.topLeft,
+    alignment: Alignment.center,
     padding: const EdgeInsets.only(top: 10, left: 50, right: 30),
     child: Text(
         style: TextStyle(

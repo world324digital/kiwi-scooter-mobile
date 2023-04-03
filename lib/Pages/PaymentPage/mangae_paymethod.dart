@@ -65,7 +65,8 @@ class _ManagePayMethod extends State<ManagePayMethod> {
   Future<void> paySubmit(CardModel card) async {
     print(card.cardType);
     String scooterID = AppProvider.of(context).scooterID;
-    String amount = AppProvider.of(context).selectedPrice!.totalCost.toString();
+    // String amount = AppProvider.of(context).selectedPrice!.totalCost.toString();
+    String amount = "0";
 
     setState(() {
       isUnlocking = true;
@@ -108,7 +109,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
             // ========== Calculate Ride Time ===========
             PriceModel _priceModel = AppProvider.of(context).selectedPrice!;
-            int _time = (_priceModel.totalCost / _priceModel.cost).toInt() * 60;
+            // int _time = (_priceModel.totalCost / _priceModel.cost).toInt() * 60;
 
             Future.delayed(const Duration(milliseconds: 200), () {
               AppProvider.of(context).setCurrentUser(currentUser);
@@ -225,7 +226,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
     var appProvider = AppProvider.of(context);
 
     /*********************
-     * @Auth: leopard
+     * @Auth: world324digital
      * @Date: 2023.03.29
      * @Desc: Header Section
      */
@@ -262,7 +263,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
         ));
 
     /*********************
-     * @Auth: leopard
+     * @Auth: world324digital
      * @Date: 2023.03.29
      * @Desc: Apple Pay Widget
      */
@@ -366,7 +367,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
     // }
 
     /*********************
-     * @Auth: leopard
+     * @Auth: world324digital
      * @Date: 2023.03.29
      * @Desc: Selected Card Section
      */
@@ -453,7 +454,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
     );
 
     /*********************
-     * @Auth: leopard
+     * @Auth: world324digital
      * @Date: 2023.03.29
      * @Desc: Card Input Section
      */
@@ -855,7 +856,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
     );
 
     /*********************
-     * @Auth: leopard
+     * @Auth: world324digital
      * @Date: 2023.03.29
      * @Desc: Add Payment Button
      */

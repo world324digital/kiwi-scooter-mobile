@@ -11,10 +11,13 @@ import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:KiwiCity/Widgets/toast.dart';
+import 'package:flutter_dropdown_alert/model/data_alert.dart';
 
-import '../../Helpers/helperUtility.dart';
-import '../../Routes/routes.dart';
-import '../../carousel_indicator.dart';
+import 'package:KiwiCity/Helpers/helperUtility.dart';
+import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+// import '../../carousel_indicator.dart';
 
 class StartRiding extends StatefulWidget {
   const StartRiding({Key? key, required this.data}) : super(key: key);
@@ -60,10 +63,19 @@ class _StartRiding extends State<StartRiding> {
     try {
       FirebaseService service = FirebaseService();
       _prices = await service.getPrices();
+      // print("=========================================");
+      // print(_prices);
+      // if (_prices.length > 0) {
       setState(() {
         isLoading = false;
         isError = false;
       });
+      // } else {
+      //   setState(() {
+      //     isLoading = false;
+      //     isError = true;
+      //   });
+      // }
     } catch (e) {
       print(e.toString());
       setState(() {
@@ -124,57 +136,84 @@ class _StartRiding extends State<StartRiding> {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Column(children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: platform == TargetPlatform.iOS ? 32 : 28,
-            margin: const EdgeInsets.only(bottom: 10, left: 15, right: 15),
-            // padding: const EdgeInsets.only(left: 25, right: 25),
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(255, 223, 111, 1),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  color: const Color(0xff666666),
-                  size: 14,
-                ),
-                Text(
-                  '  it\'s cheaper than a taxi ( \$5 / KM)',
-                  style: TextStyle(
-                    color: Color.fromRGBO(102, 102, 102, 1),
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: FontStyles.fMedium,
-                  ),
-                )
-              ],
-            ),
-          ),
+          // Container(
+          //   width: double.infinity,
+          //   height: platform == TargetPlatform.iOS ? 32 : 28,
+          //   margin: const EdgeInsets.only(bottom: 10, left: 15, right: 15),
+          //   // padding: const EdgeInsets.only(left: 25, right: 25),
+          //   decoration: BoxDecoration(
+          //     color: Color.fromRGBO(255, 223, 111, 1),
+          //     borderRadius: BorderRadius.circular(16),
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: [
+          //       Icon(
+          //         Icons.info_outline,
+          //         color: const Color(0xff666666),
+          //         size: 14,
+          //       ),
+          //       Text(
+          //         '  it\'s cheaper than a taxi ( \$5 / KM)',
+          //         style: TextStyle(
+          //           color: Color.fromRGBO(102, 102, 102, 1),
+          //           fontSize: 12.0,
+          //           fontWeight: FontWeight.w500,
+          //           fontFamily: FontStyles.fMedium,
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
           PrimaryButton(
               context: context,
               onTap: () async {
-                PriceModel selectedPrice = _prices[pageIndex];
+                PriceModel selectedPrice = _prices[0];
 
                 //============ Save Price ==========
                 AppProvider.of(context).setPriceModel(selectedPrice);
-                if (widget.data['isMore'] ?? false) {
-                  final time = await Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const PayMethod(data: {"isMore": true})),
-                  );
+                UserModel currentUser = AppProvider.of(context).currentUser;
+                double balance = currentUser.balance;
+                if (balance >= 1) {
+                  currentUser.balance = balance - 1;
 
-                  Navigator.of(context).pop(time);
+                  FirebaseService service = FirebaseService();
+                  bool updateCardResult = await service.updateUser(currentUser);
+                  if (updateCardResult) {
+                      Future.delayed(const Duration(milliseconds: 200), () {
+                        AppProvider.of(context).setCurrentUser(currentUser);
+                        HelperUtility.goPageReplace(
+                            context: context,
+                            routeName: Routes.TERMS_OF_SERVICE,
+                            arg: {"viaPayment": true});
+                      });
+                  } else {
+                    Alert.showMessage(
+                        type: TypeAlert.error,
+                        title: "ERROR",
+                        message: Messages.ERROR_MSG);
+                  }
                 } else {
-                  HelperUtility.goPage(
-                      context: context,
-                      routeName: Routes.PAYMENT_METHODS,
-                      arg: {"isMore": false});
+                  Alert.showMessage(
+                      type: TypeAlert.error,
+                      title: "ERROR",
+                      message: Messages.INSUFFICIENT_BALANCE);
                 }
+                // if (widget.data['isMore'] ?? false) {
+                //   final time = await Navigator.of(context).push(
+                //     MaterialPageRoute(
+                //         builder: (context) =>
+                //             const PayMethod(data: {"isMore": true})),
+                //   );
+
+                //   Navigator.of(context).pop(time);
+                // } else {
+                //   HelperUtility.goPage(
+                //       context: context,
+                //       routeName: Routes.PAYMENT_METHODS,
+                //       arg: {"isMore": false});
+                // }
               },
               title: 'Start Riding',
               margin: EdgeInsets.only(bottom: Platform.isIOS ? 40 : 25))
@@ -220,7 +259,8 @@ class _StartRiding extends State<StartRiding> {
             ),
             body: isLoading
                 ? Center(
-                    child: CircularProgressIndicator(color: ColorConstants.cPrimaryBtnColor),
+                    child: CircularProgressIndicator(
+                        color: ColorConstants.cPrimaryBtnColor),
                   )
                 : isError
                     ? Center(
@@ -259,42 +299,51 @@ class _StartRiding extends State<StartRiding> {
                                     height: platform == TargetPlatform.iOS
                                         ? 40
                                         : 30),
-                                Expanded(
-                                  child: Container(
-                                    // margin: EdgeInsets.only(bottom: 25),
-                                    // height: HelperUtility.screenHeight(context) * 0.5,
-                                    // width: HelperUtility.screenWidth(context) * 0.8,
-                                    child: CarouselSlider(
-                                      items: getList(_prices),
-                                      options: CarouselOptions(
-                                        // viewportFraction: 0.8,
-                                        height: double.infinity,
-                                        viewportFraction: 0.85,
-                                        enlargeCenterPage: false,
-                                        onPageChanged: (index, reason) {
-                                          setState(() {
-                                            pageIndex = index;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // Expanded(
+                                //   child: Container(
+                                //     // margin: EdgeInsets.only(bottom: 25),
+                                //     // height: HelperUtility.screenHeight(context) * 0.5,
+                                //     width: HelperUtility.screenWidth(context) * 0.8,
+                                //     decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.circular(24),
+                                //       color: Colors.white,
+                                //       boxShadow: [
+                                //         BoxShadow(
+                                //           color: Colors.grey.withOpacity(0.8),
+                                //           spreadRadius: 8,
+                                //           blurRadius: 16,
+                                //           offset: Offset(0,
+                                //               3), // changes position of shadow
+                                //         ),
+                                //       ],
+                                //     ),
+                                //     child: Text(
+                                //       'Start Price',
+                                //       textAlign: TextAlign.center,
+                                //       style: TextStyle(
+                                //           color: Colors.black,
+                                //           fontSize: 20,
+                                //           fontWeight: FontWeight.w200,
+                                //           fontFamily: 'Montserrat-Medium'),
+                                //     ),
+                                //   ),
+                                // ),
                                 SizedBox(
                                     height: platform == TargetPlatform.iOS
                                         ? 50
                                         : 30),
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: CarouselIndicator(
-                                    activeColor: ColorConstants.cPrimaryBtnColor,
-                                    width: 10,
-                                    height: 3,
-                                    count: _prices.length,
-                                    index: pageIndex,
-                                    color: Colors.grey,
-                                  ),
-                                ),
+                                // Container(
+                                //   alignment: Alignment.center,
+                                //   child: CarouselIndicator(
+                                //     activeColor:
+                                //         ColorConstants.cPrimaryBtnColor,
+                                //     width: 10,
+                                //     height: 3,
+                                //     count: _prices.length,
+                                //     index: pageIndex,
+                                //     color: Colors.grey,
+                                //   ),
+                                // ),
                                 SizedBox(
                                     height: platform == TargetPlatform.iOS
                                         ? 40

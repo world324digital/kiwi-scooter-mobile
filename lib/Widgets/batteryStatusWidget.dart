@@ -33,16 +33,16 @@ class _BatteryStatusState extends State<BatteryStatus> {
             scooterID: event.id ?? '',
             address: data['address'] ?? '',
             soc: data['soc'] ?? 0,
-            // c: data['c'] ?? 0,
-            // g: data['g'] ?? '',
             lat: data['lat'] ?? '',
             lng: data['lng'] ?? '',
+            status: data['status'] ?? '',
+            // c: data['c'] ?? 0,
+            // g: data['g'] ?? '',
             // r: data['r'] ?? 0,
             // s: data['s'] ?? 0,
             // t: data['t'] ?? 0,
             // v: data['v'] ?? 0,
             // x: data['x'] ?? 0,
-            status: data['status'] ?? '',
           );
         });
 

@@ -88,6 +88,7 @@ class _LoginState extends State<Login> {
             email: res.user!.email!,
             dob: "",
             card: null,
+            balance: 0.0,
           );
 
           bool createRes = await service.createUser(userModel);
@@ -201,6 +202,7 @@ class _LoginState extends State<Login> {
             email: res.email!,
             dob: "",
             card: null,
+            balance: 0,
           );
 
           bool createRes = await service.createUser(userModel);

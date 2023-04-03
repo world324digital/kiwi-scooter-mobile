@@ -113,6 +113,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                 email: _email,
                 dob: "",
                 card: null,
+                balance: 0.0,
               );
               await service.createUser(userModel);
 

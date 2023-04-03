@@ -9,6 +9,7 @@ import 'package:KiwiCity/Pages/History/ride_detail.dart';
 import 'package:KiwiCity/Pages/History/ride_history.dart';
 import 'package:KiwiCity/Pages/HomePage/home_page.dart';
 import 'package:KiwiCity/Pages/PaymentPage/mangae_paymethod.dart';
+import 'package:KiwiCity/Pages/PaymentPage/wallet.dart';
 import 'package:KiwiCity/Pages/QRScanPage/allow_camera.dart';
 import 'package:KiwiCity/Pages/QRScanPage/enter_code.dart';
 import 'package:KiwiCity/Pages/QRScanPage/qr_scan_page.dart';
@@ -72,6 +73,9 @@ class RouteGenerator {
 
       case Routes.MANAGE_PAYMETHOD:
         return PageTransition(child: ManagePayMethod(), type: transitionType);
+
+      case Routes.WALLET:
+        return PageTransition(child: WalletPage(), type: transitionType);
       // case Routes.SUPPROT:
       case Routes.RIDE_NOW:
         return MaterialPageRoute(

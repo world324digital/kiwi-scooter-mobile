@@ -29,18 +29,20 @@ class _TermItem extends State<TermItem> {
   @override
   Widget build(BuildContext context) {
     var termItem = widget.termItem;
+    String imageUrl = 'assets/images/' + termItem.img;
     Widget headerSection = Container(
       padding: EdgeInsets.only(top: 60, bottom: 20),
       child: Column(
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 30),
-            child: CachedNetworkImage(
-              imageUrl: termItem.img,
-              placeholder: (context, url) => CircularProgressIndicator(
-                  color: ColorConstants.cPrimaryBtnColor),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
+            // child: CachedNetworkImage(
+            //   imageUrl: termItem.img,
+            //   placeholder: (context, url) => CircularProgressIndicator(
+            //       color: ColorConstants.cPrimaryBtnColor),
+            //   errorWidget: (context, url, error) => Icon(Icons.error),
+            // ),
+            child: Image.asset(imageUrl),
             // child: Image.network(termItem.img),
             // child: Image.network(
             //   termItem.img,

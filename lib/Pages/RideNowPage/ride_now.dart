@@ -87,7 +87,7 @@ class _RideNowState extends State<RideNow>
   /// USED SCOOTER TIME
   //////////////////////////////////////////////
   // int _totalRidetimeRidingWaitingTime = 60;
-  int _totalRidetime = 1 * 60; // 1 min
+  // int _totalRidetime = 1 * 60; // 1 min
   int _notifyBeforeTime = 5 * 60; // 5 mins
   int _usedTime = 0;
   bool isFlag = true;
@@ -103,7 +103,7 @@ class _RideNowState extends State<RideNow>
       recoveryData();
     } else {
       isLoading = false;
-      _totalRidetime = getDuraion();
+      // _totalRidetime = getDuraion();
     }
 
     _mapController = MapController();
@@ -191,10 +191,10 @@ class _RideNowState extends State<RideNow>
               key: AppLocalKeys.PAUSE_TIME,
               value: DateTime.now().millisecondsSinceEpoch,
               type: StorableDataType.INT);
-          await storeDataToLocal(
-              key: AppLocalKeys.TOTAL_RIDE_TIME,
-              value: _totalRidetime,
-              type: StorableDataType.INT);
+          // await storeDataToLocal(
+          //     key: AppLocalKeys.TOTAL_RIDE_TIME,
+          //     value: _totalRidetime,
+          //     type: StorableDataType.INT);
           if (!isDone) await saveTempReview();
         }
 
@@ -207,10 +207,10 @@ class _RideNowState extends State<RideNow>
             key: AppLocalKeys.PAUSE_TIME,
             value: DateTime.now().millisecondsSinceEpoch,
             type: StorableDataType.INT);
-        await storeDataToLocal(
-            key: AppLocalKeys.TOTAL_RIDE_TIME,
-            value: _totalRidetime,
-            type: StorableDataType.INT);
+        // await storeDataToLocal(
+        //     key: AppLocalKeys.TOTAL_RIDE_TIME,
+        //     value: _totalRidetime,
+        //     type: StorableDataType.INT);
         await saveTempReview();
         setState(() {
           isFlag = false;
@@ -229,50 +229,51 @@ class _RideNowState extends State<RideNow>
         int now = DateTime.now().millisecondsSinceEpoch;
         int gap_time = ((now - pausedTime) ~/ 1000).toInt();
         _usedTime = _usedTime + gap_time;
+        startTimer();
         // Before showing "Add more time" Dialog
-        if (_totalRidetime - gap_time > 5 * 60) {
-          _totalRidetime = _totalRidetime - gap_time;
-          setState(() {
-            _totalRidetime = _totalRidetime;
-            isFlag = true;
-          });
-          startTimer();
-        } else if (_totalRidetime - gap_time > 0) {
-          // During showing "Add more time" Dialog
-          // if (_isShowingAddMoreDialog) {
-          //   return;
-          // }
-          await addMoreTime();
-          _totalRidetime = _totalRidetime - gap_time;
-          setState(() {
-            _totalRidetime = _totalRidetime;
-            isFlag = true;
-          });
-          startTimer();
-        } else {
-          _timer!.cancel();
-          _totalRidetime = 0;
-          setState(() {
-            _totalRidetime = _totalRidetime;
-            isFlag = true;
-          });
-          onDone();
-        }
+        // if (_totalRidetime - gap_time > 5 * 60) {
+        //   _totalRidetime = _totalRidetime - gap_time;
+        //   setState(() {
+        //     _totalRidetime = _totalRidetime;
+        //     isFlag = true;
+        //   });
+        //   startTimer();
+        // } else if (_totalRidetime - gap_time > 0) {
+        //   // During showing "Add more time" Dialog
+        //   // if (_isShowingAddMoreDialog) {
+        //   //   return;
+        //   // }
+        //   await addMoreTime();
+        //   _totalRidetime = _totalRidetime - gap_time;
+        //   setState(() {
+        //     _totalRidetime = _totalRidetime;
+        //     isFlag = true;
+        //   });
+        //   startTimer();
+        // } else {
+        //   _timer!.cancel();
+        //   _totalRidetime = 0;
+        //   setState(() {
+        //     _totalRidetime = _totalRidetime;
+        //     isFlag = true;
+        //   });
+        //   onDone();
+        // }
 
         break;
     }
   }
 
   /**************************
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.14
    * @Desc: Get Usage Time Seconds
    */
-  int getDuraion() {
-    PriceModel _currentPrice = AppProvider.of(context).selectedPrice!;
-    int _duration = _currentPrice.totalCost ~/ _currentPrice.cost * 60;
-    return _duration;
-  }
+  // int getDuraion() {
+  //   PriceModel _currentPrice = AppProvider.of(context).selectedPrice!;
+  //   int _duration = _currentPrice.totalCost ~/ _currentPrice.cost * 60;
+  //   return _duration;
+  // }
 
   void listenToNotificationStream() =>
       notificationService.behaviorSubject.listen((payload) {
@@ -281,8 +282,8 @@ class _RideNowState extends State<RideNow>
       });
 
 /********************
- * @Auth Leopard
- * @Date 2023.03.29
+ * @Auth World324
+ * @Date 2023.04.03
  * @Desc count down timer
  */
   Widget CountDownTimer({required int time_value, TextStyle? textStyle}) {
@@ -306,8 +307,34 @@ class _RideNowState extends State<RideNow>
     );
   }
 
+  /********************
+ * @Auth World324
+ * @Date 2023.04.03
+ * @Desc count up timer
+ */
+  Widget CountUpTimer({required int time_value, TextStyle? textStyle}) {
+    String value = '';
+    // if (time.days != null) {
+    //   var days = _getNumberAddZero(time.days!);
+    //   value = '$value$days days ';
+    // }
+
+    var hours = _getNumberAddZero((time_value / 3600).floor() ?? 0);
+    value = '$value$hours:';
+    time_value = time_value % 3600;
+    var min = _getNumberAddZero((time_value / 60).floor() ?? 0);
+    value = '$value$min:';
+    time_value = time_value % 60;
+    var sec = _getNumberAddZero(time_value ?? 0);
+    value = '$value$sec';
+    return Text(
+      value,
+      style: textStyle,
+    );
+  }
+
 /********************
- * @Auth Leopard
+ * @Auth World324
  * @Date 2023.03.29
  * @Desc Add zero to number
  * @exam  1->01
@@ -480,43 +507,43 @@ class _RideNowState extends State<RideNow>
     });
   }
 
-  Future<void> addMoreTime() async {
-    _isShowingAddMoreDialog = true;
-    await sendRing();
-    showBottomDialog(
-      img1: 'assets/images/almosttime.png',
-      title: 'You\'re almost out of time',
-      subtitle:
-          'This scooter will automatically lock when the time is out. Please purchase addition time to keep riding.',
-      btntxt: 'Add More Time',
-      onTap: () async {
-        // _timer?.cancel();
-        _isShowingAddMoreDialog = false;
-        final time = await Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) => const StartRiding(data: {"isMore": true})),
-        );
-        if (time != null) {
-          setState(() {
-            _totalRidetime = _totalRidetime + int.parse(time.toString());
-          });
-          storeDataToLocal(
-            key: AppLocalKeys.RIDE_END_TIME,
-            value:
-                DateTime.now().millisecondsSinceEpoch + _totalRidetime * 1000,
-            type: StorableDataType.INT,
-          );
+  // Future<void> addMoreTime() async {
+  //   _isShowingAddMoreDialog = true;
+  //   await sendRing();
+  //   showBottomDialog(
+  //     img1: 'assets/images/almosttime.png',
+  //     title: 'You\'re almost out of time',
+  //     subtitle:
+  //         'This scooter will automatically lock when the time is out. Please purchase addition time to keep riding.',
+  //     btntxt: 'Add More Time',
+  //     onTap: () async {
+  //       // _timer?.cancel();
+  //       _isShowingAddMoreDialog = false;
+  //       final time = await Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //             builder: (context) => const StartRiding(data: {"isMore": true})),
+  //       );
+  //       if (time != null) {
+  //         setState(() {
+  //           _totalRidetime = _totalRidetime + int.parse(time.toString());
+  //         });
+  //         storeDataToLocal(
+  //           key: AppLocalKeys.RIDE_END_TIME,
+  //           value:
+  //               DateTime.now().millisecondsSinceEpoch + _totalRidetime * 1000,
+  //           type: StorableDataType.INT,
+  //         );
 
-          print(_totalRidetime);
-          Navigator.of(context).pop();
-          scheduleNotification(
-              totalRideTime: _totalRidetime,
-              notifyTimeBefore: _notifyBeforeTime);
-        }
-      },
-    );
-    /********** Sound Scotter Alarm ************* */
-  }
+  //         print(_totalRidetime);
+  //         Navigator.of(context).pop();
+  //         scheduleNotification(
+  //             totalRideTime: _totalRidetime,
+  //             notifyTimeBefore: _notifyBeforeTime);
+  //       }
+  //     },
+  //   );
+  //   /********** Sound Scotter Alarm ************* */
+  // }
 
   Future<void> onDone() async {
     if (ModalRoute.of(context)?.isCurrent != true) {
@@ -612,7 +639,7 @@ class _RideNowState extends State<RideNow>
   Future<void> sendRing() async {
     try {
       var res = await HttpService()
-          .sendRing(scooterID: AppProvider.of(context).scooterID);
+          .sendRing(scooterImei: AppProvider.of(context).imei);
       if (res['result']) {
         // showRingDialog();
       } else {
@@ -797,7 +824,7 @@ class _RideNowState extends State<RideNow>
   }
 
   /********************************
-   * @Auth: geniusdev
+   * @Auth: world324digital
    * @Date: 2023.03.16
    * @Desc: Handle Back Button
    */
@@ -808,7 +835,7 @@ class _RideNowState extends State<RideNow>
   }
 
   /**********************************
-   * @Auth: geniusdev
+   * @Auth: world324digital
    * @Date: 2023.03.16
    * @Desc: Start Riding
    */
@@ -817,21 +844,21 @@ class _RideNowState extends State<RideNow>
         scooterID: AppProvider.of(context).scooterID, useStatus: true);
     if (result) {
       await changePower(true, () async {
-        scheduleNotification(
-          totalRideTime: _totalRidetime,
-          notifyTimeBefore: _notifyBeforeTime,
-        );
+        // scheduleNotification(
+        //   totalRideTime: _totalRidetime,
+        //   notifyTimeBefore: _notifyBeforeTime,
+        // );
         LocationModel _start = new LocationModel(
             lat: userLocation!.latitude, long: userLocation!.longitude);
 
         // Set User Start Ride Time
         AppProvider.of(context).setStartRideTime(DateTime.now());
         AppProvider.of(context).setStartPoint(_start);
-        storeDataToLocal(
-          key: AppLocalKeys.RIDE_END_TIME,
-          value: DateTime.now().millisecondsSinceEpoch + _totalRidetime * 1000,
-          type: StorableDataType.INT,
-        );
+        // storeDataToLocal(
+        //   key: AppLocalKeys.RIDE_END_TIME,
+        //   value: DateTime.now().millisecondsSinceEpoch + _totalRidetime * 1000,
+        //   type: StorableDataType.INT,
+        // );
         await changeLock(true, () {
           _isLock = false;
         });
@@ -850,7 +877,7 @@ class _RideNowState extends State<RideNow>
   }
 
   /*********************************
-   * @Auth: leopard.live0122@gmail.com
+   * @Auth: world324digital.
    * @Date: 2023.03.27
    * @Desc: Save Tempreivew on Local storag when user close app forcely
    */
@@ -877,7 +904,7 @@ class _RideNowState extends State<RideNow>
       appProvider.currentUser.id,
       appProvider.scooterID,
       dateFormat.format(appProvider.startRideTime),
-      _totalRidetime.toString(),
+      // _totalRidetime.toString(),
       _usedTime.toString(),
       ride_price,
       startPoint,
@@ -940,7 +967,7 @@ class _RideNowState extends State<RideNow>
   }
 
   /***************************
-   * @Auth: geniusdev
+   * @Auth: world324digital
    * @Auth: 2022.12.16
    * @Desc: Lock/ Unlock Scooter
    */
@@ -999,7 +1026,7 @@ class _RideNowState extends State<RideNow>
   }
 
   /****************** 
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.29
    * @Desc: ShowBottomDialog
    * *************************/
@@ -1101,7 +1128,7 @@ class _RideNowState extends State<RideNow>
   }
 
 /***********************************************
- * @Auth Leopard
+ * @Auth World324
  * @Date 2022.12.02
  * @Desc Start Timer
  */
@@ -1113,14 +1140,14 @@ class _RideNowState extends State<RideNow>
         final now = DateTime.now();
         int hour = now.hour;
         setState(() {
-          _totalRidetime--;
+          // _totalRidetime--;
           _usedTime++;
           currentHour = hour;
         });
 
         debugPrint('isLighton ==== ${isLightOn}');
         debugPrint('hour uis ==== ${currentHour}');
-        debugPrint('_totalRidetime uis ==== ${_totalRidetime}');
+        // debugPrint('_totalRidetime uis ==== ${_totalRidetime}');
         if (isLightOn && hour > 6 && hour < 18) {
           debugPrint("should turn off");
           changeLightStatus(false);
@@ -1131,14 +1158,14 @@ class _RideNowState extends State<RideNow>
           changeLightStatus(true);
           isLightOn = true;
         }
-        if (_totalRidetime == _notifyBeforeTime) {
-          await addMoreTime();
-        } else if (_totalRidetime <= 0) {
-          setState(() {
-            timer.cancel();
-          });
-          await onDone();
-        }
+        // if (_totalRidetime == _notifyBeforeTime) {
+        //   await addMoreTime();
+        // } else if (_totalRidetime <= 0) {
+        //   setState(() {
+        //     timer.cancel();
+        //   });
+        //   await onDone();
+        // }
       },
     );
   }
@@ -1152,14 +1179,14 @@ class _RideNowState extends State<RideNow>
       String userId = tempReview[0];
       String scooterId = tempReview[1];
       DateTime startRideTime = dateFormat.parse(tempReview[2]);
-      _totalRidetime = int.parse(tempReview[3]);
+      // _totalRidetime = int.parse(tempReview[3]);
       int _usedTime = int.parse(tempReview[4]);
       int pausedtime = int.parse(tempReview[7]);
       int gaptime =
           (DateTime.now().millisecondsSinceEpoch - pausedtime) ~/ 1000;
       setState(() {
         _usedTime = _usedTime + gaptime;
-        _totalRidetime = _totalRidetime - gaptime;
+        // _totalRidetime = _totalRidetime - gaptime;
       });
       String price = tempReview[5];
       String point = tempReview[6];
@@ -1189,14 +1216,14 @@ class _RideNowState extends State<RideNow>
             key: AppLocalKeys.RIDE_END_TIME, type: StorableDataType.INT);
         int remainTime =
             reservationTime - DateTime.now().millisecondsSinceEpoch;
-        if (remainTime > 0) {
-          setState(() {
-            _totalRidetime = remainTime ~/ 1000;
-            startTimer();
-          });
-        } else {
-          onDone();
-        }
+        // if (remainTime > 0) {
+        //   setState(() {
+        //     // _totalRidetime = remainTime ~/ 1000;
+        //     startTimer();
+        //   });
+        // } else {
+        //   onDone();
+        // }
 
         setState(() {
           isLoading = false;
@@ -1436,7 +1463,7 @@ class _RideNowState extends State<RideNow>
                                               // right: 10,
                                             ),
                                             child: Text(
-                                              "\$${appContext.selectedPrice?.totalCost.toStringAsFixed(2)}",
+                                              "\$${appContext.selectedPrice?.startCost.toStringAsFixed(2)}",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 20,
@@ -1485,8 +1512,16 @@ class _RideNowState extends State<RideNow>
                                             // bottom: 20,
                                             // right: 10,
                                           ),
-                                          child: CountDownTimer(
-                                            time_value: _totalRidetime,
+                                          // child: CountDownTimer(
+                                          //   time_value: _totalRidetime,
+                                          //   textStyle: TextStyle(
+                                          //     fontFamily: FontStyles.fMedium,
+                                          //     fontWeight: FontWeight.w500,
+                                          //     fontSize: 20,
+                                          //   ),
+                                          // ),
+                                          child: CountUpTimer(
+                                            time_value: _usedTime,
                                             textStyle: TextStyle(
                                               fontFamily: FontStyles.fMedium,
                                               fontWeight: FontWeight.w500,

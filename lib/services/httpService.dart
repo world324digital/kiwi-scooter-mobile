@@ -119,21 +119,22 @@ class HttpService {
    * @Date: 2022.10.26
    * @Desc: Send Report Email
    */
-  Future sendRing({required String scooterID}) async {
+  Future sendRing({required String scooterImei}) async {
     return await checkInternetConnection().then((internet) async {
       if (internet != null && internet) {
         return await getHeader(data: {}).then((header) async {
           paramsKeyHeaderVal = header;
 
-          paramsKeyVal["scooterID"] = "$scooterID";
+          paramsKeyVal["imei"] = "$scooterImei";
           return await _network
               .post(
-            "${URLS.BASE_URL}${URLS.API_PREFIX}${URLS.SEND_RING}",
+            "${URLS.BASE_URL}${URLS.MQTT_PREFIX}${URLS.SEND_RING_ON}",
             body: utf8.encode(json.encode(paramsKeyVal)),
             header: paramsKeyHeaderVal,
           )
               .then((dynamic res) {
-            return res;
+            // return res;
+            return {"result": res};
           });
         });
       } else {

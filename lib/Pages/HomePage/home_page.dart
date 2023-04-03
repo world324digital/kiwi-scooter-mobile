@@ -70,6 +70,7 @@ class _HomePageState extends State<HomePage>
 
   //---- Selected Bike-----------
   String _selectedBikeID = '0';
+  String _selectedBikeImei = '0';
   bool _bikeSelected = false;
   late scooterObject _selectedBike;
   List<LatLng> points = [];
@@ -145,18 +146,19 @@ class _HomePageState extends State<HomePage>
           case DocumentChangeType.added:
             markerObject.add(scooterObject(
               scooterID: change.doc.data()!['id'] ?? '',
+              imei: change.doc.data()!['imei'] ?? '',
               address: change.doc.data()!['address'] ?? '',
               soc: change.doc.data()!['soc'] ?? 0,
-              // c: change.doc.data()!['c'] ?? 0,
-              // g: change.doc.data()!['g'] ?? '',
               lat: change.doc.data()!['la'] ?? 0,
               lng: change.doc.data()!['lo'] ?? 0,
+              status: change.doc.data()!['status'] ?? '',
+              // c: change.doc.data()!['c'] ?? 0,
+              // g: change.doc.data()!['g'] ?? '',
               // r: change.doc.data()!['r'] ?? 0,
               // s: change.doc.data()!['s'] ?? 0,
               // t: change.doc.data()!['t'] ?? 0,
               // v: change.doc.data()!['v'] ?? 0,
               // x: change.doc.data()!['x'] ?? 0,
-              status: change.doc.data()!['status'] ?? '',
             ));
             break;
           case DocumentChangeType.modified:
@@ -166,24 +168,25 @@ class _HomePageState extends State<HomePage>
             print(change.doc.data());
             markerObject.add(scooterObject(
               scooterID: change.doc.data()!['id'] ?? '',
+              imei: change.doc.data()!['imei'] ?? '',
               address: change.doc.data()!['address'] ?? '',
               soc: change.doc.data()!['soc'] ?? 0,
-              // c: change.doc.data()!['c'] ?? 0,
-              // g: change.doc.data()!['g'] ?? '',
               lat: change.doc.data()!['la'] ?? 0,
               lng: change.doc.data()!['lo'] ?? 0,
+              status: change.doc.data()!['status'] ?? '',
+              // c: change.doc.data()!['c'] ?? 0,
+              // g: change.doc.data()!['g'] ?? '',
               // r: change.doc.data()!['r'] ?? 0,
               // s: change.doc.data()!['s'] ?? 0,
               // t: change.doc.data()!['t'] ?? 0,
               // v: change.doc.data()!['v'] ?? 0,
               // x: change.doc.data()!['x'] ?? 0,
-              status: change.doc.data()!['status'] ?? '',
             ));
             break;
           case DocumentChangeType.removed:
             print("Removed City: ${change.doc.data()}");
             markerObject
-                .removeWhere((element) => element.scooterID == change.doc.id);
+                .removeWhere((element) => element.imei == change.doc.id);
             break;
         }
       }
@@ -365,6 +368,7 @@ class _HomePageState extends State<HomePage>
                     _selectedBike = scooter;
 
                     _selectedBikeID = scooter.scooterID;
+                    _selectedBikeImei = scooter.imei;
                     // AppProvider.of(context)
                     //     .setScooter(scooter, isNotifiable: false);
                     _bikeSelected = true;
@@ -466,7 +470,7 @@ class _HomePageState extends State<HomePage>
   );
 
   /******************************
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.5
    * @Desc: Get Route between user and selected Bike
    */
@@ -879,6 +883,7 @@ class _HomePageState extends State<HomePage>
                                                                 context, 'OK');
                                                             await sendReportEmail(
                                                                 _selectedBikeID,
+                                                                // _selectedBikeImei,
                                                                 reportTxtCtl
                                                                     .text);
                                                           }
@@ -971,7 +976,17 @@ class _HomePageState extends State<HomePage>
                               text: TextSpan(
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: 'Ride first with only €1 and pay after riding ',
+                                    text: '\€1 ',
+                                    style: TextStyle(
+                                      color: ColorConstants.cPrimaryTitleColor,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: FontStyles.fSemiBold,
+                                      height: 1.67,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: 'before riding + ',
                                     style: TextStyle(
                                       color: ColorConstants.cTxtColor2,
                                       fontSize: 13,
@@ -991,7 +1006,7 @@ class _HomePageState extends State<HomePage>
                                     ),
                                   ),
                                   TextSpan(
-                                    text: ' per minute',
+                                    text: ' per minute after riding',
                                     style: TextStyle(
                                       color: ColorConstants.cTxtColor2,
                                       fontSize: 13,
@@ -1064,6 +1079,7 @@ class _HomePageState extends State<HomePage>
       setState(() {
         _bikeSelected = false;
         _selectedBikeID = '0';
+        _selectedBikeID = '0';
         showPolyine = false;
       });
     });
@@ -1115,7 +1131,7 @@ class _HomePageState extends State<HomePage>
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   Future<void> sendRing() async {
-    print("::::::::::::Send Ring :::::::::::::: $_selectedBikeID");
+    print("::::::::::::Send Ring :::::::::::::: $_selectedBikeImei");
     // ------------ Show Progress Dialog ----------
     // Dialogs.showLoadingDarkDialog(
     //   context: context,
@@ -1126,7 +1142,7 @@ class _HomePageState extends State<HomePage>
     //   textColor: ColorConstants.cPrimaryTitleColor,
     // );
     try {
-      var res = await HttpService().sendRing(scooterID: _selectedBikeID);
+      var res = await HttpService().sendRing(scooterImei: _selectedBikeImei);
       print(res['message']);
       //------------ Dismiss Progress Dialog  -------------------
       // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
@@ -1216,7 +1232,7 @@ class _HomePageState extends State<HomePage>
   }
 
   /*****************************
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.18
    * @Desc: Check Permission
    */
@@ -1311,7 +1327,7 @@ class _HomePageState extends State<HomePage>
   );
 
   /*****************************
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.18
    * @Desc: Check App Tracking Permission
    */
@@ -1385,7 +1401,7 @@ class _HomePageState extends State<HomePage>
       );
 
   /*****************************
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.5
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
@@ -1434,7 +1450,7 @@ class _HomePageState extends State<HomePage>
   }
 
   /*****************************
-   * @Auth: Leopard
+   * @Auth: world324digital
    * @Date: 2023.03.5
    * @Desc: Restart app when set permissions of App
    */
@@ -1475,7 +1491,7 @@ class _HomePageState extends State<HomePage>
   // }
 
   /*****************************
-   * @Auth: geniusdev
+   * @Auth: world324digital
    * @Date: 2023.03.5
    * @Desc: Enable/Disable User's Geolocation service 
    */
@@ -1517,7 +1533,7 @@ class _HomePageState extends State<HomePage>
   }
 
   /*****************************
-   * @Auth: geniusdev
+   * @Auth: world324digital
    * @Date: 2023.03.5
    * @Desc: User's Geolocation Position Tracking 
    */
@@ -1572,7 +1588,7 @@ class _HomePageState extends State<HomePage>
   }
 
   /*************************
-   * @Auth: geniusdev
+   * @Auth: world324digital
    * @Date: 2023.03.5
    * @Desc: Go Back to User's Location on Map
    */
@@ -1581,7 +1597,7 @@ class _HomePageState extends State<HomePage>
   }
 
   /********************************
-   * @Auth: geniusdev
+   * @Auth: world324digital
    * @Date: 2023.03.6
    * @Desc: Show Stop Ring Dialog
    */

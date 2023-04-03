@@ -30,7 +30,8 @@ Widget SlideItem(
                     padding: EdgeInsets.only(
                         top: platform == TargetPlatform.iOS ? 60 : 40),
                     child: Text(
-                      '${priceModel.usageTime} ${priceModel.usageTimeUnit}',
+                      // '${priceModel.usageTime} ${priceModel.usageTimeUnit}',
+                      'jjjjjjjjjjjjjjjjjjjjjj',
                       style: TextStyle(
                         fontSize: 24,
                         fontFamily: FontStyles.fBold,
@@ -51,7 +52,8 @@ Widget SlideItem(
                   Container(
                     padding: const EdgeInsets.only(bottom: 15),
                     child: Text(
-                      '\$ ${priceModel.totalCost.toStringAsFixed(2)} USD or',
+                      // '\$ ${priceModel.totalCost.toStringAsFixed(2)} USD or',
+                      '\kkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 14,
@@ -67,7 +69,7 @@ Widget SlideItem(
                       text: TextSpan(
                         children: <TextSpan>[
                           TextSpan(
-                            text: '\$${priceModel.cost.toStringAsFixed(2)}',
+                            text: '\$${priceModel.startCost.toStringAsFixed(2)}',
                             style: TextStyle(
                               color: ColorConstants.cPrimaryBtnColor,
                               fontFamily: FontStyles.fSemiBold,
@@ -96,7 +98,8 @@ Widget SlideItem(
 }
 
 Widget getImage(PriceModel price) {
-  switch (price.usageTimeUnit) {
+  // switch (price.usageTimeUnit) {
+  switch (price.plan) {
     case "minutes":
       return Image.asset(
         "assets/images/30min.png",
