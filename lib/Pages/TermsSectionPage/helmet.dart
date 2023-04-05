@@ -34,7 +34,7 @@ class _Helmet extends State<Helmet> {
           ),
           TermsTitle(text: 'Please Wear Helmet'),
           TermsContent(
-              text: 'Move safely by using the helmet attached to this scooter'),
+              text: 'KiwiCity safely by using the helmet attached to this scooter'),
         ],
       ),
     );

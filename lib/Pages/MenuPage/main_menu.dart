@@ -190,7 +190,7 @@ class _MainMenu extends State<MainMenu> {
                   activeImg: Image.asset(ImageConstants.SETTINGS_ACTIVE,
                       width: 18, height: 18),
                 ),
-              if (value.isLogin) Divider(),
+              if (value.isLogin) Divider(color: Color(0xffEEEEEE)),
               if (value.isLogin)
                 MenuBarItem(
                   context: context,

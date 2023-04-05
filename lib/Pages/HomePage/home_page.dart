@@ -68,11 +68,11 @@ class _HomePageState extends State<HomePage>
   StreamSubscription<ServiceStatus>? _serviceStatusStreamSubscription;
   bool positionStreamStarted = false;
 
-  //---- Selected Bike-----------
-  String _selectedBikeID = '0';
-  String _selectedBikeImei = '0';
-  bool _bikeSelected = false;
-  late scooterObject _selectedBike;
+  //---- Selected Scooter-----------
+  String _selectedScooterID = '0';
+  String _selectedScooterImei = '0';
+  bool _scooterSelected = false;
+  late scooterObject _selectedScooter;
   List<LatLng> points = [];
   double distance = 0;
   bool showPolyine = false;
@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage>
       }
 
       /**********************
-       * Display Bike Markers
+       * Display Scooter Markers
        */
       var tempmarkers = <Marker>[];
       markerObject.forEach((element) {
@@ -219,16 +219,16 @@ class _HomePageState extends State<HomePage>
   }
 
   /********************
-   * Get Bike Image
+   * Get Scooter Image
    */
-  Widget getBike({required scooterObject scooter}) {
+  Widget getScooter({required scooterObject scooter}) {
     // int battery = int.parse(scooter.b.toString());
     int battery = scooter.soc;
 
-    late Widget bikeImage;
-    if (_selectedBikeID != scooter.scooterID) {
+    late Widget scooterImage;
+    if (_selectedScooterID != scooter.scooterID) {
       if (battery > 65)
-        bikeImage = Container(
+        scooterImage = Container(
           width: 48,
           height: 48,
           decoration: BoxDecoration(
@@ -238,7 +238,7 @@ class _HomePageState extends State<HomePage>
           ),
         );
       else if (battery > 35)
-        bikeImage = Container(
+        scooterImage = Container(
           width: 48,
           height: 48,
           decoration: BoxDecoration(
@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage>
           ),
         );
       else
-        bikeImage = Container(
+        scooterImage = Container(
           width: 48,
           height: 48,
           decoration: BoxDecoration(
@@ -259,7 +259,7 @@ class _HomePageState extends State<HomePage>
         );
     } else {
       if (battery > 65)
-        bikeImage = Container(
+        scooterImage = Container(
           width: 56,
           height: 56,
           decoration: BoxDecoration(
@@ -269,7 +269,7 @@ class _HomePageState extends State<HomePage>
           ),
         );
       else if (battery > 35)
-        bikeImage = Container(
+        scooterImage = Container(
           width: 56,
           height: 56,
           decoration: BoxDecoration(
@@ -279,7 +279,7 @@ class _HomePageState extends State<HomePage>
           ),
         );
       else
-        bikeImage = Container(
+        scooterImage = Container(
           width: 56,
           height: 56,
           decoration: BoxDecoration(
@@ -289,7 +289,7 @@ class _HomePageState extends State<HomePage>
           ),
         );
     }
-    return bikeImage;
+    return scooterImage;
   }
 
   /****************************
@@ -355,7 +355,7 @@ class _HomePageState extends State<HomePage>
                   );
                 }
 
-                // ========= Zoom out for Bike Location ======
+                // ========= Zoom out for Scooter Location ======
                 _animatedMapMove(
                     // LatLng(double.parse(scooter.lat) - 0.002,
                     //     double.parse(scooter.lng)),
@@ -365,13 +365,13 @@ class _HomePageState extends State<HomePage>
 
                 setState(
                   () {
-                    _selectedBike = scooter;
+                    _selectedScooter = scooter;
 
-                    _selectedBikeID = scooter.scooterID;
-                    _selectedBikeImei = scooter.imei;
+                    _selectedScooterID = scooter.scooterID;
+                    _selectedScooterImei = scooter.imei;
                     // AppProvider.of(context)
                     //     .setScooter(scooter, isNotifiable: false);
-                    _bikeSelected = true;
+                    _scooterSelected = true;
                     statusMarker = Marker(
                       width: 250,
                       height: 106,
@@ -434,13 +434,13 @@ class _HomePageState extends State<HomePage>
                   },
                 );
 
-                showBikeDetailModal();
+                showScooterDetailModal();
               },
               child: Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [getBike(scooter: scooter)],
+                  children: [getScooter(scooter: scooter)],
                 ),
               ),
             )
@@ -471,8 +471,8 @@ class _HomePageState extends State<HomePage>
 
   /******************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
-   * @Desc: Get Route between user and selected Bike
+   * @Date: 2023.04.05
+   * @Desc: Get Route between user and selected scooter
    */
   Future<void> getRoute(LatLng userPos, LatLng destination) async {
     try {
@@ -552,7 +552,7 @@ class _HomePageState extends State<HomePage>
    * @Date: 2023.03.5
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
-  void showBikeDetailModal() {
+  void showScooterDetailModal() {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -589,7 +589,7 @@ class _HomePageState extends State<HomePage>
               ),
             ),
 
-            // ========= BIKE DETAIL PART ===============
+            // ========= SCOOTER DETAIL PART ===============
             Container(
               margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
               padding: const EdgeInsets.symmetric(vertical: 20),
@@ -632,7 +632,7 @@ class _HomePageState extends State<HomePage>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // ======= BIKE IMAGE ==========
+                        // ======= SCOOTER IMAGE ==========
                         Container(
                           // height: 100,
                           // width: 100,
@@ -643,14 +643,15 @@ class _HomePageState extends State<HomePage>
                           ),
                         ),
 
-                        // ========= BIKE INFORMATION ===========
+                        // ========= SCOOTER INFORMATION ===========
                         Container(
                           margin: const EdgeInsets.only(left: 15),
+                          width: ScreenUtil().screenWidth * 0.55,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MyFont.text(
-                                // _selectedBike.g,
+                                // _selectedScooter.g,
                                 "Kiwi eScooter",
                                 color: ColorConstants.cPrimaryTitleColor,
                                 fontSize: 16,
@@ -663,9 +664,7 @@ class _HomePageState extends State<HomePage>
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8),
                                 child: MyFont.text(
-                                  // '#3451A - Christ Church',
-                                  // "#${_selectedBike.scooterID} ${_selectedBike.address.split(",")[0]}",
-                                  "#${_selectedBike.scooterID}",
+                                  "#${_selectedScooter.scooterID}",
                                   color: ColorConstants.cTxtColor2,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w300,
@@ -673,21 +672,17 @@ class _HomePageState extends State<HomePage>
                                 ),
                               ),
                               Row(children: [
-                                // BatteryBar(
-                                //     level:
-                                //         // int.parse(_selectedBike.b.toString())),
-                                //         _selectedBike.soc),
                                 Image.asset(
-                                  ((_selectedBike.soc > 65)
+                                  ((_selectedScooter.soc > 65)
                                       ? ImageConstants.HIGH_BATTERY
-                                      : (_selectedBike.soc > 35)
+                                      : (_selectedScooter.soc > 35)
                                           ? ImageConstants.MIDDLE_BATTERY
                                           : ImageConstants.LOW_BATTERY),
                                   width: 25,
                                   height: 25,
                                 ),
                                 MyFont.text(
-                                  " ${_selectedBike.soc.toString()}%",
+                                  " ${_selectedScooter.soc.toString()}%",
                                   color: ColorConstants.cPrimaryTitleColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -882,8 +877,8 @@ class _HomePageState extends State<HomePage>
                                                             Navigator.pop(
                                                                 context, 'OK');
                                                             await sendReportEmail(
-                                                                _selectedBikeID,
-                                                                // _selectedBikeImei,
+                                                                _selectedScooterID,
+                                                                // _selectedScooterImei,
                                                                 reportTxtCtl
                                                                     .text);
                                                           }
@@ -1077,9 +1072,9 @@ class _HomePageState extends State<HomePage>
     ).whenComplete(() {
       print(" close bottom dialog");
       setState(() {
-        _bikeSelected = false;
-        _selectedBikeID = '0';
-        _selectedBikeID = '0';
+        _scooterSelected = false;
+        _selectedScooterID = '0';
+        _selectedScooterID = '0';
         showPolyine = false;
       });
     });
@@ -1131,7 +1126,7 @@ class _HomePageState extends State<HomePage>
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   Future<void> sendRing() async {
-    print("::::::::::::Send Ring :::::::::::::: $_selectedBikeImei");
+    print("::::::::::::Send Ring :::::::::::::: $_selectedScooterImei");
     // ------------ Show Progress Dialog ----------
     // Dialogs.showLoadingDarkDialog(
     //   context: context,
@@ -1142,8 +1137,38 @@ class _HomePageState extends State<HomePage>
     //   textColor: ColorConstants.cPrimaryTitleColor,
     // );
     try {
-      var res = await HttpService().sendRing(scooterImei: _selectedBikeImei);
+      var res = await HttpService().sendRing(scooterImei: _selectedScooterImei);
       print(res['message']);
+      //------------ Dismiss Progress Dialog  -------------------
+      // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+      if (res['result']) {
+        showRingDialog();
+      } else {
+        Alert.showMessage(
+            type: TypeAlert.success,
+            title: "ERROR",
+            message: res['message'] ?? Messages.ERROR_MSG);
+      }
+    } catch (e) {
+      print(e.toString());
+      //------------ Dismiss Progress Dialog  -------------------
+      // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+      unableAlert(
+          error: e.toString(),
+          message: Messages.ERROR_UNABLE_SCOOTER,
+          context: context);
+    }
+  }
+
+  /******************************************
+   * @Auth: world.digital.dev@gmail.com
+   * @Date: 2023.03.5
+   * @Desc: Show Bottom Sheet for Scooter Detail
+   */
+  Future<void> stopRing() async {
+    print("::::::::::::Stop Ringing :::::::::::::: $_selectedScooterImei");
+    try {
+      var res = await HttpService().stopRing(scooterImei: _selectedScooterImei);
       //------------ Dismiss Progress Dialog  -------------------
       // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       if (res['result']) {
@@ -1160,7 +1185,7 @@ class _HomePageState extends State<HomePage>
       // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       unableAlert(
           error: e.toString(),
-          message: Messages.ERROR_UNABLE_BIKE,
+          message: Messages.ERROR_UNABLE_SCOOTER,
           context: context);
     }
   }
@@ -1233,7 +1258,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.18
+   * @Date: 2023.04.04
    * @Desc: Check Permission
    */
   Future<void> setUserLocationAndMarker() async {
@@ -1328,7 +1353,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.18
+   * @Date: 2023.04.04
    * @Desc: Check App Tracking Permission
    */
 
@@ -1610,7 +1635,7 @@ class _HomePageState extends State<HomePage>
         alignment: Alignment.bottomCenter,
         child: Container(
           width: ScreenUtil().screenWidth,
-          height: ScreenUtil().screenHeight * 0.45,
+          height: ScreenUtil().screenHeight * 0.5,
           // width: double.infinity,
           padding: EdgeInsets.fromLTRB(15, 25, 15, 20),
           margin: EdgeInsets.only(bottom: 20),
@@ -1635,11 +1660,16 @@ class _HomePageState extends State<HomePage>
               ),
               PrimaryButton(
                   context: context,
+                  // onTap: () {
+                  //   onPressed:
+                  //   () => ({Navigator.pop(context, 'OK'), stopRing()});
+                  // },
                   onTap: () {
-                    onPressed:
-                    () => Navigator.pop(context, 'OK');
+                    Navigator.pop(context, 'OK');
+                    stopRing();
                   },
                   title: "Stop Ringing",
+                  borderColor: const Color(0xffFF525B),
                   color: const Color(0xffFF525B)),
               // Container(
               //   width: double.infinity,
@@ -1765,7 +1795,7 @@ class _HomePageState extends State<HomePage>
                     MarkerLayer(
                       markers: <Marker>[userLocationMarker],
                     ),
-                    if (_bikeSelected && isMapReady && statusMarker != null)
+                    if (_scooterSelected && isMapReady && statusMarker != null)
                       MarkerLayer(markers: <Marker>[statusMarker!])
                   ],
                 )
@@ -1910,9 +1940,9 @@ class _HomePageState extends State<HomePage>
 
   void _checkForInProgressRides() async {
     if ((await HelperUtility.checkForInProgressRides(context))) {
-      //   String _selectedBikeID = '0';
-      // bool _bikeSelected = false;
-      // late scooterObject _selectedBike;
+      //   String _selectedScooterID = '0';
+      // bool _scooterSelected = false;
+      // late scooterObject _selectedScooter;
       // List<LatLng> points = [];
       // double distance = 0;
 

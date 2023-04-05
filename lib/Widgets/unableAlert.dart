@@ -74,8 +74,8 @@ Future<void> unableAlert({
                             scooterID != "" &&
                             onTap == null) {
                           try {
-                            HttpService().sendReportEmail(
-                                scooterID: scooterID, content: error);
+                            // HttpService().sendReportEmail(
+                            //     scooterID: scooterID, content: error);
                           } catch (e) {
                             print(e);
                           }

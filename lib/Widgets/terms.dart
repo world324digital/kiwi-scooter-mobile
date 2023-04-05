@@ -23,11 +23,13 @@ Widget TermsContent({
     alignment: Alignment.center,
     padding: const EdgeInsets.only(top: 10, left: 50, right: 30),
     child: Text(
+        textAlign: TextAlign.center,
         style: TextStyle(
-            color: Color(0xff666666),
-            fontSize: 14,
-            fontFamily: FontStyles.fMedium,
-            height: 1.6),
+          color: Color(0xff666666),
+          fontSize: 14,
+          fontFamily: FontStyles.fMedium,
+          height: 1.6,
+        ),
         text),
   );
 }

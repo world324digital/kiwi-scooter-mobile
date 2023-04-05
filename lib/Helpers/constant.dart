@@ -71,21 +71,24 @@ class AppConstants {
   // static const String publishKey =
   // "pk_live_51LcxWOBr5GZ1QA4FUKLGbxwWyBfQ0weDenecr2ej8ZMo3m9X4cIVilIHyXdf89B1yXlIkj2iWfv1QhB1xX7BFiTf00ZQnAi3G1";
   static const String publishKey =
-      'pk_test_51LcxWOBr5GZ1QA4FPir30ahW1nqCZh50TbIAzOxu8Z7EQvKLIDOmfnvesfLvIC9sCezfagywgU7pEGCHHxx4Hlsp00DgiWVH9B';
+      'pk_test_51KT4AVK43K1Nk6N3I5JoEl9mmWe322CfezgHf3aiEkUr9tj4IN3iBZkVx9bL6fV7cVIMH2ukOWJYQLNux1WJilDq00yUjEPpxn';
 }
 
 class URLS {
-  static const String BASE_URL = "http://185.96.163.118:4000";
+  static const String BASE_URL = "http://185.96.163.118:443";
   static const String API_PREFIX = "/api";
   static const String MQTT_PREFIX = "/mqtt";
 
   static const String SEND_REPORT_EMAIL = "/sendReport";
   static const String SEND_RING_ON = "/alarmon";
+  static const String SEND_RING_OFF = "/alarmoff";
   static const String CARD_PAY = "/cardPay";
   static const String NATIVE_PAY = "/create-payment-intent";
   static const String CHANGE_POWER_STATUS = "/changePowerStatus";
-  static const String CHANGE_LOCK_STATUS = "/changeLockStatus";
-  static const String CHANGE_LIGHT_STATUS = "/changeLightStatus";
+  static const String LOCK = "/lock";
+  static const String UNLOCK = "/unlock";
+  static const String TURN_ON_LIGHTS = "/turnonlights";
+  static const String TURN_OFF_LIGHTS = "/turnofflights";
 
   static const String TERMS_CONDITION_URL =
       "https://ridemove.co/terms-of-service";
@@ -97,6 +100,9 @@ class Messages {
   static const String SUCCESS_SEND_REPORT =
       "Thank you. Email sent successfully! ";
 
+  static const String SUCCESS_DEPOSIT =
+      "Deposit was succeed! ";
+
   static const String NETWORK_ERROR =
       "Network error. Please check your connection!";
   static const String ERROR_MSG = "Something went wrong. Please retry!";
@@ -104,7 +110,7 @@ class Messages {
   static const String ERROR_UNABLE_FAR_AWAY =
       "You are too far from this vehicle and need to be closer to reserve it.";
 
-  static const String ERROR_UNABLE_BIKE =
+  static const String ERROR_UNABLE_SCOOTER =
       "We are unable to process this request. Please try again later.";
 
   static const String ERROR_UNABLE_INUSE = "Failed to change inUse status.";

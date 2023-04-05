@@ -108,18 +108,23 @@ class _QRScanPageState extends State<QRScanPage> {
           // ========= Check Scooter ID is valid =======
           FirebaseService service = FirebaseService();
 
-          bool isValid =
+          String imei =
               await service.isValidScooterID(scooterID: _code.toUpperCase());
 
-          if (isValid) {
+          if (imei != '') {
             HelperUtility.showProgressDialog(context: context, key: _keyLoader);
             cameraController.stop();
 
-            // --- Save Scooter ID
-            AppProvider.of(context).setScooterID(_code.toUpperCase());
+            // Save Scooter ID and IMEI
+            AppProvider.of(context).setScooterID(_code);
+            AppProvider.of(context).setScooterImei(imei);
             await storeDataToLocal(
                 key: AppLocalKeys.SCOOTER_ID,
-                value: code,
+                value: _code,
+                type: StorableDataType.String);
+            await storeDataToLocal(
+                key: AppLocalKeys.IMEI,
+                value: imei,
                 type: StorableDataType.String);
 
             HelperUtility.closeProgressDialog(_keyLoader);

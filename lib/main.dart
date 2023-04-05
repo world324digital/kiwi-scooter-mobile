@@ -31,13 +31,13 @@ void callbackDispatcher() {
 
 // Scooter Lock and UnLock
 Future<void> changeLock(bool isUnlock, Function callback) async {
-  String scooterID = await getDataInLocal(
-          key: AppLocalKeys.SCOOTER_ID, type: StorableDataType.String) ??
+  String imei = await getDataInLocal(
+          key: AppLocalKeys.IMEI, type: StorableDataType.String) ??
       "";
 
-  if (scooterID != "") {
+  if (imei != "") {
     var res = await HttpService()
-        .changeLockStatus(scooterID: scooterID, status: isUnlock.toString());
+        .changeLockStatus(imei: imei, status: isUnlock);
 
     if (res['result']) {
       return callback();
@@ -67,13 +67,13 @@ Future<void> changePower(bool isUnlock, Function callback) async {
    * @Desc: Turn On/Off Light
    */
 Future<void> changeLightStatus(bool isOn) async {
-  String scooterID = await getDataInLocal(
-          key: AppLocalKeys.SCOOTER_ID, type: StorableDataType.String) ??
+  String imei = await getDataInLocal(
+          key: AppLocalKeys.IMEI, type: StorableDataType.String) ??
       "";
   try {
-    if (scooterID != "") {
+    if (imei != "") {
       var res = await HttpService()
-          .changeLightStatus(scooterID: scooterID, status: isOn.toString());
+          .changeLightStatus(imei: imei, status: isOn);
       print(res['message']);
       //------------ Dismiss Progress Dialog  -------------------
       // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();

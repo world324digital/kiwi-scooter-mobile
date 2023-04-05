@@ -47,16 +47,21 @@ class _EnterCode extends State<EnterCode> {
       FirebaseService service = FirebaseService();
       try {
         var code = _code.toUpperCase();
-        bool isValid = await service.isValidScooterID(scooterID: code);
+        String imei = await service.isValidScooterID(scooterID: code);
 
         Future.delayed(const Duration(milliseconds: 500), () async {
           HelperUtility.closeProgressDialog(_keyLoader);
-          if (isValid) {
-            // Save Scooter ID
+          if (imei != "") {
+            // Save Scooter ID and IMEI
             AppProvider.of(context).setScooterID(code);
+            AppProvider.of(context).setScooterImei(imei);
             await storeDataToLocal(
                 key: AppLocalKeys.SCOOTER_ID,
                 value: code,
+                type: StorableDataType.String);
+            await storeDataToLocal(
+                key: AppLocalKeys.IMEI,
+                value: imei,
                 type: StorableDataType.String);
 
             //============== Go to Start Riding Page ====

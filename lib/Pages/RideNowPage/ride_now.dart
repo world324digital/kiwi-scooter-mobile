@@ -8,6 +8,7 @@ import 'package:KiwiCity/Helpers/helperUtility.dart';
 import 'package:KiwiCity/Helpers/local_storage.dart';
 import 'package:KiwiCity/Models/location_model.dart';
 import 'package:KiwiCity/Models/price_model.dart';
+import 'package:KiwiCity/Models/transaction_model.dart';
 import 'package:KiwiCity/Models/user_model.dart';
 import 'package:KiwiCity/Pages/App/app_provider.dart';
 import 'package:KiwiCity/Pages/MenuPage/main_menu.dart';
@@ -29,6 +30,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:mapbox_api/mapbox_api.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:workmanager/workmanager.dart';
@@ -50,6 +53,7 @@ class _RideNowState extends State<RideNow>
   bool _setuserLocation = false;
   bool _isShowingAddMoreDialog = false;
   bool positionStreamStarted = false;
+  double distance = 0;
   Position? userLocation;
   bool _isLock = false;
   late Marker userLocationMarker;
@@ -121,12 +125,12 @@ class _RideNowState extends State<RideNow>
 
   /************* Geofencing   ** */
   Future<void> getGeofencing() async {
-    db.collection('geofences').snapshots().listen((event) {
+    db.collection('geofence').snapshots().listen((event) {
       print("=== ${event.docs}");
       polygon = event.docs
           .map((e) => Polygon(
-                points: (e.data()['PointLists'] as List)
-                    .map((e) => LatLng(e['lat'], e['long']))
+                points: (e.data()['points'] as List)
+                    .map((e) => LatLng(e['la'], e['lo']))
                     .toList(),
                 borderStrokeWidth: 2,
                 borderColor: Colors.red,
@@ -144,38 +148,36 @@ class _RideNowState extends State<RideNow>
 
         for (var i = 0; i < event.docs.length; i++) {
           for (var ii = 0;
-              ii < (event.docs[i].data()['PointLists'] as List).length;
+              ii < (event.docs[i].data()['points'] as List).length;
               ii++) {
-            double _eLat =
-                (event.docs[i].data()['PointLists'] as List)[ii]['lat'];
-            double _eLng =
-                (event.docs[i].data()['PointLists'] as List)[ii]['long'];
+            double _eLat = (event.docs[i].data()['points'] as List)[ii]['la'];
+            double _eLng = (event.docs[i].data()['points'] as List)[ii]['lo'];
             minLat = min(minLat, _eLat);
             maxLat = max(maxLat, _eLat);
             minLng = min(minLng, _eLng);
             maxLng = max(maxLng, _eLng);
           }
         }
-        if (lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng) {
-          if (!_alertShown) {
-            _alertShown = true;
+        // if (lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng) {
+        //   if (!_alertShown) {
+        //     _alertShown = true;
 
-            showNoRideDialog(context);
-            if (!_isLock) {
-              await changeLock(false, () {
-                _isLock = true;
-              });
-              await sendRing();
-            }
-          }
-        } else {
-          _alertShown = false;
-          if (_isLock) {
-            changeLock(true, () {
-              _isLock = false;
-            });
-          }
+        //     showNoRideDialog(context);
+        //     if (!_isLock) {
+        //       await changeLock(false, () {
+        //         _isLock = true;
+        //       });
+        //       await sendRing();
+        //     }
+        //   }
+        // } else {
+        _alertShown = false;
+        if (_isLock) {
+          changeLock(true, () {
+            _isLock = false;
+          });
         }
+        // }
       });
     });
   }
@@ -361,11 +363,10 @@ class _RideNowState extends State<RideNow>
     //   indicatorColor: ColorConstants.cPrimaryBtnColor,
     //   textColor: ColorConstants.cPrimaryTitleColor,
     // );
-    String scooterID = AppProvider.of(context).scooterID;
+    String imei = AppProvider.of(context).imei;
     try {
-      var res = await HttpService()
-          .changeLightStatus(scooterID: scooterID, status: isOn.toString());
-      print(res['message']);
+      var res = await HttpService().changeLightStatus(imei: imei, status: isOn);
+      print(res);
       //------------ Dismiss Progress Dialog  -------------------
       // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       if (res['result']) {
@@ -374,7 +375,7 @@ class _RideNowState extends State<RideNow>
         unableAlert(
             scooterID: AppProvider.of(context).scooterID,
             error: res['message'],
-            message: Messages.ERROR_UNABLE_BIKE,
+            message: Messages.ERROR_UNABLE_SCOOTER,
             context: context);
       }
     } catch (e) {
@@ -384,7 +385,7 @@ class _RideNowState extends State<RideNow>
       unableAlert(
           scooterID: AppProvider.of(context).scooterID,
           error: e.toString(),
-          message: Messages.ERROR_UNABLE_BIKE,
+          message: Messages.ERROR_UNABLE_SCOOTER + "lightstatus catch",
           context: context);
     }
   }
@@ -485,7 +486,7 @@ class _RideNowState extends State<RideNow>
       setState(() {
         inProgress = false;
       });
-      // _timer?.cancel();
+      _timer?.cancel();
 
       // Cancel All Notification
       // notificationService.cancelAllNotification();
@@ -498,7 +499,7 @@ class _RideNowState extends State<RideNow>
       setState(() {
         inProgress = true;
       });
-      // startTimer();
+      startTimer();
 
       // Cancel All Notification
       // notificationService.cancelAllNotification();
@@ -545,6 +546,53 @@ class _RideNowState extends State<RideNow>
   //   /********** Sound Scotter Alarm ************* */
   // }
 
+  final mapbox = MapboxApi(
+    accessToken: AppConstants.mapBoxAccessToken,
+  );
+
+  /******************************
+   * @Auth: world324digital
+   * @Date: 2023.04.05
+   * @Desc: Calculate Riding distance
+   */
+  Future<void> calculateDistance(LatLng startPoint, LatLng endPoint) async {
+    try {
+      final response = await mapbox.directions.request(
+        profile: NavigationProfile.CYCLING,
+        overview: NavigationOverview.FULL,
+        geometries: NavigationGeometries.GEOJSON,
+        steps: true,
+        coordinates: <List<double>>[
+          <double>[
+            startPoint.latitude, // latitude
+            startPoint.longitude, // longitude
+          ],
+          <double>[
+            endPoint.latitude, // latitude
+            endPoint.longitude, // longitude
+          ],
+        ],
+      );
+
+      if (response.error != null) {
+        if (response.error is NavigationNoRouteError) {
+          // handle NoRoute response
+        } else if (response.error is NavigationNoSegmentError) {
+          // handle NoSegment response
+        }
+        return;
+      }
+      if (response.routes!.isNotEmpty) {
+        final route = response.routes![0];
+        distance = route.distance!;
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>distance");
+        print(distance);
+      }
+    } catch (e) {
+      print("Calculate Distance Error ::::> ${e}");
+    }
+  }
+
   Future<void> onDone() async {
     if (ModalRoute.of(context)?.isCurrent != true) {
       print("_______________ Dialog Opened");
@@ -554,12 +602,12 @@ class _RideNowState extends State<RideNow>
     _timer?.cancel();
     await changeLock(false, () {});
 
-    await changePower(false, () async {
-      await changeLightStatus(false);
-    });
+    // await changePower(false, () async {
+    await changeLightStatus(false);
+    // });
 
     await service.updateInUseStatus(
-        scooterID: AppProvider.of(context).scooterID, useStatus: false);
+        imei: AppProvider.of(context).imei, useStatus: 'available');
 
     isAllowDismiss = false;
     showBottomDialog(
@@ -596,28 +644,35 @@ class _RideNowState extends State<RideNow>
 
 // If user have still time, this runs
   Future<void> onEndRide() async {
-    // if (_totalRidetime > 0) {
+    double price_per_minute = AppProvider.of(context).selectedPrice?.costPerMinute??0.0;
+    print(double.parse((price_per_minute * _usedTime / 60.0).toStringAsFixed(2)));
+    double riding_price =
+        double.parse((price_per_minute * _usedTime / 60.0).toStringAsFixed(2));
+    
     showBottomDialog(
-        img1: 'assets/images/stilltime.png',
-        title: 'You still have time',
-        subtitle:
-            'You\'re about to end this ride with time remaining. You won\'t be reimbursed for unused time',
+        img1: '',
+        title: 'Riding price is',
+        subtitle: '€${riding_price.toString()}',
         btntxt: 'Confirm End Ride',
         onTap: () async {
           Navigator.of(context).pop();
-          notificationService.cancelAllNotification();
           _timer?.cancel();
 
           await changeLock(false, () {});
-          await changePower(false, () async {
-            await changeLightStatus(false);
-          });
+          // await changePower(false, () async {
+          await changeLightStatus(false);
+          // });
+
           await service.updateInUseStatus(
-              scooterID: AppProvider.of(context).scooterID, useStatus: false);
+              imei: AppProvider.of(context).imei, useStatus: 'available');
 
           // Set User End Ride Time
           AppProvider.of(context).setEndRideTime(DateTime.now());
           AppProvider.of(context).setProgress(false);
+          setState(() {
+            showProgressBar = false;
+            isAllowDismiss = false;
+          });
           if (userLocation == null) return;
           LocationModel _end = new LocationModel(
               lat: userLocation!.latitude, long: userLocation!.longitude);
@@ -626,14 +681,54 @@ class _RideNowState extends State<RideNow>
           AppProvider.of(context).setUsedTime(_usedTime);
           removeDataInLocal(AppLocalKeys.TEMP_REVIEW);
 
-          final cameras = await availableCameras();
-          // final firstCamera = cameras.first;
-          HelperUtility.goPageReplace(
+          
+          HelperUtility.showProgressDialog(
+            context: context,
+            key: _keyLoader,
+            title: "Please wait...",
+          );
+
+          UserModel currentUser = AppProvider.of(context).currentUser;
+
+          currentUser.balance =
+              double.parse((currentUser.balance - riding_price).toStringAsFixed(2));
+
+          await calculateDistance(
+            LatLng(AppProvider.of(context).startPoint.lat, AppProvider.of(context).startPoint.long),
+            LatLng(AppProvider.of(context).endPoint.lat, AppProvider.of(context).endPoint.long),
+          );
+
+          TransactionModel transaction = new TransactionModel(
+            userId: currentUser.id,
+            userName: currentUser.firstName + currentUser.lastName,
+            stripeId: "",
+            stripeTxId: "",
+            rideDistance: distance,
+            rideTime: _usedTime,
+            amount: riding_price + 1,
+            txType: "Ride",
+          );
+          await service.createTransaction(transaction);
+
+          bool updateUserResult = await service.updateUser(currentUser);
+
+          if (updateUserResult) {
+            
+            HelperUtility.closeProgressDialog(_keyLoader);
+            HelperUtility.goPageReplace(
               context: context,
-              routeName: Routes.PHOTO_SCOTTER,
-              arg: {'camera': cameras});
+              routeName: Routes.HOWRIDE,
+              arg: {"scooterPhoto": ""},
+            );
+          }
+
+          // final cameras = await availableCameras();
+          // final firstCamera = cameras.first;
+          // HelperUtility.goPageReplace(
+          //     context: context,
+          //     routeName: Routes.PHOTO_SCOTTER,
+          //     arg: {'camera': cameras});
         });
-    // }
   }
 
   Future<void> sendRing() async {
@@ -649,7 +744,7 @@ class _RideNowState extends State<RideNow>
     } catch (e) {
       unableAlert(
           error: e.toString(),
-          message: Messages.ERROR_UNABLE_BIKE,
+          message: Messages.ERROR_UNABLE_SCOOTER,
           context: context);
     }
   }
@@ -840,32 +935,33 @@ class _RideNowState extends State<RideNow>
    * @Desc: Start Riding
    */
   Future<void> startRiding() async {
+    print(AppProvider.of(context).imei);
     bool result = await service.updateInUseStatus(
-        scooterID: AppProvider.of(context).scooterID, useStatus: true);
+        imei: AppProvider.of(context).imei, useStatus: 'taken');
     if (result) {
-      await changePower(true, () async {
-        // scheduleNotification(
-        //   totalRideTime: _totalRidetime,
-        //   notifyTimeBefore: _notifyBeforeTime,
-        // );
-        LocationModel _start = new LocationModel(
-            lat: userLocation!.latitude, long: userLocation!.longitude);
+      // await changePower(true, () async {
+      // scheduleNotification(
+      //   totalRideTime: _totalRidetime,
+      //   notifyTimeBefore: _notifyBeforeTime,
+      // );
+      LocationModel _start = new LocationModel(
+          lat: userLocation!.latitude, long: userLocation!.longitude);
 
-        // Set User Start Ride Time
-        AppProvider.of(context).setStartRideTime(DateTime.now());
-        AppProvider.of(context).setStartPoint(_start);
-        // storeDataToLocal(
-        //   key: AppLocalKeys.RIDE_END_TIME,
-        //   value: DateTime.now().millisecondsSinceEpoch + _totalRidetime * 1000,
-        //   type: StorableDataType.INT,
-        // );
-        await changeLock(true, () {
-          _isLock = false;
-        });
-        await changeLightStatus(false);
-        isLightOn = false;
-        startTimer();
+      // Set User Start Ride Time
+      AppProvider.of(context).setStartRideTime(DateTime.now());
+      AppProvider.of(context).setStartPoint(_start);
+      // storeDataToLocal(
+      //   key: AppLocalKeys.RIDE_END_TIME,
+      //   value: DateTime.now().millisecondsSinceEpoch + _totalRidetime * 1000,
+      //   type: StorableDataType.INT,
+      // );
+      await changeLock(true, () {
+        _isLock = false;
       });
+      await changeLightStatus(false);
+      isLightOn = false;
+      startTimer();
+      // });
     } else {
       await unableAlert(
         context: context,
@@ -884,7 +980,7 @@ class _RideNowState extends State<RideNow>
 
   Future<void> saveTempReview() async {
     // ["String user_id", "String scooter_id", "DateTime startRidetime", "int _totalRidetime", "int _usedTime",
-    // Price Model ride_price, LocationModel startPoint, int pausedtime]
+    // Price Model start_price, LocationModel startPoint, int pausedtime]
     var appProvider = AppProvider.of(context);
 
     /****************************
@@ -895,7 +991,7 @@ class _RideNowState extends State<RideNow>
     Map<String, dynamic> price = appProvider.selectedPrice!.toMap();
 
     String startPoint = jsonEncode(point);
-    String ride_price = jsonEncode(price);
+    String start_price = jsonEncode(price);
 
     int pausedTime = await getDataInLocal(
         key: AppLocalKeys.PAUSE_TIME, type: StorableDataType.INT);
@@ -906,7 +1002,7 @@ class _RideNowState extends State<RideNow>
       dateFormat.format(appProvider.startRideTime),
       // _totalRidetime.toString(),
       _usedTime.toString(),
-      ride_price,
+      start_price,
       startPoint,
       pausedTime.toString()
     ];
@@ -981,17 +1077,20 @@ class _RideNowState extends State<RideNow>
       // title: inProgress ? "Pause..." : "Resume...",
     );
 
-    String scooterID = AppProvider.of(context).scooterID;
+    String scooterImei = AppProvider.of(context).imei;
 
+    print('change lock imei');
+    print(scooterImei);
     var res = await HttpService()
-        .changeLockStatus(scooterID: scooterID, status: isUnlock.toString());
+        .changeLockStatus(imei: scooterImei, status: isUnlock);
     HelperUtility.closeProgressDialog(_keyLoader);
+    print(res);
     if (res['result']) {
       return callback();
     } else {
       await unableAlert(
         context: context,
-        message: Messages.ERROR_UNABLE_BIKE,
+        message: Messages.ERROR_UNABLE_SCOOTER,
         error: res['message'],
         scooterID: AppProvider.of(context).scooterID,
       );
@@ -1018,7 +1117,7 @@ class _RideNowState extends State<RideNow>
     } else {
       await unableAlert(
         context: context,
-        message: Messages.ERROR_UNABLE_BIKE,
+        message: Messages.ERROR_UNABLE_SCOOTER + "change Power",
         error: res['message'],
         scooterID: AppProvider.of(context).scooterID,
       );
@@ -1074,9 +1173,10 @@ class _RideNowState extends State<RideNow>
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        child: Image.asset(img1),
-                      ),
+                      if (img1 != '')
+                        Container(
+                          child: Image.asset(img1),
+                        ),
                       Container(
                         margin: const EdgeInsets.only(bottom: 10, top: 20),
                         child: Row(
@@ -1148,16 +1248,16 @@ class _RideNowState extends State<RideNow>
         debugPrint('isLighton ==== ${isLightOn}');
         debugPrint('hour uis ==== ${currentHour}');
         // debugPrint('_totalRidetime uis ==== ${_totalRidetime}');
-        if (isLightOn && hour > 6 && hour < 18) {
-          debugPrint("should turn off");
-          changeLightStatus(false);
-          isLightOn = false;
-        } else if ((!isLightOn && hour >= 18 && hour <= 24) ||
-            (!isLightOn && hour >= 0 && hour <= 6)) {
-          debugPrint("should turn on");
-          changeLightStatus(true);
-          isLightOn = true;
-        }
+        // if (isLightOn && hour > 6 && hour < 18) {
+        //   debugPrint("should turn off");
+        //   changeLightStatus(false);
+        //   isLightOn = false;
+        // } else if ((!isLightOn && hour >= 18 && hour <= 24) ||
+        //     (!isLightOn && hour >= 0 && hour <= 6)) {
+        //   debugPrint("should turn on");
+        //   changeLightStatus(true);
+        //   isLightOn = true;
+        // }
         // if (_totalRidetime == _notifyBeforeTime) {
         //   await addMoreTime();
         // } else if (_totalRidetime <= 0) {
@@ -1172,7 +1272,7 @@ class _RideNowState extends State<RideNow>
 
   Future<void> recoveryData() async {
     // ["String user_id", "String scooter_id", "DateTime startRidetime", "int _totalRidetime", "int _usedTime",
-    // Price Model ride_price, LocationModel startPoint, int pausedtime]
+    // Price Model start_price, LocationModel startPoint, int pausedtime]
     Position currentLocation = await Geolocator.getCurrentPosition();
     List<String> tempReview = widget.data;
     if (tempReview.length > 0) {
@@ -1191,7 +1291,7 @@ class _RideNowState extends State<RideNow>
       String price = tempReview[5];
       String point = tempReview[6];
       /**** Get Model from String */
-      PriceModel ride_price = PriceModel.fromMap(data: jsonDecode(price));
+      PriceModel start_price = PriceModel.fromMap(data: jsonDecode(price));
       LocationModel startPoint = LocationModel.fromMap(data: jsonDecode(point));
       UserModel? userModel = await service.getUser(userId);
       if (userModel != null) {
@@ -1209,7 +1309,7 @@ class _RideNowState extends State<RideNow>
         // AppProvider.of(context).setLoginType(LoginType.EMAIL);
         AppProvider.of(context).setScooterID(scooterId);
         AppProvider.of(context).setStartRideTime(startRideTime);
-        AppProvider.of(context).setPriceModel(ride_price);
+        AppProvider.of(context).setPriceModel(start_price);
         AppProvider.of(context).setStartPoint(startPoint);
 
         int reservationTime = await getDataInLocal(
@@ -1231,7 +1331,7 @@ class _RideNowState extends State<RideNow>
           userLocation = currentLocation;
         });
 
-        //go with ride_price
+        //go with start_price
       }
 
       // await service.getUser(userId).then((userModel) async {
@@ -1420,7 +1520,7 @@ class _RideNowState extends State<RideNow>
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Expanded(
-                                  flex: 9,
+                                  flex: 12,
                                   child: Container(
                                     // margin: EdgeInsets.all(14),
                                     child: BatteryStatus(),
@@ -1432,50 +1532,50 @@ class _RideNowState extends State<RideNow>
                                 //   thickness: 5,
                                 // ),
                                 SizedBox(width: 10),
-                                if (appContext.currentUser.card != null)
-                                  Expanded(
-                                    flex: 10,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          left: BorderSide(
-                                              color: Colors.grey.shade200),
-                                          right: BorderSide(
-                                              color: Colors.grey.shade200),
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            child: Container(
-                                              child: CardUtils.getCardIcon(
-                                                appContext.currentUser.card
-                                                        ?.cardType ??
-                                                    "",
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                              // left: 10,
-                                              top: 10,
-                                              // bottom: 20,
-                                              // right: 10,
-                                            ),
-                                            child: Text(
-                                              "\$${appContext.selectedPrice?.startCost.toStringAsFixed(2)}",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 20,
-                                                height: 1,
-                                                fontFamily: FontStyles.fMedium,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                // if (appContext.currentUser.card != null)
+                                //   Expanded(
+                                //     flex: 10,
+                                //     child: Container(
+                                //       decoration: BoxDecoration(
+                                //         border: Border(
+                                //           left: BorderSide(
+                                //               color: Colors.grey.shade200),
+                                //           right: BorderSide(
+                                //               color: Colors.grey.shade200),
+                                //         ),
+                                //       ),
+                                //       child: Column(
+                                //         children: [
+                                //           Container(
+                                //             child: Container(
+                                //               child: CardUtils.getCardIcon(
+                                //                 appContext.currentUser.card
+                                //                         ?.cardType ??
+                                //                     "",
+                                //               ),
+                                //             ),
+                                //           ),
+                                //           Container(
+                                //             margin: const EdgeInsets.only(
+                                //               // left: 10,
+                                //               top: 10,
+                                //               // bottom: 20,
+                                //               // right: 10,
+                                //             ),
+                                //             child: Text(
+                                //               "\$${appContext.selectedPrice?.startCost.toStringAsFixed(2)}",
+                                //               style: TextStyle(
+                                //                 fontWeight: FontWeight.w500,
+                                //                 fontSize: 20,
+                                //                 height: 1,
+                                //                 fontFamily: FontStyles.fMedium,
+                                //               ),
+                                //             ),
+                                //           )
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   ),
                                 // VerticalDivider(
                                 //   color: Colors.black,
                                 //   // width: 5,
@@ -1615,9 +1715,7 @@ class _RideNowState extends State<RideNow>
                                               ? onPause()
                                               : onResume();
                                         },
-                                        title: inProgress
-                                            ? "Lock Ride"
-                                            : "Unlock Ride",
+                                        title: inProgress ? "Lock" : "Unlock",
                                         icon: Image.asset(
                                           inProgress
                                               ? 'assets/images/lock.png'

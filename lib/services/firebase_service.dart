@@ -9,6 +9,7 @@ import 'dart:math';
 
 import 'package:KiwiCity/Models/price_model.dart';
 import 'package:KiwiCity/Models/review_model.dart';
+import 'package:KiwiCity/Models/transaction_model.dart';
 import 'package:KiwiCity/Models/scooterObject.dart';
 import 'package:KiwiCity/Models/term_model.dart';
 import 'package:KiwiCity/Models/user_model.dart';
@@ -294,9 +295,16 @@ class FirebaseService {
    * @Date: 2023.03.29
    * @Desc: check scooter id is valid
    */
-  Future<bool> isValidScooterID({required String scooterID}) async {
-    var res = await firestore.collection('scooters').where('id', isEqualTo: scooterID).get();
-    return res.docs.length > 0;
+  Future<String> isValidScooterID({required String scooterID}) async {
+    var res = await firestore
+        .collection('scooters')
+        .where('id', isEqualTo: scooterID)
+        .get();
+    String imei = '';
+    res.docs.forEach((doc) {
+      imei = doc.id;
+    });
+    return imei;
   }
 
   /*******************************
@@ -306,9 +314,8 @@ class FirebaseService {
    */
   Future<List<PriceModel>> getPrices() async {
     try {
-      QuerySnapshot querySnapshot = await firestore
-          .collection('pricings')
-          .get();
+      QuerySnapshot querySnapshot =
+          await firestore.collection('pricings').get();
 
       List<PriceModel> _prices = [];
       querySnapshot.docs.forEach((doc) {
@@ -395,12 +402,12 @@ class FirebaseService {
   }
 
   Future<bool> updateInUseStatus(
-      {required String scooterID, required bool useStatus}) async {
+      {required String imei, required String useStatus}) async {
     try {
-      final data = {"inUse": useStatus};
+      final data = {"status": useStatus};
       await firestore
           .collection('scooters')
-          .doc(scooterID)
+          .doc(imei)
           .set(data, SetOptions(merge: true));
       return true;
     } catch (e) {
@@ -438,8 +445,38 @@ class FirebaseService {
     }
   }
 
+  Future<void> createTransaction(TransactionModel transaction) async {
+    try {
+      await firestore.collection('transactions').doc().set(transaction.toMap());
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
+
+  Future<List<TransactionModel>> getTransactions(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await firestore
+          .collection('transactions')
+          .where("userId", isEqualTo: userId)
+          // .orderBy('startTime', descending: true)
+          .get();
+      print("================");
+      print(querySnapshot.docs);
+      List<TransactionModel> _transactions = [];
+
+      querySnapshot.docs.forEach((doc) {
+        print(doc.data());
+        _transactions.add(TransactionModel.fromMap(data: doc.data()));
+      });
+      return _transactions;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   // /*******************
-  //  * Get Bike Stream by ID
+  //  * Get Scooter Stream by ID
   //  */
   // final Stream<DocumentSnapshot<Map<String, dynamic>>> getScooterByID(
   //     String scooterID) {

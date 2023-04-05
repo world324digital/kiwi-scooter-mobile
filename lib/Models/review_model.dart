@@ -13,8 +13,8 @@ class ReviewModel {
   int endTime = DateTime.now().millisecondsSinceEpoch;
   int duration = 0;
 
-  double reservation_price = 0.0;
-  double ride_price = 0.0;
+  double riding_price = 0.0;
+  double start_price = 0.0;
   double vat_price = 0.0;
   double total_price = 0.0;
   String card_type = "";
@@ -31,8 +31,8 @@ class ReviewModel {
     required this.startTime,
     required this.endTime,
     required this.duration,
-    required this.reservation_price,
-    required this.ride_price,
+    required this.riding_price,
+    required this.start_price,
     required this.vat_price,
     required this.total_price,
     required this.card_type,
@@ -51,8 +51,8 @@ class ReviewModel {
     returnedMap["startTime"] = this.startTime;
     returnedMap["endTime"] = this.endTime;
     returnedMap["duration"] = this.duration;
-    returnedMap["reservation_price"] = this.reservation_price;
-    returnedMap["ride_price"] = this.ride_price;
+    returnedMap["riding_price"] = this.riding_price;
+    returnedMap["start_price"] = this.start_price;
     returnedMap["vat_price"] = this.vat_price;
     returnedMap["total_price"] = this.total_price;
     returnedMap["card_type"] = this.card_type;
@@ -78,9 +78,9 @@ class ReviewModel {
       this.endTime =
           data['endTime'] != null ? int.parse(data['endTime'].toString()) : 0;
       this.duration = data['duration'] != null ? data['duration'] : 0;
-      this.reservation_price =
-          data['reservation_price'] != null ? data['reservation_price'] : 0.0;
-      this.ride_price = data['ride_price'] != null ? data['ride_price'] : 0.0;
+      this.riding_price =
+          data['riding_price'] != null ? data['riding_price'] : 0.0;
+      this.start_price = data['start_price'] != null ? data['start_price'] : 0.0;
       this.vat_price = data['vat_price'] != null ? data['vat_price'] : 0.0;
       this.total_price =
           data['total_price'] != null ? data['total_price'] : 0.0;

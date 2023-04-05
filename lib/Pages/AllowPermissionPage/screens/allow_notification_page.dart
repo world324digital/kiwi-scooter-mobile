@@ -255,7 +255,10 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
             // height: 165,
             height: MediaQuery.of(context).size.height * 0.4,
             margin: const EdgeInsets.only(bottom: 30),
-            child: Image.asset('assets/images/bigbell.png'),
+            child: Image.asset(
+              'assets/images/bigbell.png',
+              height: MediaQuery.of(context).size.height * 0.4,
+            ),
           ),
           Text(
             'Allow Notification',
@@ -280,7 +283,7 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
             child: Container(
                 alignment: Alignment.center,
                 child: Text(
-                  'Allow Move to send you notifications with updates on your ride',
+                  'Get important ride notifications from KiwiCity by turning on the notification feature.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: FontStyles.fSemiBold,

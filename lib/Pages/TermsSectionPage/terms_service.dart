@@ -38,7 +38,7 @@ class _TermsService extends State<TermsService> {
           ),
           TermsTitle(text: "Terms Of Service"),
           TermsContent(
-              text: 'Before riding please reiview our terms of service'),
+              text: 'Please take a moment to read our terms of service before starting your ride'),
         ],
       ),
     );
@@ -63,7 +63,7 @@ class _TermsService extends State<TermsService> {
                 children: <TextSpan>[
                   TextSpan(
                     text:
-                        'By pressing the agree button, you accept our terms of use',
+                        'By clicking I Agree you are accepting our terms of use.',
                     style: TextStyle(
                         color: ColorConstants.cTxtColor2,
                         fontSize: 14,

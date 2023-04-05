@@ -455,7 +455,6 @@ class _WalletPage extends State<WalletPage> {
     //   ]),
     // );
 
-
     /*********************
      * @Auth: world324digital
      * @Date: 2023.03.29
@@ -485,9 +484,9 @@ class _WalletPage extends State<WalletPage> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(left: 15, top: 10, bottom: 15),
               child: Text(
-                '€105.90',
+                '€' + appProvider.currentUser.balance.toString(),
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   color: ColorConstants.cPrimaryBtnColor,
                   fontFamily: FontStyles.fMedium,
                   fontWeight: FontWeight.w500,
@@ -582,17 +581,24 @@ class _WalletPage extends State<WalletPage> {
             Container(
               margin: EdgeInsets.only(bottom: 10, top: 10),
               child: PrimaryButton(
-                  context: context,
-                  onTap: () async {
-                    if (_formKey.currentState!.validate()) {
-                      String amount = _amountController.text;
+                context: context,
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    String amount = _amountController.text;
 
-                      // await paySubmit(card);
-                    }
-                  },
-                  title: "Pay Now",
-                  height: 50,
-                  borderRadius: BorderRadius.circular(12)),
+                    // await paySubmit(card);
+                    HelperUtility.goPage(
+                        context: context,
+                        routeName: Routes.PAYMENT_METHODS,
+                        arg: {
+                          "deposit": true,
+                          "amount": amount,
+                          "isMore": false
+                        });
+                  }
+                },
+                title: "Pay Now",
+              ),
             )
           ],
         ),

@@ -284,7 +284,7 @@ class _RideHistory extends State<RideHistory> {
                 alignment: Alignment.topLeft,
                 padding: const EdgeInsets.only(left: 25, top: 10, bottom: 20),
                 child: Text(
-                  '\$${review.total_price}USD',
+                  '\€${review.total_price} EUR',
                   style: TextStyle(
                       fontSize: 20,
                       color: ColorConstants.cPrimaryBtnColor,

@@ -88,11 +88,12 @@ class _StartRiding extends State<StartRiding> {
   @override
   Widget build(BuildContext context) {
     var platform = Theme.of(context).platform;
+    var appProvider = AppProvider.of(context);
 
     Widget headerSection = Container(
       padding: EdgeInsets.only(top: platform == TargetPlatform.iOS ? 40 : 10),
       child: Text(
-        'How much time do you need?',
+        'You can ride with only 1 EUR.',
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Color(0xff0B0B0B),
@@ -102,6 +103,60 @@ class _StartRiding extends State<StartRiding> {
             height: 1.4),
       ),
     );
+
+    /*********************
+     * @Auth: world324digital
+     * @Date: 2023.03.29
+     * @Desc: Balance Section
+     */
+    Widget balanceSection = Container(
+      margin: const EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.only(left: 15, top: 20, bottom: 15),
+            child: Text(
+              'Available Balance',
+              style: TextStyle(
+                fontSize: 16,
+                color: Color(0xff0B0B0B),
+                fontFamily: FontStyles.fMedium,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.only(left: 15, top: 10, bottom: 15),
+            child: Text(
+              '€' + appProvider.currentUser.balance.toString(),
+              style: TextStyle(
+                fontSize: 24,
+                color: ColorConstants.cPrimaryBtnColor,
+                fontFamily: FontStyles.fMedium,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          // Container(
+          //   alignment: Alignment.topLeft,
+          //   padding: const EdgeInsets.only(left: 15, top: 0, bottom: 15),
+          //   child: Text(
+          //     'More rides, more discount',
+          //     style: TextStyle(
+          //       fontSize: 14,
+          //       color: Color(0xff666666),
+          //       fontFamily: FontStyles.fMedium,
+          //       fontWeight: FontWeight.w500,
+          //     ),
+          //   ),
+          // ),
+        ],
+      ),
+    );
+
     Widget titleSection = Container(
       padding: const EdgeInsets.only(top: 15, left: 25, right: 25),
       child: Row(
@@ -115,8 +170,8 @@ class _StartRiding extends State<StartRiding> {
                 Container(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Text(
-                    'You can always add more time later',
-                    textAlign: TextAlign.start,
+                    'Then you can pay 0.25 EUR per minute\n after riding not now.',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color(0xff666666),
                         fontSize: 14,
@@ -179,15 +234,19 @@ class _StartRiding extends State<StartRiding> {
                   currentUser.balance = balance - 1;
 
                   FirebaseService service = FirebaseService();
-                  bool updateCardResult = await service.updateUser(currentUser);
-                  if (updateCardResult) {
-                      Future.delayed(const Duration(milliseconds: 200), () {
-                        AppProvider.of(context).setCurrentUser(currentUser);
-                        HelperUtility.goPageReplace(
-                            context: context,
-                            routeName: Routes.TERMS_OF_SERVICE,
-                            arg: {"viaPayment": true});
-                      });
+                  bool updateUserResult = await service.updateUser(currentUser);
+                  if (updateUserResult) {
+                    Future.delayed(const Duration(milliseconds: 200), () {
+                      AppProvider.of(context).setCurrentUser(currentUser);
+                      HelperUtility.goPageReplace(
+                          context: context,
+                          routeName: Routes.TERMS_OF_SERVICE,
+                          arg: {"viaPayment": true});
+                    });
+                    // HelperUtility.goPage(
+                    //     context: context,
+                    //     routeName: Routes.PAYMENT_METHODS,
+                    //     arg: {"isStart": true});
                   } else {
                     Alert.showMessage(
                         type: TypeAlert.error,
@@ -209,13 +268,13 @@ class _StartRiding extends State<StartRiding> {
 
                 //   Navigator.of(context).pop(time);
                 // } else {
-                //   HelperUtility.goPage(
-                //       context: context,
-                //       routeName: Routes.PAYMENT_METHODS,
-                //       arg: {"isMore": false});
+                // HelperUtility.goPage(
+                //     context: context,
+                //     routeName: Routes.PAYMENT_METHODS,
+                //     arg: {"isMore": false});
                 // }
               },
-              title: 'Start Riding',
+              title: 'Continue',
               margin: EdgeInsets.only(bottom: Platform.isIOS ? 40 : 25))
         ]),
       ),
@@ -243,10 +302,8 @@ class _StartRiding extends State<StartRiding> {
                     : EdgeInsets.only(left: 25),
                 child: IconButton(
                   onPressed: () {
-                    widget.data['isMore']
-                        ? Navigator.of(context).pop(false)
-                        : HelperUtility.goPageAllClear(
-                            context: context, routeName: Routes.HOME);
+                    HelperUtility.goPageAllClear(
+                        context: context, routeName: Routes.HOME);
                   },
                   icon: Icon(
                     Icons.arrow_back,
@@ -262,99 +319,71 @@ class _StartRiding extends State<StartRiding> {
                     child: CircularProgressIndicator(
                         color: ColorConstants.cPrimaryBtnColor),
                   )
-                : isError
-                    ? Center(
+                : Column(
+                    children: [
+                      Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              Messages.ERROR_MSG,
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontFamily: FontStyles.fBold,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            PrimaryButton(
-                              margin: EdgeInsets.only(top: 10),
-                              context: context,
-                              onTap: () async {
-                                await getPrices();
-                              },
-                              title: "RETRY",
-                            )
+                            headerSection,
+                            titleSection,
+                            balanceSection,
+                            SizedBox(
+                                height:
+                                    platform == TargetPlatform.iOS ? 40 : 30),
+                            // Expanded(
+                            //   child: Container(
+                            //     // margin: EdgeInsets.only(bottom: 25),
+                            //     // height: HelperUtility.screenHeight(context) * 0.5,
+                            //     width: HelperUtility.screenWidth(context) * 0.8,
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(24),
+                            //       color: Colors.white,
+                            //       boxShadow: [
+                            //         BoxShadow(
+                            //           color: Colors.grey.withOpacity(0.8),
+                            //           spreadRadius: 8,
+                            //           blurRadius: 16,
+                            //           offset: Offset(0,
+                            //               3), // changes position of shadow
+                            //         ),
+                            //       ],
+                            //     ),
+                            //     child: Text(
+                            //       'Start Price',
+                            //       textAlign: TextAlign.center,
+                            //       style: TextStyle(
+                            //           color: Colors.black,
+                            //           fontSize: 20,
+                            //           fontWeight: FontWeight.w200,
+                            //           fontFamily: 'Montserrat-Medium'),
+                            //     ),
+                            //   ),
+                            // ),
+                            SizedBox(
+                                height:
+                                    platform == TargetPlatform.iOS ? 50 : 30),
+                            // Container(
+                            //   alignment: Alignment.center,
+                            //   child: CarouselIndicator(
+                            //     activeColor:
+                            //         ColorConstants.cPrimaryBtnColor,
+                            //     width: 10,
+                            //     height: 3,
+                            //     count: _prices.length,
+                            //     index: pageIndex,
+                            //     color: Colors.grey,
+                            //   ),
+                            // ),
+                            SizedBox(
+                                height:
+                                    platform == TargetPlatform.iOS ? 40 : 30),
+                            continueSection
                           ],
                         ),
-                      )
-                    : Column(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                headerSection,
-                                titleSection,
-                                SizedBox(
-                                    height: platform == TargetPlatform.iOS
-                                        ? 40
-                                        : 30),
-                                // Expanded(
-                                //   child: Container(
-                                //     // margin: EdgeInsets.only(bottom: 25),
-                                //     // height: HelperUtility.screenHeight(context) * 0.5,
-                                //     width: HelperUtility.screenWidth(context) * 0.8,
-                                //     decoration: BoxDecoration(
-                                //       borderRadius: BorderRadius.circular(24),
-                                //       color: Colors.white,
-                                //       boxShadow: [
-                                //         BoxShadow(
-                                //           color: Colors.grey.withOpacity(0.8),
-                                //           spreadRadius: 8,
-                                //           blurRadius: 16,
-                                //           offset: Offset(0,
-                                //               3), // changes position of shadow
-                                //         ),
-                                //       ],
-                                //     ),
-                                //     child: Text(
-                                //       'Start Price',
-                                //       textAlign: TextAlign.center,
-                                //       style: TextStyle(
-                                //           color: Colors.black,
-                                //           fontSize: 20,
-                                //           fontWeight: FontWeight.w200,
-                                //           fontFamily: 'Montserrat-Medium'),
-                                //     ),
-                                //   ),
-                                // ),
-                                SizedBox(
-                                    height: platform == TargetPlatform.iOS
-                                        ? 50
-                                        : 30),
-                                // Container(
-                                //   alignment: Alignment.center,
-                                //   child: CarouselIndicator(
-                                //     activeColor:
-                                //         ColorConstants.cPrimaryBtnColor,
-                                //     width: 10,
-                                //     height: 3,
-                                //     count: _prices.length,
-                                //     index: pageIndex,
-                                //     color: Colors.grey,
-                                //   ),
-                                // ),
-                                SizedBox(
-                                    height: platform == TargetPlatform.iOS
-                                        ? 40
-                                        : 30),
-                                continueSection
-                              ],
-                            ),
-                          ),
-                          // continueSection,
-                        ],
                       ),
+                      // continueSection,
+                    ],
+                  ),
           ),
         ),
       ),

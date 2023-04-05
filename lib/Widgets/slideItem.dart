@@ -80,7 +80,7 @@ Widget SlideItem(
                             ),
                           ),
                           TextSpan(
-                              text: '  USD / min',
+                              text: ' EUR / min',
                               style: TextStyle(
                                   color: ColorConstants.cTxtColor2,
                                   fontSize: 14,

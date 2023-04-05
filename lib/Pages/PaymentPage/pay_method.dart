@@ -6,6 +6,7 @@ import 'package:KiwiCity/Helpers/helperUtility.dart';
 import 'package:KiwiCity/Models/card_model.dart';
 import 'package:KiwiCity/Models/price_model.dart';
 import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Models/transaction_model.dart';
 import 'package:KiwiCity/Pages/App/app_provider.dart';
 import 'package:KiwiCity/Pages/PaymentPage/payment_helper.dart';
 import 'package:KiwiCity/Pages/UnlockPage/unlock.dart';
@@ -84,96 +85,159 @@ class _PayMethod extends State<PayMethod> {
     String scooterID = AppProvider.of(context).scooterID;
     // String amount = AppProvider.of(context).selectedPrice!.totalCost.toString();
 
-    setState(() {
-      isUnlocking = true;
-    });
+    print(widget.data);
 
-    try {
-      var res = await HttpService().cardPay(
-          holderName: card.cardName,
-          cardNumber: card.cardNumber,
-          expiredMonth: card.expMonth,
-          expiredYear: card.expYear,
-          cvv: card.cvv,
-          // amount: amount);
-          amount: "0");
-      print("Stripe Result :::::::::::::>");
-      print(res);
+    if (widget.data['deposit']) {
+      try {
+        String amount = widget.data['amount'];
+        var res = await HttpService().cardPay(
+            holderName: card.cardName,
+            cardNumber: card.cardNumber,
+            expiredMonth: card.expMonth,
+            expiredYear: card.expYear,
+            cvv: card.cvv,
+            amount: amount);
+        print("Stripe Result :::::::::::::>");
+        print(res);
 
-      if (res['result']) {
-        // String scooterID = AppProvider.of(context).scooterID;
+        if (res['result']) {
+          UserModel currentUser = AppProvider.of(context).currentUser;
 
-        // var powerOn = await HttpService()
-        //     .changePowerStatus(scooterID: scooterID, status: "true");
-        // print("POWER STATUS:::::::::::>");
-        // print(powerOn);
+          currentUser.balance = currentUser.balance + double.parse(amount);
+          FirebaseService service = FirebaseService();
+          TransactionModel transaction = new TransactionModel(
+            userId: currentUser.id,
+            userName: currentUser.firstName + currentUser.lastName,
+            stripeId: res['data']['id'] ?? "",
+            stripeTxId: res['data']['balance_transaction'] ?? "",
+            rideDistance: 0.0,
+            rideTime: 0,
+            amount: double.parse(amount),
+            txType: "Deposit",
+          );
+          await service.createTransaction(transaction);
 
-        // if (powerOn['result']) {
-        // await powerOnScooter();
-
-        // Card Informatin Save
-        UserModel currentUser = AppProvider.of(context).currentUser;
-
-        card.id = currentUser.id;
-        currentUser.card = card;
-
-        FirebaseService service = FirebaseService();
-        bool updateCardResult = await service.updateCard(currentUser);
-        if (updateCardResult) {
-          // setState(() {
-          //   isUnlocking = false;
-          // });
-
-          // ========== Calculate Ride Time ===========
-          PriceModel _priceModel = AppProvider.of(context).selectedPrice!;
-          // int _time = (_priceModel.totalCost / _priceModel.cost).toInt() * 60;
-
-          if (widget.data['isMore']) {
-            // Navigator.of(context).pop(_time);
-          } else {
+          bool updateUserResult = await service.updateUser(currentUser);
+          if (updateUserResult) {
+            Alert.showMessage(
+                type: TypeAlert.success,
+                title: "Success",
+                message: Messages.SUCCESS_DEPOSIT);
             Future.delayed(const Duration(milliseconds: 200), () {
               AppProvider.of(context).setCurrentUser(currentUser);
               HelperUtility.goPageReplace(
-                  context: context,
-                  routeName: Routes.TERMS_OF_SERVICE,
-                  arg: {"viaPayment": true});
+                context: context,
+                routeName: Routes.WALLET,
+              );
             });
+          } else {
+            Alert.showMessage(
+                type: TypeAlert.error,
+                title: "ERROR",
+                message: Messages.ERROR_MSG);
           }
         } else {
           Alert.showMessage(
               type: TypeAlert.error,
               title: "ERROR",
-              message: Messages.ERROR_MSG);
+              message: res['msg'] ?? Messages.ERROR_MSG);
         }
-        // } else {
-        //   if (mounted) {
-        //     setState(() {
-        //       isUnlocking = false;
-        //     });
-        //     Alert.showMessage(
-        //         type: TypeAlert.error,
-        //         title: "ERROR",
-        //         message: powerOn['message'] ?? Messages.ERROR_MSG);
-        //   }
-        // }
-      } else {
+      } catch (e) {
+        Alert.showMessage(
+            type: TypeAlert.error, title: "ERROR", message: e.toString());
+      }
+    } else {
+      setState(() {
+        isUnlocking = true;
+      });
+
+      try {
+        var res = await HttpService().cardPay(
+            holderName: card.cardName,
+            cardNumber: card.cardNumber,
+            expiredMonth: card.expMonth,
+            expiredYear: card.expYear,
+            cvv: card.cvv,
+            // amount: amount);
+            amount: "0");
+        print("Stripe Result :::::::::::::>");
+        print(res);
+
+        if (res['result']) {
+          // String scooterID = AppProvider.of(context).scooterID;
+
+          // var powerOn = await HttpService()
+          //     .changePowerStatus(scooterID: scooterID, status: "true");
+          // print("POWER STATUS:::::::::::>");
+          // print(powerOn);
+
+          // if (powerOn['result']) {
+          // await powerOnScooter();
+
+          // Card Informatin Save
+          UserModel currentUser = AppProvider.of(context).currentUser;
+
+          card.id = currentUser.id;
+          currentUser.card = card;
+
+          FirebaseService service = FirebaseService();
+          bool updateCardResult = await service.updateCard(currentUser);
+          if (updateCardResult) {
+            // setState(() {
+            //   isUnlocking = false;
+            // });
+
+            // ========== Calculate Ride Time ===========
+            PriceModel _priceModel = AppProvider.of(context).selectedPrice!;
+            // int _time = (_priceModel.totalCost / _priceModel.cost).toInt() * 60;
+
+            if (widget.data['isMore']) {
+              // Navigator.of(context).pop(_time);
+            } else {
+              Future.delayed(const Duration(milliseconds: 200), () {
+                AppProvider.of(context).setCurrentUser(currentUser);
+                HelperUtility.goPageReplace(
+                    context: context,
+                    routeName: Routes.TERMS_OF_SERVICE,
+                    arg: {"viaPayment": true});
+              });
+            }
+          } else {
+            Alert.showMessage(
+                type: TypeAlert.error,
+                title: "ERROR",
+                message: Messages.ERROR_MSG);
+          }
+          // } else {
+          //   if (mounted) {
+          //     setState(() {
+          //       isUnlocking = false;
+          //     });
+          //     Alert.showMessage(
+          //         type: TypeAlert.error,
+          //         title: "ERROR",
+          //         message: powerOn['message'] ?? Messages.ERROR_MSG);
+          //   }
+          // }
+        } else {
+          if (mounted)
+            setState(() {
+              isUnlocking = false;
+            });
+          Alert.showMessage(
+              type: TypeAlert.error,
+              title: "ERROR",
+              message: res['msg'] ?? Messages.ERROR_MSG);
+        }
+      } catch (e) {
+        // print(e);
         if (mounted)
           setState(() {
             isUnlocking = false;
           });
         Alert.showMessage(
-            type: TypeAlert.error,
-            title: "ERROR",
-            message: res['msg'] ?? Messages.ERROR_MSG);
+            type: TypeAlert.error, title: "ERROR", message: e.toString());
       }
-    } catch (e) {
-      // print(e);
-      if (mounted)
-        setState(() {
-          isUnlocking = false;
-        });
-      Alert.showMessage(
-          type: TypeAlert.error, title: "ERROR", message: e.toString());
     }
   }
 
@@ -195,7 +259,7 @@ class _PayMethod extends State<PayMethod> {
           requiredShippingAddressFields: [],
           shippingMethods: [],
           country: 'US',
-          currency: 'USD',
+          currency: 'EUR',
         ),
       );
 
@@ -210,9 +274,10 @@ class _PayMethod extends State<PayMethod> {
             .confirmApplePayPayment(clientSecret);
 
         Alert.showMessage(
-            type: TypeAlert.success,
-            title: "SUCCESS",
-            message: "Apple pay Success!");
+          type: TypeAlert.success,
+          title: "SUCCESS",
+          message: "Apple pay Success!",
+        );
         await payWithAppleGoogle();
       } else {}
     } catch (e) {
@@ -485,7 +550,7 @@ class _PayMethod extends State<PayMethod> {
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Color.fromRGBO(229, 249, 224, 1),
+                      color: Color(0xffC6D5F6),
                     ),
                     child: Text(
                       'SELECTED',

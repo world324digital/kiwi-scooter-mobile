@@ -17,6 +17,7 @@ class HttpService {
 
   String basicUrl = URLS.BASE_URL;
   String apiPrefix = URLS.API_PREFIX;
+  String mqttPrefix = URLS.MQTT_PREFIX;
   /*******************************
    * @Auth: world324digital@gmail.com
    * @Date: 2023.03.6
@@ -71,7 +72,7 @@ class HttpService {
 
   /*********************************
    * @Auth: world324digital@gmail.com
-   * @Date: 2022.10.26
+   * @Date: 2023.04.05
    * @Desc: Check Network connectivity
    */
   Future<bool> checkInternetConnection() async {
@@ -86,7 +87,7 @@ class HttpService {
 
   /*********************************
    * @Auth: world324digital@gmail.com
-   * @Date: 2022.10.26
+   * @Date: 2023.04.05
    * @Desc: Send Report Email
    */
   Future sendReportEmail(
@@ -116,8 +117,8 @@ class HttpService {
 
   /*********************************
    * @Auth: world324digital@gmail.com
-   * @Date: 2022.10.26
-   * @Desc: Send Report Email
+   * @Date: 2023.04.05
+   * @Desc: Send Ring Command
    */
   Future sendRing({required String scooterImei}) async {
     return await checkInternetConnection().then((internet) async {
@@ -125,16 +126,41 @@ class HttpService {
         return await getHeader(data: {}).then((header) async {
           paramsKeyHeaderVal = header;
 
-          paramsKeyVal["imei"] = "$scooterImei";
           return await _network
-              .post(
-            "${URLS.BASE_URL}${URLS.MQTT_PREFIX}${URLS.SEND_RING_ON}",
-            body: utf8.encode(json.encode(paramsKeyVal)),
-            header: paramsKeyHeaderVal,
+              .get(
+            "${URLS.BASE_URL}${URLS.MQTT_PREFIX}${URLS.SEND_RING_ON}?imei=${scooterImei}",
+            headers: paramsKeyHeaderVal,
           )
               .then((dynamic res) {
             // return res;
-            return {"result": res};
+            return {"result": true, "message": ""};
+          });
+        });
+      } else {
+        return {"result": false, "message": Messages.NETWORK_ERROR};
+      }
+    });
+  }
+
+  /*********************************
+   * @Auth: world324digital@gmail.com
+   * @Date: 2023.04.05
+   * @Desc: Stop Ringing
+   */
+  Future stopRing({required String scooterImei}) async {
+    return await checkInternetConnection().then((internet) async {
+      if (internet != null && internet) {
+        return await getHeader(data: {}).then((header) async {
+          paramsKeyHeaderVal = header;
+
+          return await _network
+              .get(
+            "${URLS.BASE_URL}${URLS.MQTT_PREFIX}${URLS.SEND_RING_OFF}?imei=${scooterImei}",
+            headers: paramsKeyHeaderVal,
+          )
+              .then((dynamic res) {
+            // return res;
+            return {"result": true, "message": ""};
           });
         });
       } else {
@@ -196,7 +222,7 @@ class HttpService {
         'Content-Type': 'application/json',
       },
       body: json.encode({
-        'currency': 'usd',
+        'currency': 'eur',
         'amount': amount,
         'email': email,
         'paymethod': paymethod,
@@ -243,24 +269,23 @@ class HttpService {
    * @Desc: Change Power Status ( On/Off ) of scooter
    */
   Future changeLockStatus({
-    required String scooterID,
-    required String status,
+    required String imei,
+    required bool status,
   }) async {
     return await checkInternetConnection().then((internet) async {
       if (internet != null && internet) {
         return await getHeader(data: {}).then((header) async {
           paramsKeyHeaderVal = header;
 
-          paramsKeyVal["scooterID"] = "$scooterID";
-          paramsKeyVal["status"] = "$status";
+          String endpoint = status ? URLS.UNLOCK : URLS.LOCK;
           return await _network
-              .post(
-            "${URLS.BASE_URL}${URLS.API_PREFIX}${URLS.CHANGE_LOCK_STATUS}",
-            body: utf8.encode(json.encode(paramsKeyVal)),
-            header: paramsKeyHeaderVal,
+              .get(
+            "${URLS.BASE_URL}${URLS.MQTT_PREFIX}${endpoint}?imei=${imei}",
+            headers: paramsKeyHeaderVal,
           )
               .then((dynamic res) {
-            return res;
+            // return res;
+            return {"result": true, "message": ""};
           }).onError((error, stackTrace) {
             return {"result": false, "message": error.toString()};
           });
@@ -277,24 +302,23 @@ class HttpService {
    * @Desc: Change Power Status ( On/Off ) of scooter
    */
   Future changeLightStatus({
-    required String scooterID,
-    required String status,
+    required String imei,
+    required bool status,
   }) async {
     return await checkInternetConnection().then((internet) async {
       if (internet != null && internet) {
         return await getHeader(data: {}).then((header) async {
           paramsKeyHeaderVal = header;
 
-          paramsKeyVal["scooterID"] = "$scooterID";
-          paramsKeyVal["status"] = "$status";
+          String endpoint = status ? URLS.TURN_ON_LIGHTS : URLS.TURN_OFF_LIGHTS;
           return await _network
-              .post(
-            "${URLS.BASE_URL}${URLS.API_PREFIX}${URLS.CHANGE_LIGHT_STATUS}",
-            body: utf8.encode(json.encode(paramsKeyVal)),
-            header: paramsKeyHeaderVal,
+              .get(
+            "${URLS.BASE_URL}${URLS.MQTT_PREFIX}${endpoint}?imei=${imei}",
+            headers: paramsKeyHeaderVal,
           )
               .then((dynamic res) {
-            return res;
+            // return res;
+            return {"result": true, "message": ""};
           }).onError((error, stackTrace) {
             return {"result": false, "message": error.toString()};
           });

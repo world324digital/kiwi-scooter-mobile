@@ -35,7 +35,7 @@ class _Drink extends State<Drink> {
             // margin: EdgeInsets.only(bottom: 30),
             child: Image.asset('assets/images/drink.png'),
           ),
-          TermsTitle(text: 'Finally! Don\'t Drink \& Ride'),
+          TermsTitle(text: 'Stay Safe - Don\'t Drink & Ride'),
           TermsContent(
               text:
                   'Please don\'t operate this scooter if you are under the influence. See terms of service.'),

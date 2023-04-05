@@ -166,7 +166,7 @@ class _RideDetail extends State<RideDetail> {
             itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
             itemBuilder: (context, _) => Icon(
               Icons.star,
-              color: ColorConstants.cPrimaryBtnColor,
+              color: Color(0xffFFBC11),
               size: 100,
             ),
             onRatingUpdate: (rating) {
@@ -230,18 +230,18 @@ class _RideDetail extends State<RideDetail> {
             padding: const EdgeInsets.all(10),
             child: Column(children: [
               Items(
-                name: "Reservation",
-                value: "\$${review.reservation_price.toString()}",
+                name: "Start Price",
+                value: "\€${review.start_price.toString()}",
                 top: 0,
               ),
               Items(
-                name: "Ride",
-                value: "\$${review.ride_price.toString()}",
+                name: "Riding Price",
+                value: "\€${review.riding_price.toString()}",
                 top: 10,
               ),
               Items(
-                name: "VAT(%18)",
-                value: "\$${review.vat_price.toString()}",
+                name: "VAT(%21)",
+                value: "\€${review.vat_price.toString()}",
                 top: 10,
               ),
               Container(
@@ -271,7 +271,7 @@ class _RideDetail extends State<RideDetail> {
                 Container(
                   padding: const EdgeInsets.only(right: 20),
                   child: Text(
-                    "\$${review.total_price.toString()}",
+                    "\€${review.total_price.toString()}",
                     style: TextStyle(
                         color: ColorConstants.cPrimaryTitleColor,
                         fontSize: 16,
@@ -342,7 +342,7 @@ class _RideDetail extends State<RideDetail> {
                     right: 20,
                   ),
                   child: Text(
-                    '- \$${review.total_price.toString()}',
+                    '- \€${review.total_price.toString()}',
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,

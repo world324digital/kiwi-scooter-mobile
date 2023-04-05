@@ -73,7 +73,7 @@ class AppProvider extends ChangeNotifier {
     if (isNotifiable) notifyListeners();
   }
 
-  // Selected Bike ID
+  // Selected Scooter ID
   String _scooterID = "";
   String get scooterID => _scooterID;
   void setScooterID(String scooterID, {bool isNotifiable = true}) {

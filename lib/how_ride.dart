@@ -72,16 +72,16 @@ class _HowRide extends State<HowRide> {
     var appProvider = AppProvider.of(context);
     var card = appProvider.currentUser.card;
     String scooter_id = appProvider.scooterID;
-    String imei = appProvider.imei;
     String user_id = appProvider.currentUser.id;
     String scooter_type = "Kiwi eScooter";
     DateTime start_time = appProvider.startRideTime;
     DateTime end_time = appProvider.endRideTime;
     int duration = appProvider.usedTime;
-    double reservation_price = 0.0;
-    double ride_price = appProvider.selectedPrice?.startCost??0.0;
+    double price_per_minute = appProvider.selectedPrice?.costPerMinute??0.0;
+    double riding_price = double.parse((price_per_minute * duration / 60).toStringAsFixed(2));
+    double start_price = appProvider.selectedPrice?.startCost??0.0;
     double vat_price = 0.0;
-    double total_price = reservation_price + ride_price + vat_price;
+    double total_price = riding_price + start_price + vat_price;
     String card_type = card?.cardType??"";
     String card_number = card?.cardNumber??"";
     double _rating = 5.0;
@@ -140,7 +140,7 @@ class _HowRide extends State<HowRide> {
           itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
           itemBuilder: (context, _) => Icon(
             Icons.star,
-            color: ColorConstants.cPrimaryBtnColor,
+            color: Color(0xffFFBC11),
             size: 100,
           ),
           onRatingUpdate: (rating) {
@@ -192,18 +192,18 @@ class _HowRide extends State<HowRide> {
           child: Column(children: [
             SizedBox(height: 20),
             Items(
-              name: "Reservation",
-              value: "\$${reservation_price.toString()}",
+              name: "Start Price",
+              value: "\€${start_price.toString()}",
               top: 0,
             ),
             Items(
-              name: "Ride",
-              value: "\$${ride_price.toString()}",
+              name: "Riding Price",
+              value: "\€${riding_price.toString()}",
               top: 10,
             ),
             Items(
-              name: "VAT(%18)",
-              value: "\$${vat_price.toString()}",
+              name: "VAT(%21)",
+              value: "\€${vat_price.toString()}",
               top: 10,
             ),
             Container(
@@ -230,7 +230,7 @@ class _HowRide extends State<HowRide> {
               Container(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  "\$${total_price.toString()}",
+                  "\€${total_price.toString()}",
                   style: TextStyle(
                       color: ColorConstants.cPrimaryTitleColor,
                       fontSize: 16,
@@ -294,7 +294,7 @@ class _HowRide extends State<HowRide> {
               child: Container(
                 margin: const EdgeInsets.only(top: 15, bottom: 15, right: 20),
                 child: Text(
-                  '-\$$total_price',
+                  '-\€$total_price',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -355,8 +355,8 @@ class _HowRide extends State<HowRide> {
                         startTime: start_time.millisecondsSinceEpoch,
                         endTime: end_time.millisecondsSinceEpoch,
                         duration: duration,
-                        reservation_price: reservation_price,
-                        ride_price: ride_price,
+                        riding_price: riding_price,
+                        start_price: start_price,
                         vat_price: vat_price,
                         total_price: total_price,
                         card_type: card_type,

@@ -259,12 +259,12 @@ class _ScotterState extends State<Scotter> {
                     children: [
                       Container(
                         padding: const EdgeInsets.only(bottom: 5),
-                        child: Text('Xiaomi One-S Scooter',
+                        child: Text('Kiwi eScooter',
                             style: TextStyle(fontSize: 20)),
                       ),
                       Container(
                         padding: const EdgeInsets.only(bottom: 5),
-                        child: Text('#3451A - Christ Church',
+                        child: Text('#KW0001',
                             style: TextStyle(color: Colors.grey)),
                       ),
                       Row(children: [

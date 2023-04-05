@@ -251,7 +251,10 @@ class _AllowLocationPage extends State<AllowLocationPage> {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 30),
-            child: Image.asset('assets/images/Frame 6264.png'),
+            child: Image.asset(
+              'assets/images/Frame 6264.png',
+              height: MediaQuery.of(context).size.height * 0.4,
+              ),
           ),
           const Text(
             'Allow Location',
@@ -276,7 +279,7 @@ class _AllowLocationPage extends State<AllowLocationPage> {
             child: Container(
                 alignment: Alignment.center,
                 child: const Text(
-                  'Move would like to access your location to find eScooters near you and improve your experience with the app.\nYour location data will be used for this purpose.',
+                  "To provide the best possible experience and help you find eScooters quickly, KiwiCity requires access to your device's location.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'Montserrat-SemiBold',
