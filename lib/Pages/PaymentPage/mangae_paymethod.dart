@@ -59,7 +59,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
   /****************************
    * @Auth: world324digital
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Complete Payment
    */
   Future<void> paySubmit(CardModel card) async {
@@ -158,7 +158,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
   /******************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.13
+   * @Date: 2023.04.13
    * @Desc: Power On Scooter
    */
   Future<void> powerOnScooter() async {
@@ -227,7 +227,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Header Section
      */
     Widget headerSection = Container(
@@ -264,7 +264,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Apple Pay Widget
      */
     // Widget applePayWidget() {
@@ -368,7 +368,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Selected Card Section
      */
     Widget paySection = Container(
@@ -455,7 +455,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Card Input Section
      */
     Widget cardSection = Container(
@@ -857,7 +857,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Add Payment Button
      */
     Widget plusSection = Container(

@@ -15,8 +15,8 @@ import 'package:url_launcher/url_launcher.dart';
 // import 'package:openstreetmap/verify.dart';
 import 'package:validators/validators.dart';
 import '../QRScanPage/allow_camera.dart';
-import '../../services/firebase_service.dart';
-import '../../tools/functions.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
+import 'package:KiwiCity/tools/functions.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -69,7 +69,7 @@ class _SignUpPage extends State<SignUpPage> {
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.10
+   * @Date: 2023.04.10
    * @Desc: Launch URL
    */
   _launchURL(String url) async {
@@ -88,7 +88,7 @@ class _SignUpPage extends State<SignUpPage> {
 
   /************************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.11
+   * @Date: 2023.04.11
    * @Desc: Sign Up with Email
    */
   Future<void> _signUp() async {

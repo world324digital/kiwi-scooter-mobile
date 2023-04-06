@@ -41,7 +41,7 @@ class _AllowCamera extends State<AllowCamera> {
 
   /************************************
    * @Auth: world324digital
-   * @Date: 2023.03.19
+   * @Date: 2023.04.19
    * @Desc: Allow Camera Permission
    */
   Future<void> allowCamera() async {
@@ -57,7 +57,7 @@ class _AllowCamera extends State<AllowCamera> {
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
 
@@ -111,7 +111,7 @@ class _AllowCamera extends State<AllowCamera> {
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Restart app when set permissions of App
    */
 

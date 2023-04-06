@@ -77,7 +77,7 @@ class _PayMethod extends State<PayMethod> {
 
   /****************************
    * @Auth: world324digital
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Complete Payment
    */
   Future<void> paySubmit(CardModel card) async {
@@ -375,7 +375,7 @@ class _PayMethod extends State<PayMethod> {
 
   /******************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.13
+   * @Date: 2023.04.13
    * @Desc: Power On Scooter
    */
   Future<void> payWithAppleGoogle() async {
@@ -478,7 +478,7 @@ class _PayMethod extends State<PayMethod> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Selected Card Section
      */
     Widget paySection = InkWell(
@@ -571,7 +571,7 @@ class _PayMethod extends State<PayMethod> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Card Input Section
      */
     Widget cardSection = Container(
@@ -912,7 +912,7 @@ class _PayMethod extends State<PayMethod> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Add Payment Button
      */
     Widget plusSection = Container(

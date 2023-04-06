@@ -17,7 +17,6 @@ import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:KiwiCity/Helpers/helperUtility.dart';
 import 'package:KiwiCity/Models/user_model.dart';
 import 'package:KiwiCity/Routes/routes.dart';
-// import '../../carousel_indicator.dart';
 
 class StartRiding extends StatefulWidget {
   const StartRiding({Key? key, required this.data}) : super(key: key);
@@ -106,7 +105,7 @@ class _StartRiding extends State<StartRiding> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Balance Section
      */
     Widget balanceSection = Container(

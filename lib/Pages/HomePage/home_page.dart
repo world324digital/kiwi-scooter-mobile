@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage>
 
   /***********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Get User's Location Information
    */
   late Position userLocation;
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage>
 
   /***********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.5)
+   * @Date: 2023.04.03)
    * @Desc: Get Scooters from Firebase at?
    */
   bool _alertShown = false;
@@ -549,7 +549,7 @@ class _HomePageState extends State<HomePage>
 
   /******************************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   void showScooterDetailModal() {
@@ -1082,7 +1082,7 @@ class _HomePageState extends State<HomePage>
 
   /******************************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   Future<void> sendReportEmail(String scooterID, String content) async {
@@ -1122,7 +1122,7 @@ class _HomePageState extends State<HomePage>
 
   /******************************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   Future<void> sendRing() async {
@@ -1162,7 +1162,7 @@ class _HomePageState extends State<HomePage>
 
   /******************************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
   Future<void> stopRing() async {
@@ -1427,7 +1427,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
 
@@ -1476,7 +1476,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Restart app when set permissions of App
    */
 
@@ -1517,7 +1517,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Enable/Disable User's Geolocation service 
    */
   void _toggleServiceStatusStream() {
@@ -1559,7 +1559,7 @@ class _HomePageState extends State<HomePage>
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: User's Geolocation Position Tracking 
    */
   void _toggleListening() {
@@ -1614,7 +1614,7 @@ class _HomePageState extends State<HomePage>
 
   /*************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Go Back to User's Location on Map
    */
   void moveToUserLocation() {
@@ -1623,7 +1623,7 @@ class _HomePageState extends State<HomePage>
 
   /********************************
    * @Auth: world324digital
-   * @Date: 2023.03.6
+   * @Date: 2023.04.06
    * @Desc: Show Stop Ring Dialog
    */
   void showRingDialog() {

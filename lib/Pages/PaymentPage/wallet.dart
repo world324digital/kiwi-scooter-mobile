@@ -61,7 +61,7 @@ class _WalletPage extends State<WalletPage> {
 
   /****************************
    * @Auth: world324digital
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Complete Payment
    */
   Future<void> paySubmit(CardModel card) async {
@@ -160,7 +160,7 @@ class _WalletPage extends State<WalletPage> {
 
   /******************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.13
+   * @Date: 2023.04.13
    * @Desc: Power On Scooter
    */
   Future<void> powerOnScooter() async {
@@ -229,7 +229,7 @@ class _WalletPage extends State<WalletPage> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Header Section
      */
     Widget headerSection = Container(
@@ -264,200 +264,10 @@ class _WalletPage extends State<WalletPage> {
           ],
         ));
 
-    /*********************
-     * @Auth: world324digital
-     * @Date: 2023.03.29
-     * @Desc: Apple Pay Widget
-     */
-    // Widget applePayWidget() {
-    //   return platform == TargetPlatform.iOS
-    //       ? Container(
-    //           padding: const EdgeInsets.only(
-    //             left: 20,
-    //             right: 20,
-    //             // top: 10,
-    //             // bottom: 10,
-    //           ),
-    //           margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-    //           height: 56,
-    //           decoration: BoxDecoration(
-    //               borderRadius: BorderRadius.circular(16),
-    //               border: Border.all(color: Color.fromRGBO(181, 181, 181, 1)),
-    //               color: Colors.white),
-    //           child: ApplePayButton(
-    //             height: 56,
-    //             paymentConfigurationAsset: 'payments/applepay.json',
-    //             paymentItems: getPriceItem(),
-    //             style: ApplePayButtonStyle.white,
-
-    //             type: ApplePayButtonType.checkout,
-    //             // height: m,
-    //             onPaymentResult: (value) async {
-    //               print("======== Completed Apple Payment ===================");
-
-    //               print(value);
-    //               Future.delayed(const Duration(milliseconds: 1000), () async {
-    //                 setState(() {
-    //                   isUnlocking = true;
-    //                 });
-    //                 try {
-    //                   await powerOnScooter();
-    //                   setState(() {
-    //                     isUnlocking = false;
-    //                   });
-
-    //                   //====== Go To Next Page =====
-    //                   HelperUtility.goPageReplace(
-    //                       context: context,
-    //                       routeName: Routes.TERMS_OF_SERVICE,
-    //                       arg: {"viaPayment": true});
-    //                 } catch (e) {
-    //                   print(e);
-    //                   setState(() {
-    //                     isUnlocking = false;
-    //                   });
-    //                 }
-    //               });
-    //             },
-    //             onError: (error) {
-    //               print(error);
-    //               Alert.showMessage(
-    //                   type: TypeAlert.error,
-    //                   title: "ERROR",
-    //                   message: error.toString());
-    //             },
-    //             loadingIndicator: const Center(
-    //               child: CircularProgressIndicator(),
-    //             ),
-    //           ),
-    //         )
-    //       : Container(
-    //           margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-    //           child: GooglePayButton(
-    //             paymentConfigurationAsset: 'payments/googlepay.json',
-    //             onPaymentResult: (value) async {
-    //               print("======== Completed Apple Payment ===================");
-
-    //               print(value);
-    //               Future.delayed(const Duration(milliseconds: 1000), () async {
-    //                 setState(() {
-    //                   isUnlocking = true;
-    //                 });
-    //                 try {
-    //                   await powerOnScooter();
-    //                   setState(() {
-    //                     isUnlocking = false;
-    //                   });
-
-    //                   //====== Go To Next Page =====
-    //                   HelperUtility.goPageReplace(
-    //                       context: context,
-    //                       routeName: Routes.TERMS_OF_SERVICE,
-    //                       arg: {"viaPayment": true});
-    //                 } catch (e) {
-    //                   print(e);
-    //                   setState(() {
-    //                     isUnlocking = false;
-    //                   });
-    //                 }
-    //               });
-    //             },
-    //             paymentItems: getPriceItem(),
-    //             type: GooglePayButtonType.checkout,
-    //           ),
-    //         );
-    // }
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
-     * @Desc: Selected Card Section
-     */
-    // Widget paySection = Container(
-    //   padding: const EdgeInsets.only(bottom: 12, left: 20, right: 20),
-    //   child: Column(children: [
-    //     Container(
-    //       height: 72,
-    //       padding: const EdgeInsets.only(
-    //         top: 5,
-    //         bottom: 5,
-    //       ),
-    //       decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.circular(20),
-    //           border: Border.all(color: Color.fromRGBO(181, 181, 181, 1)),
-    //           color: Colors.white),
-    //       child: Row(
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         children: [
-    //           Expanded(
-    //               child: Row(children: [
-    //             if (appProvider.currentUser.card != null)
-    //               Container(
-    //                 margin: EdgeInsets.only(left: 20, bottom: 20),
-    //                 child: CardUtils.getCardIcon(
-    //                   appProvider.currentUser.card!.cardType,
-    //                 ),
-    //               ),
-    //             Container(
-    //               margin: const EdgeInsets.only(left: 10, top: 10),
-    //               child: Column(
-    //                   crossAxisAlignment: CrossAxisAlignment.start,
-    //                   children: [
-    //                     Container(
-    //                       margin: const EdgeInsets.only(bottom: 5),
-    //                       child: Text(
-    //                         CardUtils.getCardTypeName(
-    //                           CardUtils.getCardTypeFrmNumber(
-    //                               _cardNumberController.text),
-    //                         ),
-    //                         style: TextStyle(
-    //                           fontSize: 16,
-    //                           color: Color(0xff0B0B0B),
-    //                           fontFamily: FontStyles.fMedium,
-    //                           fontWeight: FontWeight.w500,
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     if (appProvider.currentUser.card != null)
-    //                       Text(
-    //                         HelperUtility.getNickCardNumber(
-    //                             appProvider.currentUser.card!.cardNumber),
-    //                         style: TextStyle(
-    //                             fontSize: 12,
-    //                             color: Color.fromRGBO(102, 102, 102, 1),
-    //                             fontFamily: ' Montserrat-Bold'),
-    //                       )
-    //                   ]),
-    //             ),
-    //           ])),
-    //           Container(
-    //             alignment: Alignment.bottomRight,
-    //             child: Container(
-    //               margin: const EdgeInsets.only(top: 15, bottom: 15, right: 20),
-    //               padding: const EdgeInsets.all(5),
-    //               decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.circular(8),
-    //                 color: Color.fromRGBO(229, 249, 224, 1),
-    //               ),
-    //               child: Text(
-    //                 'SELECTED',
-    //                 style: TextStyle(
-    //                     fontSize: 12,
-    //                     fontWeight: FontWeight.w700,
-    //                     fontFamily: 'Montserrat-Bold',
-    //                     color: ColorConstants.cPrimaryBtnColor),
-    //               ),
-    //             ),
-    //           )
-    //         ],
-    //       ),
-    //     )
-    //   ]),
-    // );
-
-    /*********************
-     * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Balance Section
      */
     Widget balanceSection = Container(
@@ -607,7 +417,7 @@ class _WalletPage extends State<WalletPage> {
 
     /*********************
      * @Auth: world324digital
-     * @Date: 2023.03.29
+     * @Date: 2023.04.02
      * @Desc: Add Payment Button
      */
     Widget plusSection = Container(

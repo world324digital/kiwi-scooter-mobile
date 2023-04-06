@@ -9,8 +9,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../../../Widgets/primaryButton.dart';
-import '../../../firebase_options.dart';
+import 'package:KiwiCity/Widgets/primaryButton.dart';
+import 'package:KiwiCity/firebase_options.dart';
 
 class AllowLocationPage extends StatefulWidget {
   const AllowLocationPage({super.key, required this.onNext()});
@@ -43,7 +43,7 @@ class _AllowLocationPage extends State<AllowLocationPage> {
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.01
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
 
@@ -137,7 +137,7 @@ class _AllowLocationPage extends State<AllowLocationPage> {
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.01
    * @Desc: Restart app when set permissions of App
    */
 
@@ -179,7 +179,7 @@ class _AllowLocationPage extends State<AllowLocationPage> {
 
   /***************************
    * @Auth: world324digital
-   * @Date: 2023.03.19
+   * @Date: 2023.04.01
    * @Desc: Allow Location
    */
   Future<void> initPlugin() async {
@@ -254,7 +254,7 @@ class _AllowLocationPage extends State<AllowLocationPage> {
             child: Image.asset(
               'assets/images/Frame 6264.png',
               height: MediaQuery.of(context).size.height * 0.4,
-              ),
+            ),
           ),
           const Text(
             'Allow Location',

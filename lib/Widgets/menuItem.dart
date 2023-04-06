@@ -74,14 +74,19 @@ Widget MenuBarItem({
                   break;
               }
             },
-            leading:
-                Container(padding: EdgeInsets.only(left: 10), child: activeImg),
-            title: Text(
-              text,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Montserrat-SemiBold',
-                  color: ColorConstants.cPrimaryBtnColor),
+            leading: Container(
+              padding: EdgeInsets.only(left: 10),
+              child: activeImg,
+            ),
+            title: Container(
+              margin: EdgeInsets.only(bottom: 5),
+              child: Text(
+                text,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Montserrat-SemiBold',
+                    color: ColorConstants.cPrimaryBtnColor),
+              ),
             ),
           ),
         )
@@ -141,6 +146,7 @@ Widget MenuBarItem({
               child: img,
             ),
             title: Container(
+              margin: EdgeInsets.only(bottom: 4),
               child: Text(
                 text,
                 style: TextStyle(

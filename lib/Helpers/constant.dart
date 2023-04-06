@@ -100,15 +100,14 @@ class Messages {
   static const String SUCCESS_SEND_REPORT =
       "Thank you. Email sent successfully! ";
 
-  static const String SUCCESS_DEPOSIT =
-      "Deposit was succeed! ";
+  static const String SUCCESS_DEPOSIT = "Deposit was succeed! ";
 
   static const String NETWORK_ERROR =
       "Network error. Please check your connection!";
   static const String ERROR_MSG = "Something went wrong. Please retry!";
 
   static const String ERROR_UNABLE_FAR_AWAY =
-      "You are too far from this vehicle and need to be closer to reserve it.";
+      "You are too far from this vehicle and need to be closer to ride it.";
 
   static const String ERROR_UNABLE_SCOOTER =
       "We are unable to process this request. Please try again later.";

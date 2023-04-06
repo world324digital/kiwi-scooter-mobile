@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
 
   /***********************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: SignIn with Google
    */
   Future<void> googleSignIn() async {
@@ -148,7 +148,7 @@ class _LoginState extends State<Login> {
 
   /***********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: SignIn With Apple
    */
   Future<void> appleSignIn() async {

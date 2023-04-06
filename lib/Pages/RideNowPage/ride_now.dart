@@ -268,7 +268,7 @@ class _RideNowState extends State<RideNow>
 
   /**************************
    * @Auth: world324digital
-   * @Date: 2023.03.14
+   * @Date: 2023.04.04
    * @Desc: Get Usage Time Seconds
    */
   // int getDuraion() {
@@ -337,7 +337,7 @@ class _RideNowState extends State<RideNow>
 
 /********************
  * @Auth World324
- * @Date 2023.03.29
+ * @Date 2023.04.02
  * @Desc Add zero to number
  * @exam  1->01
  */
@@ -350,7 +350,7 @@ class _RideNowState extends State<RideNow>
 
   /********************************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.21
+   * @Date: 2023.04.21
    * @Desc: Turn On/Off Light
    */
   Future<void> changeLightStatus(bool isOn) async {
@@ -920,7 +920,7 @@ class _RideNowState extends State<RideNow>
 
   /********************************
    * @Auth: world324digital
-   * @Date: 2023.03.16
+   * @Date: 2023.04.16
    * @Desc: Handle Back Button
    */
   Future<bool> _handleBackButton() async {
@@ -931,7 +931,7 @@ class _RideNowState extends State<RideNow>
 
   /**********************************
    * @Auth: world324digital
-   * @Date: 2023.03.16
+   * @Date: 2023.04.16
    * @Desc: Start Riding
    */
   Future<void> startRiding() async {
@@ -974,7 +974,7 @@ class _RideNowState extends State<RideNow>
 
   /*********************************
    * @Auth: world324digital.
-   * @Date: 2023.03.27
+   * @Date: 2023.04.27
    * @Desc: Save Tempreivew on Local storag when user close app forcely
    */
 
@@ -1016,7 +1016,7 @@ class _RideNowState extends State<RideNow>
 
   /*********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.16
+   * @Date: 2023.04.16
    * @Desc: Schedule Notification
    */
   void scheduleNotification(
@@ -1126,7 +1126,7 @@ class _RideNowState extends State<RideNow>
 
   /****************** 
    * @Auth: world324digital
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: ShowBottomDialog
    * *************************/
   void showBottomDialog({
@@ -1229,7 +1229,7 @@ class _RideNowState extends State<RideNow>
 
 /***********************************************
  * @Auth World324
- * @Date 2022.12.02
+ * @Date 2023.04.03
  * @Desc Start Timer
  */
   void startTimer() {
@@ -1426,19 +1426,6 @@ class _RideNowState extends State<RideNow>
                         ),
                       Row(
                         children: <Widget>[
-                          // InkWell(
-                          //   onTap: () {
-                          //     _scaffoldKey.currentState!.openDrawer();
-                          //   },
-                          //   child: Container(
-                          //       alignment: Alignment.topLeft,
-                          //       margin:
-                          //           const EdgeInsets.only(top: 45, left: 12),
-                          //       width: MediaQuery.of(context).size.width * 0.15,
-                          //       height: 60,
-                          //       child:
-                          //           Image.asset('assets/images/menuimg.png')),
-                          // ),
                           if (showProgressBar)
                             Expanded(
                               child: Container(
@@ -1526,79 +1513,17 @@ class _RideNowState extends State<RideNow>
                                     child: BatteryStatus(),
                                   ),
                                 ),
-                                // VerticalDivider(
-                                //   color: Colors.grey[200],
-                                //   // width: 5,
-                                //   thickness: 5,
-                                // ),
                                 SizedBox(width: 10),
-                                // if (appContext.currentUser.card != null)
-                                //   Expanded(
-                                //     flex: 10,
-                                //     child: Container(
-                                //       decoration: BoxDecoration(
-                                //         border: Border(
-                                //           left: BorderSide(
-                                //               color: Colors.grey.shade200),
-                                //           right: BorderSide(
-                                //               color: Colors.grey.shade200),
-                                //         ),
-                                //       ),
-                                //       child: Column(
-                                //         children: [
-                                //           Container(
-                                //             child: Container(
-                                //               child: CardUtils.getCardIcon(
-                                //                 appContext.currentUser.card
-                                //                         ?.cardType ??
-                                //                     "",
-                                //               ),
-                                //             ),
-                                //           ),
-                                //           Container(
-                                //             margin: const EdgeInsets.only(
-                                //               // left: 10,
-                                //               top: 10,
-                                //               // bottom: 20,
-                                //               // right: 10,
-                                //             ),
-                                //             child: Text(
-                                //               "\$${appContext.selectedPrice?.startCost.toStringAsFixed(2)}",
-                                //               style: TextStyle(
-                                //                 fontWeight: FontWeight.w500,
-                                //                 fontSize: 20,
-                                //                 height: 1,
-                                //                 fontFamily: FontStyles.fMedium,
-                                //               ),
-                                //             ),
-                                //           )
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ),
-                                // VerticalDivider(
-                                //   color: Colors.black,
-                                //   // width: 5,
-                                //   thickness: 5,
-                                // // ),
                                 SizedBox(width: 10),
 
                                 Expanded(
                                   flex: 9,
                                   child: GestureDetector(
                                     onTap: () {
-                                      // setState(() {
-                                      //   _ridingState = 4;
-                                      // });
                                     },
                                     child: Column(
                                       children: [
                                         Container(
-                                          // margin: const EdgeInsets.only(
-                                          //     left: 10,
-                                          //     top: 20,
-                                          //     // bottom: 5,
-                                          //     right: 10),
                                           child: Image.asset(
                                             'assets/images/timericon.png',
                                             width: 24,
@@ -1607,19 +1532,8 @@ class _RideNowState extends State<RideNow>
                                         ),
                                         Container(
                                           margin: const EdgeInsets.only(
-                                            // left: 10,
                                             top: 10,
-                                            // bottom: 20,
-                                            // right: 10,
                                           ),
-                                          // child: CountDownTimer(
-                                          //   time_value: _totalRidetime,
-                                          //   textStyle: TextStyle(
-                                          //     fontFamily: FontStyles.fMedium,
-                                          //     fontWeight: FontWeight.w500,
-                                          //     fontSize: 20,
-                                          //   ),
-                                          // ),
                                           child: CountUpTimer(
                                             time_value: _usedTime,
                                             textStyle: TextStyle(

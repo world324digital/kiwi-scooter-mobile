@@ -6,10 +6,10 @@ import 'package:KiwiCity/Widgets/menuItem.dart';
 import 'package:flutter/material.dart';
 import 'package:KiwiCity/Pages/PaymentPage/pay_method.dart';
 import 'package:provider/provider.dart';
-import '../../Routes/routes.dart';
-import '../History/ride_history.dart';
-import '../../video.dart';
-import '../../settings.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+import 'package:KiwiCity/Pages/History/ride_history.dart';
+import 'package:KiwiCity/video.dart';
+import 'package:KiwiCity/settings.dart';
 
 class MainMenu extends StatefulWidget {
   final pageIndex;

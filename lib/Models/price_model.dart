@@ -15,7 +15,6 @@ class PriceModel {
 
   PriceModel.fromMap({required data}) {
     try {
-      // this.id = data['id'] ?? "";
       this.startCost =
           data['startCost'] != null ? double.parse(data['startCost']) : 0.0;
       this.plan = data['plan'] ?? "";

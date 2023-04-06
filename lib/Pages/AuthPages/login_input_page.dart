@@ -12,8 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:validators/validators.dart';
-import '../../Services/auth.dart';
-import '../../services/firebase_service.dart';
+import 'package:KiwiCity/services/auth.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
 
 class LoginInputPage extends StatefulWidget {
   const LoginInputPage({super.key});
@@ -49,7 +49,7 @@ class _LoginInputPage extends State<LoginInputPage> {
 
   /*******************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Login with Email
    */
   Future<void> loginWithEmail() async {

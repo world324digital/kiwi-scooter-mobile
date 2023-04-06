@@ -40,7 +40,8 @@ class TransactionModel {
       this.stripeTxId = data['stripeTxId'] ?? "";
       this.txType = data['txType'] ?? "";
       this.rideTime = data['rideTime'] != null ? data['rideTime'] : 0;
-      this.rideDistance = data['rideDistance'] != null ? data['rideDistance'] : 0.0;
+      this.rideDistance =
+          data['rideDistance'] != null ? data['rideDistance'] : 0.0;
       this.amount = data['amount'] != null ? data['amount'] : 0.0;
     } catch (e) {
       print(e);

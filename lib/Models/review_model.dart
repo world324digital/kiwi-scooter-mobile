@@ -80,7 +80,8 @@ class ReviewModel {
       this.duration = data['duration'] != null ? data['duration'] : 0;
       this.riding_price =
           data['riding_price'] != null ? data['riding_price'] : 0.0;
-      this.start_price = data['start_price'] != null ? data['start_price'] : 0.0;
+      this.start_price =
+          data['start_price'] != null ? data['start_price'] : 0.0;
       this.vat_price = data['vat_price'] != null ? data['vat_price'] : 0.0;
       this.total_price =
           data['total_price'] != null ? data['total_price'] : 0.0;
@@ -96,8 +97,6 @@ class ReviewModel {
       this.endPoint = data['endPoint'] != null
           ? LocationModel.fromMap(data: data['endPoint'])
           : null;
-      ;
-      ;
     } catch (e) {
       print(e);
       throw ("Couldn't get review  data correctly");

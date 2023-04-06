@@ -41,7 +41,7 @@ class FirebaseService {
 
   /***********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.10
+   * @Date: 2023.04.10
    * @Desc: Initialize Firebase
    */
 
@@ -53,7 +53,7 @@ class FirebaseService {
 
   /***********************************************
   * @Auth: world324digital@gmail.com
-  * @Date: 2023.03.10
+  * @Date: 2023.04.10
   * @Desc: Google Sigin
   */
   Future<UserCredential?> signInwithGoogle() async {
@@ -93,7 +93,7 @@ class FirebaseService {
 
   /***********************************************
   * @Auth: world324digital@gmail.com
-  * @Date: 2023.03.10
+  * @Date: 2023.04.10
   * @Desc: Apple SignIn
   */
   Future<User> signInWithApple() async {
@@ -157,7 +157,7 @@ class FirebaseService {
 
   /******************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.11
+   * @Date: 2023.04.11
    * @Desc: Create User Profile
    */
   Future<bool> createUser(UserModel userModel) async {
@@ -198,7 +198,7 @@ class FirebaseService {
 
   /******************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Get UserData
    */
   Future<UserModel?> getUser(String uid) async {
@@ -292,7 +292,7 @@ class FirebaseService {
 
   /*******************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: check scooter id is valid
    */
   Future<String> isValidScooterID({required String scooterID}) async {
@@ -309,7 +309,7 @@ class FirebaseService {
 
   /*******************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Get Prices
    */
   Future<List<PriceModel>> getPrices() async {
@@ -388,7 +388,7 @@ class FirebaseService {
 
   /***********************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.14
+   * @Date: 2023.04.04
    * @Desc: Update User Card
    */
   Future<bool> updateCard(UserModel user) async {
@@ -418,7 +418,7 @@ class FirebaseService {
 
   /********************************
    * @Auth: world324digital
-   * @Date: 2023.03.16
+   * @Date: 2023.04.16
    * @Desc: Upload Image
    */
   Future<String> uploadImage(

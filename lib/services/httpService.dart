@@ -20,7 +20,7 @@ class HttpService {
   String mqttPrefix = URLS.MQTT_PREFIX;
   /*******************************
    * @Auth: world324digital@gmail.com
-   * @Date: 2023.03.6
+   * @Date: 2023.04.06
    * @Desc: SetHeader
    */
   Future<Map<String, String>> getHeader(
@@ -58,7 +58,7 @@ class HttpService {
 
   /*********************************
    * @Auth: world324digital@gmail.com
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Create Http tails
    */
   Future<String> httpBuildQuery(Map<String, String> data) async {
@@ -171,7 +171,7 @@ class HttpService {
 
   /*********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Stripe Card Pay
    */
   Future cardPay({
@@ -233,7 +233,7 @@ class HttpService {
 
   /*********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Change Power Status ( On/Off ) of scooter
    */
   Future changePowerStatus({
@@ -265,7 +265,7 @@ class HttpService {
 
   /*********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Change Power Status ( On/Off ) of scooter
    */
   Future changeLockStatus({
@@ -298,7 +298,7 @@ class HttpService {
 
   /*********************************
    * @Auth: world.digital.dev@gmail.com
-   * @Date: 2023.03.29
+   * @Date: 2023.04.02
    * @Desc: Change Power Status ( On/Off ) of scooter
    */
   Future changeLightStatus({

@@ -97,7 +97,7 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Show permission Dialog when disalbe permission of location 
    */
 
@@ -156,7 +156,7 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
 
   /*****************************
    * @Auth: world324digital
-   * @Date: 2023.03.5
+   * @Date: 2023.04.03
    * @Desc: Restart app when set permissions of App
    */
 
