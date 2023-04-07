@@ -333,7 +333,8 @@ class _LoginState extends State<Login> {
                     width: 20,
                     height: 20,
                   ),
-                  color: ColorConstants.cPrimaryTitleColor,
+                  color: Colors.white,
+                  txtColor: ColorConstants.cPrimaryBtnColor,
                 );
               }
               return CircularProgressIndicator(
@@ -351,7 +352,8 @@ class _LoginState extends State<Login> {
             },
             title: "Sign In With Apple",
             icon: Icon(Icons.apple_sharp),
-            color: ColorConstants.cPrimaryTitleColor,
+            color: Colors.white,
+            txtColor: ColorConstants.cPrimaryBtnColor,
           ),
         // SignInWithAppleButton(
         //   onPressed: () async {},

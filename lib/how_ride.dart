@@ -77,13 +77,16 @@ class _HowRide extends State<HowRide> {
     DateTime start_time = appProvider.startRideTime;
     DateTime end_time = appProvider.endRideTime;
     int duration = appProvider.usedTime;
-    double price_per_minute = appProvider.selectedPrice?.costPerMinute??0.0;
-    double riding_price = double.parse((price_per_minute * duration / 60).toStringAsFixed(2));
-    double start_price = appProvider.selectedPrice?.startCost??0.0;
+    double price_per_minute = appProvider.selectedPrice?.costPerMinute ?? 0.0;
+    double riding_price =
+        double.parse((price_per_minute * duration / 60).toStringAsFixed(2));
+    double start_price = appProvider.selectedPrice?.startCost ?? 0.0;
     double vat_price = 0.0;
-    double total_price = riding_price + start_price + vat_price;
-    String card_type = card?.cardType??"";
-    String card_number = card?.cardNumber??"";
+    double total_price = double.parse(
+        (riding_price + start_price + vat_price).toStringAsFixed(2));
+    ;
+    String card_type = card?.cardType ?? "";
+    String card_number = card?.cardNumber ?? "";
     double _rating = 5.0;
     LocationModel _startPoint = appProvider.startPoint;
     LocationModel _endPoint = appProvider.endPoint;
@@ -262,7 +265,7 @@ class _HowRide extends State<HowRide> {
                 margin: const EdgeInsets.only(left: 20, bottom: 28),
                 // child: Image.asset('assets/images/visa.png')),
                 child: CardUtils.getCardIcon(
-                  AppProvider.of(context).currentUser.card?.cardType??"",
+                  AppProvider.of(context).currentUser.card?.cardType ?? "",
                 ),
               ),
               Container(
@@ -335,7 +338,7 @@ class _HowRide extends State<HowRide> {
                   ),
                   detailSection,
                   priceSection,
-                  visaSection
+                  // visaSection
                 ],
               )),
               Container(

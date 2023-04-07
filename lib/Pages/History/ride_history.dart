@@ -57,9 +57,11 @@ class _RideHistory extends State<RideHistory> {
     for (ReviewModel review in _reviews) {
       LocationModel? startPoint = review.startPoint;
       LocationModel? endPoint = review.endPoint;
-      points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
-          LatLng(endPoint!.lat, endPoint.long));
-      pointList.add(points);
+      // ================>>>>>>>>>>>>Map route part
+      // points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
+      //     LatLng(endPoint!.lat, endPoint.long));
+      // pointList.add(points);
+      // ================>>>>>>>>>>>>Map route part
     }
 
     // setState(() {
@@ -157,7 +159,7 @@ class _RideHistory extends State<RideHistory> {
       reviewWidget.add(Item(
         context: context,
         review: review,
-        points: points,
+        // points: points,
       ));
     }
     return reviewWidget;
@@ -171,10 +173,11 @@ class _RideHistory extends State<RideHistory> {
     return points;
   }
 
-  Widget Item(
-      {required BuildContext context,
-      required ReviewModel review,
-      required List<LatLng> points}) {
+  Widget Item({
+    required BuildContext context,
+    required ReviewModel review,
+    // required List<LatLng> points,
+  }) {
     LocationModel? startPoint = review.startPoint;
     LocationModel? endPoint = review.endPoint;
     String distanceForDisplay = "";
@@ -198,7 +201,7 @@ class _RideHistory extends State<RideHistory> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      margin: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
+      margin: const EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 15),
       elevation: 3,
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
@@ -218,54 +221,56 @@ class _RideHistory extends State<RideHistory> {
         child: Container(
           padding: const EdgeInsets.only(bottom: 20),
           child: Column(children: [
-            Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              height: 200,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-                child: FlutterMap(
-                  options: MapOptions(
-                    center: LatLng(center_lat, center_long),
-                    interactiveFlags:
-                        InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-                    zoom: 13,
-                    minZoom: 5,
-                    maxZoom: 18,
+            // ================>>>>>>>>>>>>Map route part
+            // Container(
+            //   decoration:
+            //       BoxDecoration(borderRadius: BorderRadius.circular(20)),
+            //   height: 200,
+            //   width: double.infinity,
+            //   child: ClipRRect(
+            //     borderRadius: const BorderRadius.only(
+            //       topLeft: Radius.circular(20.0),
+            //       topRight: Radius.circular(20.0),
+            //     ),
+            //     child: FlutterMap(
+            //       options: MapOptions(
+            //         center: LatLng(center_lat, center_long),
+            //         interactiveFlags:
+            //             InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+            //         zoom: 13,
+            //         minZoom: 5,
+            //         maxZoom: 18,
 
-                    onTap: (tapPosition, point) {
-                      setState(() {
-                        debugPrint("onTap Location: ${point.toString()}");
-                      });
-                    },
-                    // onMapEvent: (p0) {
-                    //   print("here-------------");
-                    //   print(p0.zoom);
-                    // },
-                  ),
-                  children: [
-                    TileLayer(
-                      urlTemplate: AppConstants.urlTemplate,
-                      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-                    ),
-                    PolylineLayer(
-                      polylineCulling: true,
-                      polylines: [
-                        Polyline(
-                          points: points,
-                          strokeWidth: 2,
-                          color: ColorConstants.cPrimaryBtnColor,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            //         onTap: (tapPosition, point) {
+            //           setState(() {
+            //             debugPrint("onTap Location: ${point.toString()}");
+            //           });
+            //         },
+            //         // onMapEvent: (p0) {
+            //         //   print("here-------------");
+            //         //   print(p0.zoom);
+            //         // },
+            //       ),
+            //       children: [
+            //         TileLayer(
+            //           urlTemplate: AppConstants.urlTemplate,
+            //           userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+            //         ),
+            //         PolylineLayer(
+            //           polylineCulling: true,
+            //           polylines: [
+            //             Polyline(
+            //               points: points,
+            //               strokeWidth: 2,
+            //               color: ColorConstants.cPrimaryBtnColor,
+            //             ),
+            //           ],
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // ================>>>>>>>>>>>>Map route part
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(left: 25, top: 20),
@@ -283,13 +288,25 @@ class _RideHistory extends State<RideHistory> {
             Container(
                 alignment: Alignment.topLeft,
                 padding: const EdgeInsets.only(left: 25, top: 10, bottom: 20),
-                child: Text(
-                  '\€${review.total_price} EUR',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: ColorConstants.cPrimaryBtnColor,
-                      fontFamily: 'Montserrat-Bold',
-                      fontWeight: FontWeight.w600),
+                child: Row(
+                  children: [
+                    Text(
+                      '\#${review.id}',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: ColorConstants.cPrimaryBtnColor,
+                          fontFamily: 'Montserrat-Bold',
+                          fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      '\  €${review.total_price}',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: ColorConstants.cPrimaryTitleColor,
+                          fontFamily: 'Montserrat-SemiBold',
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
                 )),
             Container(
                 padding: const EdgeInsets.only(left: 20),
@@ -438,9 +455,10 @@ class _RideHistory extends State<RideHistory> {
                                   // return Text(
                                   //     '${snapshot.data[index].card_number}');
                                   return Item(
-                                      context: context,
-                                      review: snapshot.data[index],
-                                      points: pointList[index]);
+                                    context: context,
+                                    review: snapshot.data[index],
+                                  );
+                                  // points: pointList[index],);
                                 }),
                           );
                         } else {

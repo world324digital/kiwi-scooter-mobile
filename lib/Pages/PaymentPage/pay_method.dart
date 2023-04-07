@@ -103,16 +103,17 @@ class _PayMethod extends State<PayMethod> {
         if (res['result']) {
           UserModel currentUser = AppProvider.of(context).currentUser;
 
-          currentUser.balance = currentUser.balance + double.parse(amount);
+          currentUser.balance = double.parse((currentUser.balance + double.parse(amount)).toStringAsFixed(2));
           FirebaseService service = FirebaseService();
+          String amount_fixed = double.parse(amount).toStringAsFixed(2);
           TransactionModel transaction = new TransactionModel(
             userId: currentUser.id,
-            userName: currentUser.firstName + currentUser.lastName,
+            userName: currentUser.firstName + " " + currentUser.lastName,
             stripeId: res['data']['id'] ?? "",
             stripeTxId: res['data']['balance_transaction'] ?? "",
             rideDistance: 0.0,
             rideTime: 0,
-            amount: double.parse(amount),
+            amount: double.parse(amount_fixed),
             txType: "Deposit",
           );
           await service.createTransaction(transaction);
@@ -1002,40 +1003,40 @@ class _PayMethod extends State<PayMethod> {
                       children: [
                         if (AppProvider.of(context).selectedPrice != null)
                           // applePayWidget(),
-                          platform == TargetPlatform.iOS
-                              ? ApplePayButtonWidget(
-                                  padding: EdgeInsets.all(16),
-                                  children: [
-                                    FlutterStripe.ApplePayButton(
-                                      onPressed: _handlePayPress,
-                                    )
-                                  ],
-                                )
-                              : pay.GooglePayButton(
-                                  paymentConfigurationAsset:
-                                      'google_pay_live.json',
-                                  paymentItems: getPriceItem(),
-                                  margin: const EdgeInsets.only(
-                                      top: 15, right: 20, left: 20, bottom: 20),
-                                  onPaymentResult: onGooglePayResult,
-                                  loadingIndicator: const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                  onPressed: () async {
-                                    // 1. Add your stripe publishable key to assets/google_pay_payment_profile.json
-                                    // await debugChangedStripePublishableKey();
-                                  },
-                                  childOnError: Text(
-                                      'Google Pay is not available in this device'),
-                                  onError: (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'There was an error while trying to perform the payment'),
-                                      ),
-                                    );
-                                  },
-                                ),
+                          // platform == TargetPlatform.iOS
+                          //     ? ApplePayButtonWidget(
+                          //         padding: EdgeInsets.all(16),
+                          //         children: [
+                          //           FlutterStripe.ApplePayButton(
+                          //             onPressed: _handlePayPress,
+                          //           )
+                          //         ],
+                          //       )
+                          //     : pay.GooglePayButton(
+                          //         paymentConfigurationAsset:
+                          //             'google_pay_live.json',
+                          //         paymentItems: getPriceItem(),
+                          //         margin: const EdgeInsets.only(
+                          //             top: 15, right: 20, left: 20, bottom: 20),
+                          //         onPaymentResult: onGooglePayResult,
+                          //         loadingIndicator: const Center(
+                          //           child: CircularProgressIndicator(),
+                          //         ),
+                          //         onPressed: () async {
+                          //           // 1. Add your stripe publishable key to assets/google_pay_payment_profile.json
+                          //           // await debugChangedStripePublishableKey();
+                          //         },
+                          //         childOnError: Text(
+                          //             'Google Pay is not available in this device'),
+                          //         onError: (e) {
+                          //           ScaffoldMessenger.of(context).showSnackBar(
+                          //             const SnackBar(
+                          //               content: Text(
+                          //                   'There was an error while trying to perform the payment'),
+                          //             ),
+                          //           );
+                          //         },
+                          //       ),
                         isExistCard ? paySection : Container(),
                         (isExistCard && !isShowCardSection)
                             ? Container()

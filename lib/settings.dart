@@ -190,8 +190,8 @@ class _Settings extends State<Settings> {
           horizontalPadding: 0,
           context: context,
           txtColor: Colors.white,
-          color: Colors.black,
-          borderColor: Colors.black,
+          color: ColorConstants.cPrimaryBtnColor,
+          borderColor: ColorConstants.cPrimaryBtnColor,
           onTap: () async {
             await _updateAccount();
           },

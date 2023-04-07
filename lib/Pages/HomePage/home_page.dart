@@ -152,13 +152,6 @@ class _HomePageState extends State<HomePage>
               lat: change.doc.data()!['la'] ?? 0,
               lng: change.doc.data()!['lo'] ?? 0,
               status: change.doc.data()!['status'] ?? '',
-              // c: change.doc.data()!['c'] ?? 0,
-              // g: change.doc.data()!['g'] ?? '',
-              // r: change.doc.data()!['r'] ?? 0,
-              // s: change.doc.data()!['s'] ?? 0,
-              // t: change.doc.data()!['t'] ?? 0,
-              // v: change.doc.data()!['v'] ?? 0,
-              // x: change.doc.data()!['x'] ?? 0,
             ));
             break;
           case DocumentChangeType.modified:
@@ -174,13 +167,6 @@ class _HomePageState extends State<HomePage>
               lat: change.doc.data()!['la'] ?? 0,
               lng: change.doc.data()!['lo'] ?? 0,
               status: change.doc.data()!['status'] ?? '',
-              // c: change.doc.data()!['c'] ?? 0,
-              // g: change.doc.data()!['g'] ?? '',
-              // r: change.doc.data()!['r'] ?? 0,
-              // s: change.doc.data()!['s'] ?? 0,
-              // t: change.doc.data()!['t'] ?? 0,
-              // v: change.doc.data()!['v'] ?? 0,
-              // x: change.doc.data()!['x'] ?? 0,
             ));
             break;
           case DocumentChangeType.removed:
@@ -233,7 +219,7 @@ class _HomePageState extends State<HomePage>
           height: 48,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/greenbike.png'),
+                image: AssetImage('assets/images/greenscooter.png'),
                 fit: BoxFit.fill),
           ),
         );
@@ -243,7 +229,7 @@ class _HomePageState extends State<HomePage>
           height: 48,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/midbike.png'),
+                image: AssetImage('assets/images/yellowscooter.png'),
                 fit: BoxFit.fill),
           ),
         );
@@ -253,7 +239,7 @@ class _HomePageState extends State<HomePage>
           height: 48,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/redbike.png'),
+                image: AssetImage('assets/images/redscooter.png'),
                 fit: BoxFit.fill),
           ),
         );
@@ -302,7 +288,7 @@ class _HomePageState extends State<HomePage>
       height: 60,
       width: 60,
       // point: new LatLng(double.parse(scooter.lat), double.parse(scooter.lng)),
-      point: new LatLng(scooter.lat, scooter.lng),
+      point: new LatLng(scooter.lat + 0.00005, scooter.lng - 0.00005),
       builder: (ctx) => Container(
         child: Stack(
           children: <Widget>[
@@ -739,189 +725,189 @@ class _HomePageState extends State<HomePage>
                                   ),
 
                                   // ========== ALERT BUTTON ===========
-                                  InkWell(
-                                    onTap: () {
-                                      showModalBottomSheet<String>(
-                                        backgroundColor: Colors.transparent,
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            Dialog(
-                                          backgroundColor: Colors.transparent,
-                                          alignment: Alignment.bottomCenter,
-                                          elevation: 0,
-                                          insetPadding: EdgeInsets.zero,
-                                          child: Container(
-                                            width: ScreenUtil().screenWidth,
-                                            height:
-                                                ScreenUtil().screenHeight * 0.4,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 15,
-                                                      right: 15,
-                                                      bottom: 20),
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      20, 25, 20, 0),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      24,
-                                                    ),
-                                                  ),
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                        width: ScreenUtil()
-                                                            .screenWidth,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                bottom: 20),
-                                                        child: MyFont.text(
-                                                          'Report Scooter',
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
-                                                      Form(
-                                                        key: formKey,
-                                                        child: Container(
-                                                          width:
-                                                              double.infinity,
-                                                          // height: 500,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          child: TextFormField(
-                                                            validator: (value) {
-                                                              if (value ==
-                                                                      null ||
-                                                                  value
-                                                                      .isEmpty) {
-                                                                return 'Please enter some text';
-                                                              }
-                                                              return null;
-                                                            },
-                                                            controller:
-                                                                reportTxtCtl,
-                                                            decoration:
-                                                                InputDecoration(
-                                                              hintStyle: TextStyle(
-                                                                  color: ColorConstants
-                                                                      .cPrimaryTitleColor,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  height: 1.42,
-                                                                  fontFamily:
-                                                                      FontStyles
-                                                                          .fMedium),
-                                                              hintText:
-                                                                  'Please tell us what\'s wrong',
-                                                              border: OutlineInputBorder(
-                                                                  borderSide: BorderSide(
-                                                                      color: Colors
-                                                                          .black),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              15.0)),
-                                                            ),
-                                                            autocorrect: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            textInputAction:
-                                                                TextInputAction
-                                                                    .next,
-                                                            onChanged: (text) {
-                                                              setState(() {
-                                                                _reportText =
-                                                                    text;
-                                                                isReportError = !formKey
-                                                                    .currentState!
-                                                                    .validate();
-                                                              });
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      PrimaryButton(
-                                                        margin: const EdgeInsets
-                                                                .only(
-                                                            left: 0,
-                                                            right: 0,
-                                                            bottom: 20),
-                                                        width: double.infinity,
-                                                        horizontalPadding: 0,
-                                                        context: context,
-                                                        onTap: () async {
-                                                          if (formKey
-                                                              .currentState!
-                                                              .validate()) {
-                                                            // If the form is valid, display a snackbar. In the real world,
-                                                            // you'd often call a server or save the information in a database.
-                                                            // ScaffoldMessenger.of(context)
-                                                            //     .showSnackBar(
-                                                            //   const SnackBar(
-                                                            //       content: Text(
-                                                            //           'Processing Data')),
-                                                            // );
-                                                            Navigator.pop(
-                                                                context, 'OK');
-                                                            await sendReportEmail(
-                                                                _selectedScooterID,
-                                                                // _selectedScooterImei,
-                                                                reportTxtCtl
-                                                                    .text);
-                                                          }
-                                                        },
-                                                        title: "Send Report",
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      width: 48,
-                                      height: 40,
-                                      margin: const EdgeInsets.only(left: 10),
-                                      padding: const EdgeInsets.only(
-                                          top: 8, right: 10, bottom: 8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: Color(0xffFF7A75),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Image.asset(
-                                                'assets/images/warning.png'),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
+                                  // InkWell(
+                                  //   onTap: () {
+                                  //     showModalBottomSheet<String>(
+                                  //       backgroundColor: Colors.transparent,
+                                  //       context: context,
+                                  //       builder: (BuildContext context) =>
+                                  //           Dialog(
+                                  //         backgroundColor: Colors.transparent,
+                                  //         alignment: Alignment.bottomCenter,
+                                  //         elevation: 0,
+                                  //         insetPadding: EdgeInsets.zero,
+                                  //         child: Container(
+                                  //           width: ScreenUtil().screenWidth,
+                                  //           height:
+                                  //               ScreenUtil().screenHeight * 0.4,
+                                  //           child: Column(
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment.end,
+                                  //             children: [
+                                  //               Container(
+                                  //                 margin: EdgeInsets.only(
+                                  //                     left: 15,
+                                  //                     right: 15,
+                                  //                     bottom: 20),
+                                  //                 padding: EdgeInsets.fromLTRB(
+                                  //                     20, 25, 20, 0),
+                                  //                 decoration: BoxDecoration(
+                                  //                   color: Colors.white,
+                                  //                   borderRadius:
+                                  //                       BorderRadius.circular(
+                                  //                     24,
+                                  //                   ),
+                                  //                 ),
+                                  //                 child: Column(
+                                  //                   children: [
+                                  //                     Container(
+                                  //                       width: ScreenUtil()
+                                  //                           .screenWidth,
+                                  //                       padding:
+                                  //                           const EdgeInsets
+                                  //                                   .only(
+                                  //                               bottom: 20),
+                                  //                       child: MyFont.text(
+                                  //                         'Report Scooter',
+                                  //                         fontSize: 20,
+                                  //                         fontWeight:
+                                  //                             FontWeight.w600,
+                                  //                       ),
+                                  //                     ),
+                                  //                     Form(
+                                  //                       key: formKey,
+                                  //                       child: Container(
+                                  //                         width:
+                                  //                             double.infinity,
+                                  //                         // height: 500,
+                                  //                         padding:
+                                  //                             const EdgeInsets
+                                  //                                     .only(
+                                  //                                 bottom: 10),
+                                  //                         child: TextFormField(
+                                  //                           validator: (value) {
+                                  //                             if (value ==
+                                  //                                     null ||
+                                  //                                 value
+                                  //                                     .isEmpty) {
+                                  //                               return 'Please enter some text';
+                                  //                             }
+                                  //                             return null;
+                                  //                           },
+                                  //                           controller:
+                                  //                               reportTxtCtl,
+                                  //                           decoration:
+                                  //                               InputDecoration(
+                                  //                             hintStyle: TextStyle(
+                                  //                                 color: ColorConstants
+                                  //                                     .cPrimaryTitleColor,
+                                  //                                 fontSize: 14,
+                                  //                                 fontWeight:
+                                  //                                     FontWeight
+                                  //                                         .w400,
+                                  //                                 height: 1.42,
+                                  //                                 fontFamily:
+                                  //                                     FontStyles
+                                  //                                         .fMedium),
+                                  //                             hintText:
+                                  //                                 'Please tell us what\'s wrong',
+                                  //                             border: OutlineInputBorder(
+                                  //                                 borderSide: BorderSide(
+                                  //                                     color: Colors
+                                  //                                         .black),
+                                  //                                 borderRadius:
+                                  //                                     BorderRadius
+                                  //                                         .circular(
+                                  //                                             15.0)),
+                                  //                           ),
+                                  //                           autocorrect: false,
+                                  //                           keyboardType:
+                                  //                               TextInputType
+                                  //                                   .name,
+                                  //                           textInputAction:
+                                  //                               TextInputAction
+                                  //                                   .next,
+                                  //                           onChanged: (text) {
+                                  //                             setState(() {
+                                  //                               _reportText =
+                                  //                                   text;
+                                  //                               isReportError = !formKey
+                                  //                                   .currentState!
+                                  //                                   .validate();
+                                  //                             });
+                                  //                           },
+                                  //                         ),
+                                  //                       ),
+                                  //                     ),
+                                  //                     PrimaryButton(
+                                  //                       margin: const EdgeInsets
+                                  //                               .only(
+                                  //                           left: 0,
+                                  //                           right: 0,
+                                  //                           bottom: 20),
+                                  //                       width: double.infinity,
+                                  //                       horizontalPadding: 0,
+                                  //                       context: context,
+                                  //                       onTap: () async {
+                                  //                         if (formKey
+                                  //                             .currentState!
+                                  //                             .validate()) {
+                                  //                           // If the form is valid, display a snackbar. In the real world,
+                                  //                           // you'd often call a server or save the information in a database.
+                                  //                           // ScaffoldMessenger.of(context)
+                                  //                           //     .showSnackBar(
+                                  //                           //   const SnackBar(
+                                  //                           //       content: Text(
+                                  //                           //           'Processing Data')),
+                                  //                           // );
+                                  //                           Navigator.pop(
+                                  //                               context, 'OK');
+                                  //                           await sendReportEmail(
+                                  //                               _selectedScooterID,
+                                  //                               // _selectedScooterImei,
+                                  //                               reportTxtCtl
+                                  //                                   .text);
+                                  //                         }
+                                  //                       },
+                                  //                       title: "Send Report",
+                                  //                     ),
+                                  //                   ],
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  //   child: Container(
+                                  //     width: 48,
+                                  //     height: 40,
+                                  //     margin: const EdgeInsets.only(left: 10),
+                                  //     padding: const EdgeInsets.only(
+                                  //         top: 8, right: 10, bottom: 8),
+                                  //     decoration: BoxDecoration(
+                                  //       borderRadius: BorderRadius.circular(12),
+                                  //       border: Border.all(
+                                  //         color: Color(0xffFF7A75),
+                                  //       ),
+                                  //     ),
+                                  //     child: Row(
+                                  //       mainAxisAlignment:
+                                  //           MainAxisAlignment.center,
+                                  //       crossAxisAlignment:
+                                  //           CrossAxisAlignment.center,
+                                  //       children: [
+                                  //         Container(
+                                  //           margin:
+                                  //               const EdgeInsets.only(left: 10),
+                                  //           child: Image.asset(
+                                  //               'assets/images/warning.png'),
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // )
                                 ],
                               )
                             ],
@@ -1212,6 +1198,13 @@ class _HomePageState extends State<HomePage>
     // getCurrentLocation();
   }
 
+  double _getHeadingFromBearing(double bearing) {
+    // Convert the bearing from degrees to radians
+    double radians = bearing * (pi / 180);
+    // Return the rotation angle in radians
+    return radians;
+  }
+
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       print("ads");
@@ -1222,6 +1215,7 @@ class _HomePageState extends State<HomePage>
 
       if (!status.isPermanentlyDenied) {
         Position currentLocation = await Geolocator.getCurrentPosition();
+        print(currentLocation.heading);
         AppProvider.of(context)
             .setLastUserLocation(currentLocation, isNotifiable: false);
         setState(() {
@@ -1233,10 +1227,13 @@ class _HomePageState extends State<HomePage>
             width: 50.0,
             height: 50.0,
             point: LatLng(currentLocation.latitude, currentLocation.longitude),
-            builder: (ctx) => Container(
-                child: Stack(children: <Widget>[
-              Image.asset('assets/images/usermarker.png'),
-            ])),
+            builder: (ctx) => Transform.rotate(
+              angle: _getHeadingFromBearing(currentLocation.heading),
+              child: Container(
+                  child: Stack(children: <Widget>[
+                Image.asset('assets/images/user_marker.png'),
+              ])),
+            ),
           );
           AppProvider.of(context)
               .setUserMarker(userLocationMarker, isNotifiable: false);
@@ -1578,15 +1575,17 @@ class _HomePageState extends State<HomePage>
                 setState(() {
                   _setuserLocation = true;
                   userLocation = position;
-                  // position = LatLng(37.31936, 101.94528);
                   userLocationMarker = Marker(
                     width: 50.0,
                     height: 50.0,
                     point: LatLng(position.latitude, position.longitude),
-                    builder: (ctx) => Container(
-                        child: Stack(children: <Widget>[
-                      Image.asset('assets/images/usermarker.png'),
-                    ])),
+                    builder: (ctx) => Transform.rotate(
+                      angle: _getHeadingFromBearing(position.heading),
+                      child: Container(
+                          child: Stack(children: <Widget>[
+                        Image.asset('assets/images/user_marker.png'),
+                      ])),
+                    ),
                   );
                   AppProvider.of(context)
                       .setUserMarker(userLocationMarker, isNotifiable: false);

@@ -33,7 +33,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mapbox_api/mapbox_api.dart';
 import 'package:intl/intl.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:workmanager/workmanager.dart';
 
 class RideNow extends StatefulWidget {
@@ -585,8 +584,6 @@ class _RideNowState extends State<RideNow>
       if (response.routes!.isNotEmpty) {
         final route = response.routes![0];
         distance = route.distance!;
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>distance");
-        print(distance);
       }
     } catch (e) {
       print("Calculate Distance Error ::::> ${e}");
@@ -644,11 +641,22 @@ class _RideNowState extends State<RideNow>
 
 // If user have still time, this runs
   Future<void> onEndRide() async {
-    double price_per_minute = AppProvider.of(context).selectedPrice?.costPerMinute??0.0;
-    print(double.parse((price_per_minute * _usedTime / 60.0).toStringAsFixed(2)));
+    double price_per_minute =
+        AppProvider.of(context).selectedPrice?.costPerMinute ?? 0.0;
     double riding_price =
         double.parse((price_per_minute * _usedTime / 60.0).toStringAsFixed(2));
-    
+
+    int insideRegionCounts = 0;
+
+    for (int i = 0; i < polygon.length - 1; i++) {
+      bool isInside = isPointInsidePolygon(LatLng(userLocation!.latitude, userLocation!.longitude), polygon[i].points);
+      if (isInside)
+        insideRegionCounts++;
+    }
+
+    print(">>>>>>>>>>>>>>>>>>>>insideRegionCounts>>>>>>>>>>>>>>>>>>>>>");
+    print(insideRegionCounts);
+
     showBottomDialog(
         img1: '',
         title: 'Riding price is',
@@ -681,7 +689,6 @@ class _RideNowState extends State<RideNow>
           AppProvider.of(context).setUsedTime(_usedTime);
           removeDataInLocal(AppLocalKeys.TEMP_REVIEW);
 
-          
           HelperUtility.showProgressDialog(
             context: context,
             key: _keyLoader,
@@ -690,22 +697,26 @@ class _RideNowState extends State<RideNow>
 
           UserModel currentUser = AppProvider.of(context).currentUser;
 
-          currentUser.balance =
-              double.parse((currentUser.balance - riding_price).toStringAsFixed(2));
+          currentUser.balance = double.parse(
+              (currentUser.balance - riding_price).toStringAsFixed(2));
 
           await calculateDistance(
-            LatLng(AppProvider.of(context).startPoint.lat, AppProvider.of(context).startPoint.long),
-            LatLng(AppProvider.of(context).endPoint.lat, AppProvider.of(context).endPoint.long),
+            LatLng(AppProvider.of(context).startPoint.lat,
+                AppProvider.of(context).startPoint.long),
+            LatLng(AppProvider.of(context).endPoint.lat,
+                AppProvider.of(context).endPoint.long),
           );
+
+          double amount_fixed = double.parse((riding_price + 1).toStringAsFixed(2));
 
           TransactionModel transaction = new TransactionModel(
             userId: currentUser.id,
-            userName: currentUser.firstName + currentUser.lastName,
+            userName: currentUser.firstName + " " + currentUser.lastName,
             stripeId: "",
             stripeTxId: "",
             rideDistance: distance,
             rideTime: _usedTime,
-            amount: riding_price + 1,
+            amount: amount_fixed,
             txType: "Ride",
           );
           await service.createTransaction(transaction);
@@ -713,7 +724,6 @@ class _RideNowState extends State<RideNow>
           bool updateUserResult = await service.updateUser(currentUser);
 
           if (updateUserResult) {
-            
             HelperUtility.closeProgressDialog(_keyLoader);
             HelperUtility.goPageReplace(
               context: context,
@@ -747,6 +757,46 @@ class _RideNowState extends State<RideNow>
           message: Messages.ERROR_UNABLE_SCOOTER,
           context: context);
     }
+  }
+
+  bool isPointInsidePolygon(LatLng point, List<LatLng> polygon) {
+    int intersectCount = 0;
+    for (int i = 0; i < polygon.length - 1; i++) {
+      if (_rayCrossesSegment(point, polygon[i], polygon[i + 1])) {
+        intersectCount++;
+      }
+    }
+    return (intersectCount % 2 == 1);
+  }
+
+  bool _rayCrossesSegment(LatLng point, LatLng a, LatLng b) {
+    var aLongitude = a.longitude;
+    var bLongitude = b.longitude;
+    var aLatitude = a.latitude;
+    var bLatitude = b.latitude;
+    var pointLongitude = point.longitude;
+    var pointLatitude = point.latitude;
+
+    if ((pointLatitude > aLatitude && pointLatitude > bLatitude) ||
+        (pointLatitude < aLatitude && pointLatitude < bLatitude)) {
+      return false;
+    }
+
+    if (pointLongitude > max(aLongitude, bLongitude)) {
+      return false;
+    }
+
+    if (pointLongitude < min(aLongitude, bLongitude)) {
+      return true;
+    }
+
+    double red = (aLongitude != bLongitude)
+        ? ((bLatitude - aLatitude) / (bLongitude - aLongitude))
+        : double.infinity;
+    double blue = (aLongitude != pointLongitude)
+        ? ((pointLatitude - aLatitude) / (pointLongitude - aLongitude))
+        : double.infinity;
+    return (blue >= red);
   }
 
   /*****************
@@ -875,6 +925,13 @@ class _RideNowState extends State<RideNow>
     }
   }
 
+  double _getHeadingFromBearing(double bearing) {
+    // Convert the bearing from degrees to radians
+    double radians = bearing * (pi / 180);
+    // Return the rotation angle in radians
+    return radians;
+  }
+
   void _toggleListening() {
     if (_positionStreamSubscription == null) {
       final positionStream = _geolocatorPlatform.getPositionStream();
@@ -892,10 +949,13 @@ class _RideNowState extends State<RideNow>
                 width: 50.0,
                 height: 50.0,
                 point: LatLng(position.latitude, position.longitude),
-                builder: (ctx) => Container(
-                    child: Stack(children: <Widget>[
-                  Image.asset('assets/images/usermarker.png'),
-                ])),
+                builder: (ctx) => Transform.rotate(
+                  angle: _getHeadingFromBearing(position.heading),
+                  child: Container(
+                      child: Stack(children: <Widget>[
+                    Image.asset('assets/images/user_marker.png'),
+                  ])),
+                ),
               );
             }),
           });
@@ -1407,17 +1467,21 @@ class _RideNowState extends State<RideNow>
                                 height: 50.0,
                                 point: LatLng(userLocation!.latitude,
                                     userLocation!.longitude),
-                                builder: (ctx) => Container(
-                                  child: InkWell(
-                                    onTap: () async {
-                                      // show No Ride Zone Dialog
+                                builder: (ctx) => Transform.rotate(
+                                  angle: _getHeadingFromBearing(
+                                      userLocation!.heading),
+                                  child: Container(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        // show No Ride Zone Dialog
 
-                                      // showNoRideDialog(context);
-                                    },
-                                    child: Stack(children: <Widget>[
-                                      Image.asset(
-                                          'assets/images/usermarker.png'),
-                                    ]),
+                                        // showNoRideDialog(context);
+                                      },
+                                      child: Stack(children: <Widget>[
+                                        Image.asset(
+                                            'assets/images/user_marker.png'),
+                                      ]),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1462,15 +1526,15 @@ class _RideNowState extends State<RideNow>
                                     ),
                                   ),
                                   onPressed: () {
-                                    showBottomDialog(
-                                        img1: 'assets/images/stilltime.png',
-                                        title: 'You still have time',
-                                        subtitle:
-                                            'You\'re about to end this ride with time remaining. You won\'t be reimbursed for unused time. Please',
-                                        btntxt: 'Confirm End Ride',
-                                        onTap: () {
-                                          return Navigator.of(context).pop();
-                                        });
+                                    // showBottomDialog(
+                                    //     img1: 'assets/images/stilltime.png',
+                                    //     title: 'You still have time',
+                                    //     subtitle:
+                                    //         'You\'re about to end this ride with time remaining. You won\'t be reimbursed for unused time. Please',
+                                    //     btntxt: 'Confirm End Ride',
+                                    //     onTap: () {
+                                    //       return Navigator.of(context).pop();
+                                    //     });
                                   },
                                 ),
                               ),
@@ -1515,12 +1579,10 @@ class _RideNowState extends State<RideNow>
                                 ),
                                 SizedBox(width: 10),
                                 SizedBox(width: 10),
-
                                 Expanded(
                                   flex: 9,
                                   child: GestureDetector(
-                                    onTap: () {
-                                    },
+                                    onTap: () {},
                                     child: Column(
                                       children: [
                                         Container(

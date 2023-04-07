@@ -47,7 +47,7 @@ class _ScotterState extends State<Scotter> {
                   point: LatLng(-12.069783, -77.034057),
                   builder: (ctx) => Container(
                           child: Stack(children: <Widget>[
-                        Image.asset('assets/images/marker.png'),
+                        Image.asset('assets/images/user_marker.png'),
                       ])
                           //   child: Container(
                           // child: Icon(

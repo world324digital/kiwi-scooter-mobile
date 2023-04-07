@@ -435,7 +435,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Color.fromRGBO(229, 249, 224, 1),
+                    color: Color(0xffC6D5F6),
                   ),
                   child: Text(
                     'SELECTED',

@@ -296,7 +296,7 @@ class _WalletPage extends State<WalletPage> {
               child: Text(
                 '€' + appProvider.currentUser.balance.toString(),
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   color: ColorConstants.cPrimaryBtnColor,
                   fontFamily: FontStyles.fMedium,
                   fontWeight: FontWeight.w500,
