@@ -113,4 +113,6 @@ dependencies {
 
     // For testing
     implementation "androidx.window:window-testing:1.0.0"
+
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

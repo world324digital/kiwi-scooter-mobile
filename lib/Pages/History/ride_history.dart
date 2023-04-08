@@ -299,7 +299,7 @@ class _RideHistory extends State<RideHistory> {
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      '\  €${review.total_price}',
+                      '  \€${review.total_price}',
                       style: TextStyle(
                           fontSize: 20,
                           color: ColorConstants.cPrimaryTitleColor,

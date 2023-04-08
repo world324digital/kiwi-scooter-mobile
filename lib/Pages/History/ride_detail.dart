@@ -433,7 +433,7 @@ class _RideDetail extends State<RideDetail> {
                 ),
                 detailSection(review: _review),
                 priceSection(review: _review),
-                visaSection(review: _review),
+                // visaSection(review: _review),
                 SizedBox(
                   height: 20,
                 )

@@ -81,7 +81,7 @@ class _HowRide extends State<HowRide> {
     double riding_price =
         double.parse((price_per_minute * duration / 60).toStringAsFixed(2));
     double start_price = appProvider.selectedPrice?.startCost ?? 0.0;
-    double vat_price = 0.0;
+    double vat_price = double.parse(((start_price + riding_price) * 0.21).toStringAsFixed(2));
     double total_price = double.parse(
         (riding_price + start_price + vat_price).toStringAsFixed(2));
     ;

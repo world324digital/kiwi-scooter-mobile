@@ -279,7 +279,7 @@ class _WalletPage extends State<WalletPage> {
           children: [
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(left: 15, top: 20, bottom: 15),
+              padding: const EdgeInsets.only(left: 0, top: 20, bottom: 15),
               child: Text(
                 'Available Balance',
                 style: TextStyle(
@@ -292,11 +292,11 @@ class _WalletPage extends State<WalletPage> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(left: 15, top: 10, bottom: 15),
+              padding: const EdgeInsets.only(left: 0, top: 10, bottom: 15),
               child: Text(
                 '€' + appProvider.currentUser.balance.toString(),
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 24,
                   color: ColorConstants.cPrimaryBtnColor,
                   fontFamily: FontStyles.fMedium,
                   fontWeight: FontWeight.w500,
@@ -305,7 +305,7 @@ class _WalletPage extends State<WalletPage> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(left: 15, top: 10, bottom: 15),
+              padding: const EdgeInsets.only(left: 0, top: 20, bottom: 15),
               child: Text(
                 'Add Money',
                 style: TextStyle(
@@ -318,7 +318,7 @@ class _WalletPage extends State<WalletPage> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(left: 15, top: 0, bottom: 15),
+              padding: const EdgeInsets.only(left: 0, top: 0, bottom: 15),
               child: Text(
                 'More rides, more discount',
                 style: TextStyle(
@@ -333,7 +333,7 @@ class _WalletPage extends State<WalletPage> {
             //------------- Deposit amount --------------
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12),
+              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 0),
               child: Text(
                 'Enter amount',
                 textAlign: TextAlign.start,
@@ -345,7 +345,7 @@ class _WalletPage extends State<WalletPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
+              margin: const EdgeInsets.only(bottom: 12, left: 0, right: 0),
               child: TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _amountController,
@@ -408,6 +408,7 @@ class _WalletPage extends State<WalletPage> {
                   }
                 },
                 title: "Pay Now",
+                horizontalPadding: 0,
               ),
             )
           ],
