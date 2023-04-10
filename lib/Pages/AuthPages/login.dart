@@ -286,7 +286,7 @@ class _LoginState extends State<Login> {
                 /*2*/
                 Text(
                   'Fuel prices are high! Save time and money \n '
-                  'by renting eScooters for less than \$0.25/min \n'
+                  'by renting eScooters for less than \€0.25/min \n'
                   'to explore your destination!',
                   textAlign: TextAlign.center,
                   style: TextStyle(

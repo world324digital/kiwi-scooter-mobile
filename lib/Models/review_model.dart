@@ -20,7 +20,9 @@ class ReviewModel {
   String card_type = "";
   String card_number = "";
   double rating = 0.0;
+  double distance = 0.0;
   String scooterImg = "";
+  List<LatLng> points = [];
   late LocationModel? startPoint;
   late LocationModel? endPoint;
 
@@ -41,6 +43,8 @@ class ReviewModel {
     required this.scooterImg,
     required this.startPoint,
     required this.endPoint,
+    required this.points,
+    required this.distance,
   });
 
   Map<String, dynamic> toMap() {
@@ -58,7 +62,9 @@ class ReviewModel {
     returnedMap["card_type"] = this.card_type;
     returnedMap["card_number"] = this.card_number;
     returnedMap["rating"] = this.rating;
+    returnedMap["distance"] = this.distance;
     returnedMap["scooterImg"] = this.scooterImg;
+    returnedMap["points"] = this.points;
     returnedMap["startPoint"] =
         (this.startPoint != null) ? this.startPoint!.toMap() : null;
     returnedMap["endPoint"] =
@@ -90,6 +96,7 @@ class ReviewModel {
 
       this.scooterImg = data['scooterImg'] != null ? data['scooterImg'] : "";
       this.rating = data['rating'] != null ? data['rating'] : 0.0;
+      this.distance = data['distance'] != null ? data['distance'] : 0.0;
 
       this.startPoint = data['startPoint'] != null
           ? LocationModel.fromMap(data: data['startPoint'])
@@ -97,6 +104,14 @@ class ReviewModel {
       this.endPoint = data['endPoint'] != null
           ? LocationModel.fromMap(data: data['endPoint'])
           : null;
+        
+      // this.points = data['endPoint'] != null
+      //     ? LocationModel.fromMap(data: data['endPoint'])
+      //     : null;
+
+      // print("map value of points      //////////////////////");
+      // print(data['points']);
+      // this.points = List.from(data['points'])
     } catch (e) {
       print(e);
       throw ("Couldn't get review  data correctly");

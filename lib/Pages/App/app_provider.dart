@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:latlong2/latlong.dart';
 // import 'package:within/Models/index.dart';
 
 class AppProvider extends ChangeNotifier {
@@ -176,6 +177,22 @@ class AppProvider extends ChangeNotifier {
   bool get isProgress => _isProgress;
   void setProgress(bool isProgress, {bool isNotifiable = true}) {
     _isProgress = isProgress;
+    if (isNotifiable) notifyListeners();
+  }
+
+  // Route Points
+  List<LatLng> _points = [];
+  List<LatLng> get points => _points;
+  void setPoints(List<LatLng> points, {bool isNotifiable = true}) {
+    _points = points;
+    if (isNotifiable) notifyListeners();
+  }
+
+  // Riding Distance
+  double _distance = 0.0;
+  double get distance => _distance;
+  void setDistance(double distance, {bool isNotifiable = true}) {
+    _distance = distance;
     if (isNotifiable) notifyListeners();
   }
 }

@@ -186,7 +186,7 @@ class _StartRiding extends State<StartRiding> {
       ),
     );
     Widget continueSection = Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Column(children: <Widget>[

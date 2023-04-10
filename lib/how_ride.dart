@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 
 class HowRide extends StatefulWidget {
   const HowRide({Key? key, required this.data}) : super(key: key);
@@ -47,7 +47,7 @@ class _HowRide extends State<HowRide> {
    */
   Future<void> saveReview(ReviewModel review) async {
     try {
-      HelperUtility.showProgressDialog(context: context, key: _keyLoader);
+      // HelperUtility.showProgressDialog(context: context, key: _keyLoader);
       await service.createReview(review);
       HelperUtility.closeProgressDialog(_keyLoader);
       Alert.showMessage(
@@ -81,7 +81,8 @@ class _HowRide extends State<HowRide> {
     double riding_price =
         double.parse((price_per_minute * duration / 60).toStringAsFixed(2));
     double start_price = appProvider.selectedPrice?.startCost ?? 0.0;
-    double vat_price = double.parse(((start_price + riding_price) * 0.21).toStringAsFixed(2));
+    double vat_price =
+        double.parse(((start_price + riding_price) * 0.21).toStringAsFixed(2));
     double total_price = double.parse(
         (riding_price + start_price + vat_price).toStringAsFixed(2));
     ;
@@ -90,6 +91,8 @@ class _HowRide extends State<HowRide> {
     double _rating = 5.0;
     LocationModel _startPoint = appProvider.startPoint;
     LocationModel _endPoint = appProvider.endPoint;
+    List<LatLng> _points = appProvider.points;
+    double _distance = appProvider.distance;
 
     Widget Items({
       required String name,
@@ -368,6 +371,8 @@ class _HowRide extends State<HowRide> {
                         scooterImg: scooterImgUrl,
                         startPoint: _startPoint,
                         endPoint: _endPoint,
+                        points: _points,
+                        distance: _distance,
                       );
                       await saveReview(review);
                     },

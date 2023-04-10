@@ -96,6 +96,7 @@ class _RideNowState extends State<RideNow>
   bool isFlag = true;
   bool _alertShown = false;
   List<Polygon> polygon = [];
+  List<LatLng> points = [];
   @override
   void initState() {
     super.initState();
@@ -590,6 +591,45 @@ class _RideNowState extends State<RideNow>
     }
   }
 
+  /******************************
+   * @Auth: world324digital
+   * @Date: 2023.04.10
+   * @Desc: Calculate Riding distance between multiple points
+   */
+  Future<void> calculateDistanceFromPoints(List<LatLng> point_list) async {
+    List<List<double>> distancePoints = [];
+    for (int i = 0; i < point_list.length - 1; i++) {
+      distancePoints.add(<double>[
+        point_list[i].latitude, // latitude
+        point_list[i].longitude, // longitude
+      ]);
+    }
+    try {
+      final response = await mapbox.directions.request(
+        profile: NavigationProfile.CYCLING,
+        overview: NavigationOverview.FULL,
+        geometries: NavigationGeometries.GEOJSON,
+        steps: true,
+        coordinates: distancePoints,
+      );
+
+      if (response.error != null) {
+        if (response.error is NavigationNoRouteError) {
+          // handle NoRoute response
+        } else if (response.error is NavigationNoSegmentError) {
+          // handle NoSegment response
+        }
+        return;
+      }
+      if (response.routes!.isNotEmpty) {
+        final route = response.routes![0];
+        distance = route.distance!;
+      }
+    } catch (e) {
+      print("Calculate Distance Error ::::> ${e}");
+    }
+  }
+
   Future<void> onDone() async {
     if (ModalRoute.of(context)?.isCurrent != true) {
       print("_______________ Dialog Opened");
@@ -649,9 +689,10 @@ class _RideNowState extends State<RideNow>
     int insideRegionCounts = 0;
 
     for (int i = 0; i < polygon.length - 1; i++) {
-      bool isInside = isPointInsidePolygon(LatLng(userLocation!.latitude, userLocation!.longitude), polygon[i].points);
-      if (isInside)
-        insideRegionCounts++;
+      bool isInside = isPointInsidePolygon(
+          LatLng(userLocation!.latitude, userLocation!.longitude),
+          polygon[i].points);
+      if (isInside) insideRegionCounts++;
     }
 
     print(">>>>>>>>>>>>>>>>>>>>insideRegionCounts>>>>>>>>>>>>>>>>>>>>>");
@@ -687,6 +728,7 @@ class _RideNowState extends State<RideNow>
 
           AppProvider.of(context).setEndPoint(_end);
           AppProvider.of(context).setUsedTime(_usedTime);
+          AppProvider.of(context).setPoints(points);
           removeDataInLocal(AppLocalKeys.TEMP_REVIEW);
 
           HelperUtility.showProgressDialog(
@@ -700,14 +742,16 @@ class _RideNowState extends State<RideNow>
           currentUser.balance = double.parse(
               (currentUser.balance - riding_price).toStringAsFixed(2));
 
-          await calculateDistance(
-            LatLng(AppProvider.of(context).startPoint.lat,
-                AppProvider.of(context).startPoint.long),
-            LatLng(AppProvider.of(context).endPoint.lat,
-                AppProvider.of(context).endPoint.long),
-          );
+          await calculateDistanceFromPoints(points);
 
-          double amount_fixed = double.parse((riding_price + 1).toStringAsFixed(2));
+          print("endridddddddddddddddddddddddd");
+          print(points);
+          print(AppProvider.of(context).points);
+
+          AppProvider.of(context).setDistance(distance);
+
+          double amount_fixed =
+              double.parse((riding_price + 1).toStringAsFixed(2));
 
           TransactionModel transaction = new TransactionModel(
             userId: currentUser.id,
@@ -945,6 +989,7 @@ class _RideNowState extends State<RideNow>
               userLocation = position;
               isMapReady = true;
               // position = LatLng(37.31936, 101.94528);
+              points.add(LatLng(position.latitude, position.longitude));
               userLocationMarker = Marker(
                 width: 50.0,
                 height: 50.0,

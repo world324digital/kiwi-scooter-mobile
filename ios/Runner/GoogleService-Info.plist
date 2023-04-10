@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>257318589642-11680j7g315o803pc3duolpikipjo6mo.apps.googleusercontent.com</string>
+	<string>1080982779471-kuilpkalvn39jt33lmal6kdk67cgn2ns.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.257318589642-11680j7g315o803pc3duolpikipjo6mo</string>
+	<string>com.googleusercontent.apps.1080982779471-kuilpkalvn39jt33lmal6kdk67cgn2ns</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1080982779471-nloj7t21kkao8koe68b2jnuj2lde1q04.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDZJQYQbQzdZ95_jN8bE41GZq9I_9jNU7w</string>
+	<string>AIzaSyAhUUNZr4_qPzztGA2KTM2X7rr8HMQ4fws</string>
 	<key>GCM_SENDER_ID</key>
-	<string>257318589642</string>
+	<string>1080982779471</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>ridemove.co</string>
+	<string>com.kiwicity.co</string>
 	<key>PROJECT_ID</key>
-	<string>ride-move</string>
+	<string>kiwi-city-d5730</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ride-move.appspot.com</string>
+	<string>kiwi-city-d5730.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:257318589642:ios:e03f1ae50a2adf48235033</string>
-	<key>DATABASE_URL</key>
-	<string>https://ride-move-default-rtdb.firebaseio.com</string>
+	<string>1:1080982779471:ios:d95b5a81eb60971b029c3a</string>
 </dict>
 </plist>

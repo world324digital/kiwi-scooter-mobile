@@ -182,7 +182,8 @@ class _RideHistory extends State<RideHistory> {
     LocationModel? endPoint = review.endPoint;
     String distanceForDisplay = "";
 
-    double distance = review.duration * AppConstants.scooterSpeedPerSeconds;
+    // double distance = review.duration * AppConstants.scooterSpeedPerSeconds;
+    double distance = review.distance;
     if (distance > 1000) {
       distance = distance / 1000;
       distanceForDisplay = distance.toString() + " km";

@@ -19,7 +19,7 @@ class RideDetail extends StatefulWidget {
 }
 
 class _RideDetail extends State<RideDetail> {
-  List<LatLng> points = [];
+  // List<LatLng> points = [];
 
   final mapbox = MapboxApi(
     accessToken: AppConstants.mapBoxAccessToken,
@@ -27,7 +27,7 @@ class _RideDetail extends State<RideDetail> {
   @override
   void initState() {
     super.initState();
-    getPoints();
+    // getPoints();
   }
 
   @override
@@ -35,84 +35,86 @@ class _RideDetail extends State<RideDetail> {
     super.dispose();
   }
 
-  Future<void> getPoints() async {
-    ReviewModel _review = widget.data["review"];
-    LocationModel? startPoint = _review.startPoint;
-    LocationModel? endPoint = _review.endPoint;
-    points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
-        LatLng(endPoint!.lat, endPoint.long));
-    setState(() {});
-  }
+  // Future<void> getPoints() async {
+  //   ReviewModel _review = widget.data["review"];
+  //   LocationModel? startPoint = _review.startPoint;
+  //   LocationModel? endPoint = _review.endPoint;
+  //   points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
+  //       LatLng(endPoint!.lat, endPoint.long));
+  //   setState(() {});
+  // }
 
-  Future<List<LatLng>> getRoute(LatLng userPos, LatLng destination) async {
-    try {
-      final response = await mapbox.directions.request(
-        profile: NavigationProfile.CYCLING,
-        overview: NavigationOverview.FULL,
-        geometries: NavigationGeometries.GEOJSON,
-        steps: true,
-        coordinates: <List<double>>[
-          <double>[
-            userPos.latitude, // latitude
-            userPos.longitude, // longitude
-          ],
-          <double>[
-            destination.latitude, // latitude
-            destination.longitude, // longitude
-          ],
-        ],
-      );
+  // Future<List<LatLng>> getRoute(LatLng userPos, LatLng destination) async {
+  //   try {
+  //     final response = await mapbox.directions.request(
+  //       profile: NavigationProfile.CYCLING,
+  //       overview: NavigationOverview.FULL,
+  //       geometries: NavigationGeometries.GEOJSON,
+  //       steps: true,
+  //       coordinates: <List<double>>[
+  //         <double>[
+  //           userPos.latitude, // latitude
+  //           userPos.longitude, // longitude
+  //         ],
+  //         <double>[
+  //           destination.latitude, // latitude
+  //           destination.longitude, // longitude
+  //         ],
+  //       ],
+  //     );
 
-      if (response.error != null) {
-        if (response.error is NavigationNoRouteError) {
-          // handle NoRoute response
-        } else if (response.error is NavigationNoSegmentError) {
-          // handle NoSegment response
-        }
-        return [];
-      }
-      if (response.routes!.isNotEmpty) {
-        print("Routes Data::::::> ${response.routes}");
-        final route = response.routes![0];
-        final eta = Duration(
-          seconds: route.duration!.toInt(),
-        );
-        final legs = route.legs;
-        print("Routes Data::::::> ${legs![0].steps!.length}");
-        points = [];
-        for (var leg in legs!) {
-          var steps = leg.steps;
-          for (var element in steps!) {
-            var maneuvar = element.maneuver;
-            var startPoint = maneuvar?.location;
-            var lng = startPoint?[0];
-            var lat = startPoint?[1];
-            print("${lat} , ${lng}");
-            if (lat != null && lng != null) {
-              points.add(LatLng(lat, lng));
-            }
-            // setState() {
-            //   points.add(LatLng(lat!, lng!));
-            // };
-          }
-        }
-        return points;
-      }
-    } catch (e) {
-      print("Get Route Error ::::> ${e}");
+  //     if (response.error != null) {
+  //       if (response.error is NavigationNoRouteError) {
+  //         // handle NoRoute response
+  //       } else if (response.error is NavigationNoSegmentError) {
+  //         // handle NoSegment response
+  //       }
+  //       return [];
+  //     }
+  //     if (response.routes!.isNotEmpty) {
+  //       print("Routes Data::::::> ${response.routes}");
+  //       final route = response.routes![0];
+  //       final eta = Duration(
+  //         seconds: route.duration!.toInt(),
+  //       );
+  //       final legs = route.legs;
+  //       print("Routes Data::::::> ${legs![0].steps!.length}");
+  //       points = [];
+  //       for (var leg in legs!) {
+  //         var steps = leg.steps;
+  //         for (var element in steps!) {
+  //           var maneuvar = element.maneuver;
+  //           var startPoint = maneuvar?.location;
+  //           var lng = startPoint?[0];
+  //           var lat = startPoint?[1];
+  //           print("${lat} , ${lng}");
+  //           if (lat != null && lng != null) {
+  //             points.add(LatLng(lat, lng));
+  //           }
+  //           // setState() {
+  //           //   points.add(LatLng(lat!, lng!));
+  //           // };
+  //         }
+  //       }
+  //       return points;
+  //     }
+  //   } catch (e) {
+  //     print("Get Route Error ::::> ${e}");
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Can't get correct route. Please retry!")),
-      );
-    }
-    return [];
-  }
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text("Can't get correct route. Please retry!")),
+  //     );
+  //   }
+  //   return [];
+  // }
 
   @override
   Widget build(BuildContext context) {
     print("================");
     print(widget.data);
     ReviewModel _review = widget.data["review"];
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(_review.startPoint);
     Widget Items({
       required String name,
       required String value,
@@ -417,16 +419,16 @@ class _RideDetail extends State<RideDetail> {
                           userAgentPackageName:
                               'dev.fleaflet.flutter_map.example',
                         ),
-                        PolylineLayer(
-                          polylineCulling: true,
-                          polylines: [
-                            Polyline(
-                              points: points,
-                              strokeWidth: 2,
-                              color: ColorConstants.cPrimaryBtnColor,
-                            ),
-                          ],
-                        ),
+                        // PolylineLayer(
+                        //   polylineCulling: true,
+                        //   polylines: [
+                        //     Polyline(
+                        //       points: _review.points,
+                        //       strokeWidth: 2,
+                        //       color: ColorConstants.cPrimaryBtnColor,
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
