@@ -181,9 +181,9 @@ class AppProvider extends ChangeNotifier {
   }
 
   // Route Points
-  List<LatLng> _points = [];
-  List<LatLng> get points => _points;
-  void setPoints(List<LatLng> points, {bool isNotifiable = true}) {
+  List<Map<String, dynamic>> _points = [];
+  List<Map<String, dynamic>> get points => _points;
+  void setPoints(List<Map<String, dynamic>> points, {bool isNotifiable = true}) {
     _points = points;
     if (isNotifiable) notifyListeners();
   }

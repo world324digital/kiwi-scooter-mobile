@@ -66,6 +66,8 @@ class AppConstants {
   //     'https://api.mapbox.com/styles/v1/${AppConstants.username}/${AppConstants.mapBoxStyleId}/tiles/256/{z}/{x}/{y}@2x?access_token=${AppConstants.mapBoxAccessToken}';
   static const String urlTemplate =
       'https://api.mapbox.com/styles/v1/rolandz/clg0n8s1o002101myonakrjgu/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoicm9sYW5keiIsImEiOiJjbGcwbXkyOXgxZGo1M2VxeW1nM2ttc2QxIn0.XhSysU0eukqhSWbAdgKmjg';
+  // static const String urlTemplate =
+  //     'https://api.mapbox.com/styles/v1/rolandz/clg0n8s1o002101myonakrjgu/wmts?access_token=pk.eyJ1Ijoicm9sYW5keiIsImEiOiJjbGcwbXkyOXgxZGo1M2VxeW1nM2ttc2QxIn0.XhSysU0eukqhSWbAdgKmjg';
 
   static const String backServiceIdenitfier = "rideMoveTask";
   // static const String publishKey =
@@ -91,9 +93,9 @@ class URLS {
   static const String TURN_OFF_LIGHTS = "/turnofflights";
 
   static const String TERMS_CONDITION_URL =
-      "https://ridemove.co/terms-of-service";
-  static const String PRIVACY_URL = "https://ridemove.co/privacy-policy/";
-  static const String SUPPORTT_URL = "https://ridemove.co/support/";
+      "https://google.com";
+  static const String PRIVACY_URL = "https://google.com";
+  static const String SUPPORTT_URL = "https://google.com";
 }
 
 class Messages {
@@ -136,6 +138,9 @@ class ImageConstants {
 
   static const String PAYMENT_ACTIVE = "assets/images/paybike_active.png";
   static const String PAYMENT = "assets/images/paybike.png";
+
+  static const String WALLET_ACTIVE = "assets/images/wallet_active.png";
+  static const String WALLET = "assets/images/wallet.png";
 
   static const String RIDE_NOW_ACTIVE = "assets/images/ridebike.png";
   static const String RIDE_NOW = "assets/images/ridenowbike.png";

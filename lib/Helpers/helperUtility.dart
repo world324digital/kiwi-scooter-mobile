@@ -142,13 +142,13 @@ class HelperUtility {
     s = value - (h * 3600) - (m * 60);
     String result = "";
     if (h > 0) {
-      result = "${h} hour ";
+      result = "${h}h ";
     }
     if (m > 0) {
-      result = result + "${m} min ";
+      result = result + "${m}m ";
     }
     if (s > 0) {
-      result = result + "${s} sec";
+      result = result + "${s}s";
     }
 
     return result;

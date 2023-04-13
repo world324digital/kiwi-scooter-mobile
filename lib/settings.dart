@@ -85,6 +85,10 @@ class _Settings extends State<Settings> {
       // HelperUtility.showProgressDialog(context: context, key: _keyLoader);
       UserModel currentUser = AppProvider.of(context).currentUser;
       if (_passwordController.text == "") {
+        if (_firstNameController.text != "" || _lastNameController.text != ""){
+          currentUser.firstName = _firstNameController.text;
+          currentUser.lastName = _lastNameController.text;
+        }
         service.updateUser(currentUser).then((res) async {
           print(res);
           if (res) {

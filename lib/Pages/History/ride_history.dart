@@ -54,15 +54,15 @@ class _RideHistory extends State<RideHistory> {
     // try {
     FirebaseService service = FirebaseService();
     _reviews = await service.getReviews(userId);
-    for (ReviewModel review in _reviews) {
-      LocationModel? startPoint = review.startPoint;
-      LocationModel? endPoint = review.endPoint;
+    // for (ReviewModel review in _reviews) {
+    //   LocationModel? startPoint = review.startPoint;
+    //   LocationModel? endPoint = review.endPoint;
       // ================>>>>>>>>>>>>Map route part
       // points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
       //     LatLng(endPoint!.lat, endPoint.long));
       // pointList.add(points);
       // ================>>>>>>>>>>>>Map route part
-    }
+    // }
 
     // setState(() {
     //   isMapReady = true;
@@ -86,92 +86,92 @@ class _RideHistory extends State<RideHistory> {
     // }
   }
 
-  Future<List<LatLng>> getRoute(LatLng userPos, LatLng destination) async {
-    try {
-      final response = await mapbox.directions.request(
-        profile: NavigationProfile.CYCLING,
-        overview: NavigationOverview.FULL,
-        geometries: NavigationGeometries.GEOJSON,
-        steps: true,
-        coordinates: <List<double>>[
-          <double>[
-            userPos.latitude, // latitude
-            userPos.longitude, // longitude
-          ],
-          <double>[
-            destination.latitude, // latitude
-            destination.longitude, // longitude
-          ],
-        ],
-      );
+  // Future<List<LatLng>> getRoute(LatLng userPos, LatLng destination) async {
+  //   try {
+  //     final response = await mapbox.directions.request(
+  //       profile: NavigationProfile.CYCLING,
+  //       overview: NavigationOverview.FULL,
+  //       geometries: NavigationGeometries.GEOJSON,
+  //       steps: true,
+  //       coordinates: <List<double>>[
+  //         <double>[
+  //           userPos.latitude, // latitude
+  //           userPos.longitude, // longitude
+  //         ],
+  //         <double>[
+  //           destination.latitude, // latitude
+  //           destination.longitude, // longitude
+  //         ],
+  //       ],
+  //     );
 
-      if (response.error != null) {
-        if (response.error is NavigationNoRouteError) {
-          // handle NoRoute response
-        } else if (response.error is NavigationNoSegmentError) {
-          // handle NoSegment response
-        }
-        return [];
-      }
-      if (response.routes!.isNotEmpty) {
-        print("Routes Data::::::> ${response.routes}");
-        final route = response.routes![0];
-        final eta = Duration(
-          seconds: route.duration!.toInt(),
-        );
-        final legs = route.legs;
-        print("Routes Data::::::> ${legs![0].steps!.length}");
-        points = [];
-        for (var leg in legs!) {
-          var steps = leg.steps;
-          for (var element in steps!) {
-            var maneuvar = element.maneuver;
-            var startPoint = maneuvar?.location;
-            var lng = startPoint?[0];
-            var lat = startPoint?[1];
-            print("${lat} , ${lng}");
-            if (lat != null && lng != null) {
-              points.add(LatLng(lat, lng));
-            }
-            // setState() {
-            //   points.add(LatLng(lat!, lng!));
-            // };
-          }
-        }
-        return points;
-      }
-    } catch (e) {
-      print("Get Route Error ::::> ${e}");
+  //     if (response.error != null) {
+  //       if (response.error is NavigationNoRouteError) {
+  //         // handle NoRoute response
+  //       } else if (response.error is NavigationNoSegmentError) {
+  //         // handle NoSegment response
+  //       }
+  //       return [];
+  //     }
+  //     if (response.routes!.isNotEmpty) {
+  //       print("Routes Data::::::> ${response.routes}");
+  //       final route = response.routes![0];
+  //       final eta = Duration(
+  //         seconds: route.duration!.toInt(),
+  //       );
+  //       final legs = route.legs;
+  //       print("Routes Data::::::> ${legs![0].steps!.length}");
+  //       points = [];
+  //       for (var leg in legs!) {
+  //         var steps = leg.steps;
+  //         for (var element in steps!) {
+  //           var maneuvar = element.maneuver;
+  //           var startPoint = maneuvar?.location;
+  //           var lng = startPoint?[0];
+  //           var lat = startPoint?[1];
+  //           print("${lat} , ${lng}");
+  //           if (lat != null && lng != null) {
+  //             points.add(LatLng(lat, lng));
+  //           }
+  //           // setState() {
+  //           //   points.add(LatLng(lat!, lng!));
+  //           // };
+  //         }
+  //       }
+  //       return points;
+  //     }
+  //   } catch (e) {
+  //     print("Get Route Error ::::> ${e}");
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Can't get correct route. Please retry!")),
-      );
-    }
-    return [];
-  }
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text("Can't get correct route. Please retry!")),
+  //     );
+  //   }
+  //   return [];
+  // }
 
-  Future<List<Widget>> reviewLists() async {
-    for (ReviewModel review in _reviews) {
-      LocationModel? startPoint = review.startPoint;
-      LocationModel? endPoint = review.endPoint;
-      points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
-          LatLng(endPoint!.lat, endPoint.long));
-      reviewWidget.add(Item(
-        context: context,
-        review: review,
-        // points: points,
-      ));
-    }
-    return reviewWidget;
-  }
+  // Future<List<Widget>> reviewLists() async {
+  //   for (ReviewModel review in _reviews) {
+  //     LocationModel? startPoint = review.startPoint;
+  //     LocationModel? endPoint = review.endPoint;
+  //     points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
+  //         LatLng(endPoint!.lat, endPoint.long));
+  //     reviewWidget.add(Item(
+  //       context: context,
+  //       review: review,
+  //       // points: points,
+  //     ));
+  //   }
+  //   return reviewWidget;
+  // }
 
-  Future<List<LatLng>> getPoints(ReviewModel review) async {
-    LocationModel? startPoint = review.startPoint;
-    LocationModel? endPoint = review.endPoint;
-    points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
-        LatLng(endPoint!.lat, endPoint.long));
-    return points;
-  }
+  // Future<List<LatLng>> getPoints(ReviewModel review) async {
+  //   LocationModel? startPoint = review.startPoint;
+  //   LocationModel? endPoint = review.endPoint;
+  //   points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
+  //       LatLng(endPoint!.lat, endPoint.long));
+  //   return points;
+  // }
 
   Widget Item({
     required BuildContext context,
@@ -292,7 +292,7 @@ class _RideHistory extends State<RideHistory> {
                 child: Row(
                   children: [
                     Text(
-                      '\#${review.id}',
+                      '\#${review.scooterId}',
                       style: TextStyle(
                           fontSize: 20,
                           color: ColorConstants.cPrimaryBtnColor,

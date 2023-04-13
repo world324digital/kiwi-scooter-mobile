@@ -21,6 +21,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:KiwiCity/Models/location_model.dart';
 // import 'package:s4s_mobileapp/account/page_account.dart';
 // import 'dart:convert';
 // import 'dart:developer';
@@ -333,14 +334,13 @@ class FirebaseService {
       QuerySnapshot querySnapshot = await firestore
           .collection('reviews')
           .where("userId", isEqualTo: userId)
-          // .orderBy('startTime', descending: true)
+          // .orderBy('endTime', descending: true) // Order by a field
           .get();
       print("================");
       print(querySnapshot.docs);
       List<ReviewModel> _reviews = [];
 
       querySnapshot.docs.forEach((doc) {
-        print(doc.data());
         _reviews.add(ReviewModel.fromMap(data: doc.data()));
       });
       return _reviews;
@@ -363,6 +363,20 @@ class FirebaseService {
         print(doc.data());
         lists.add(TermsModel.fromMap(data: doc.data()));
       });
+      return lists;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<dynamic>> getPoints(String reviewId) async {
+    try {
+      List<dynamic> lists = [];
+      final review = await firestore.collection('reviews').doc(reviewId).get();
+      if (review.exists) {
+        Map<String, dynamic>? data = review.data();
+        lists = data?['points'];
+      }
       return lists;
     } catch (e) {
       throw e;
@@ -436,9 +450,44 @@ class FirebaseService {
   }
 
   /****************************Review Part ***************/
-  Future<void> createReview(ReviewModel review) async {
+  Future<String> createReview() async {
     try {
-      await firestore.collection('reviews').doc().set(review.toMap());
+      // await firestore.collection('reviews').doc().set(review.toMap());
+      DocumentReference docRef = firestore
+          .collection('reviews')
+          .doc(); // Create a new document reference with a unique ID
+      String docId = docRef.id;
+      await docRef.set({"id": docId});
+      return docId;
+      // await docRef.set(review.toJson());
+      // await docRef.set({points: points});
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
+
+  /****************************Review Part ***************/
+  Future<void> updateReview(ReviewModel review) async {
+    try {
+      await firestore
+          .collection('reviews')
+          .doc(review.id)
+          .update(review.toMap());
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
+
+  /****************************Review Part ***************/
+  Future<void> saveRidePoints(
+      String docId, List<Map<String, dynamic>> points) async {
+    try {
+      await firestore
+          .collection('reviews')
+          .doc(docId)
+          .set({"points": points}, SetOptions(merge: true));
     } catch (e) {
       print(e);
       throw e;

@@ -43,6 +43,7 @@ class _PayMethod extends State<PayMethod> {
   var _cardZipCodeController = TextEditingController();
   bool isExistCard = false;
   bool isShowCardSection = false;
+  bool isLoading = false;
   String card_number = '1234********2525';
 
   final _formKey = GlobalKey<FormState>();
@@ -85,6 +86,9 @@ class _PayMethod extends State<PayMethod> {
     String scooterID = AppProvider.of(context).scooterID;
     // String amount = AppProvider.of(context).selectedPrice!.totalCost.toString();
 
+    setState(() {
+      isLoading = true;
+    });
     print(widget.data);
 
     if (widget.data['deposit']) {
@@ -103,7 +107,8 @@ class _PayMethod extends State<PayMethod> {
         if (res['result']) {
           UserModel currentUser = AppProvider.of(context).currentUser;
 
-          currentUser.balance = double.parse((currentUser.balance + double.parse(amount)).toStringAsFixed(2));
+          currentUser.balance = double.parse(
+              (currentUser.balance + double.parse(amount)).toStringAsFixed(2));
           FirebaseService service = FirebaseService();
           String amount_fixed = double.parse(amount).toStringAsFixed(2);
           TransactionModel transaction = new TransactionModel(
@@ -131,19 +136,32 @@ class _PayMethod extends State<PayMethod> {
                 routeName: Routes.WALLET,
               );
             });
+
+            setState(() {
+              isLoading = false;
+            });
           } else {
+            setState(() {
+              isLoading = false;
+            });
             Alert.showMessage(
                 type: TypeAlert.error,
                 title: "ERROR",
                 message: Messages.ERROR_MSG);
           }
         } else {
+          setState(() {
+            isLoading = false;
+          });
           Alert.showMessage(
               type: TypeAlert.error,
               title: "ERROR",
               message: res['msg'] ?? Messages.ERROR_MSG);
         }
       } catch (e) {
+        setState(() {
+          isLoading = false;
+        });
         Alert.showMessage(
             type: TypeAlert.error, title: "ERROR", message: e.toString());
       }
@@ -963,94 +981,99 @@ class _PayMethod extends State<PayMethod> {
 
     return isUnlocking
         ? UnLock(isMore: widget.data['isMore'])
-        : AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-            ),
-            child: Scaffold(
-              drawer: Drawer(
-                child: MainMenu(pageIndex: 2),
-              ),
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: const Color(0xffB5B5B5),
-                  ),
+        : isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                    color: ColorConstants.cPrimaryBtnColor),
+              )
+            : AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent,
                 ),
-                title: Text(
-                  'Payment Method',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Montserrat-SemiBold',
-                    fontWeight: FontWeight.w600,
-                    color: ColorConstants.cPrimaryTitleColor,
-                    height: 1.4,
+                child: Scaffold(
+                  drawer: Drawer(
+                    child: MainMenu(pageIndex: 2),
                   ),
-                ),
-              ),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        if (AppProvider.of(context).selectedPrice != null)
-                          // applePayWidget(),
-                          // platform == TargetPlatform.iOS
-                          //     ? ApplePayButtonWidget(
-                          //         padding: EdgeInsets.all(16),
-                          //         children: [
-                          //           FlutterStripe.ApplePayButton(
-                          //             onPressed: _handlePayPress,
-                          //           )
-                          //         ],
-                          //       )
-                          //     : pay.GooglePayButton(
-                          //         paymentConfigurationAsset:
-                          //             'google_pay_live.json',
-                          //         paymentItems: getPriceItem(),
-                          //         margin: const EdgeInsets.only(
-                          //             top: 15, right: 20, left: 20, bottom: 20),
-                          //         onPaymentResult: onGooglePayResult,
-                          //         loadingIndicator: const Center(
-                          //           child: CircularProgressIndicator(),
-                          //         ),
-                          //         onPressed: () async {
-                          //           // 1. Add your stripe publishable key to assets/google_pay_payment_profile.json
-                          //           // await debugChangedStripePublishableKey();
-                          //         },
-                          //         childOnError: Text(
-                          //             'Google Pay is not available in this device'),
-                          //         onError: (e) {
-                          //           ScaffoldMessenger.of(context).showSnackBar(
-                          //             const SnackBar(
-                          //               content: Text(
-                          //                   'There was an error while trying to perform the payment'),
-                          //             ),
-                          //           );
-                          //         },
-                          //       ),
-                        isExistCard ? paySection : Container(),
-                        (isExistCard && !isShowCardSection)
-                            ? Container()
-                            : cardSection,
-                      ],
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: const Color(0xffB5B5B5),
+                      ),
+                    ),
+                    title: Text(
+                      'Payment Method',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Montserrat-SemiBold',
+                        fontWeight: FontWeight.w600,
+                        color: ColorConstants.cPrimaryTitleColor,
+                        height: 1.4,
+                      ),
                     ),
                   ),
-                  isExistCard ? plusSection : Container(),
-                  SizedBox(
-                    height: 30,
-                  )
-                ],
-              ),
-            ),
-          );
+                  body: Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            if (AppProvider.of(context).selectedPrice != null)
+                              // applePayWidget(),
+                              // platform == TargetPlatform.iOS
+                              //     ? ApplePayButtonWidget(
+                              //         padding: EdgeInsets.all(16),
+                              //         children: [
+                              //           FlutterStripe.ApplePayButton(
+                              //             onPressed: _handlePayPress,
+                              //           )
+                              //         ],
+                              //       )
+                              //     : pay.GooglePayButton(
+                              //         paymentConfigurationAsset:
+                              //             'google_pay_live.json',
+                              //         paymentItems: getPriceItem(),
+                              //         margin: const EdgeInsets.only(
+                              //             top: 15, right: 20, left: 20, bottom: 20),
+                              //         onPaymentResult: onGooglePayResult,
+                              //         loadingIndicator: const Center(
+                              //           child: CircularProgressIndicator(),
+                              //         ),
+                              //         onPressed: () async {
+                              //           // 1. Add your stripe publishable key to assets/google_pay_payment_profile.json
+                              //           // await debugChangedStripePublishableKey();
+                              //         },
+                              //         childOnError: Text(
+                              //             'Google Pay is not available in this device'),
+                              //         onError: (e) {
+                              //           ScaffoldMessenger.of(context).showSnackBar(
+                              //             const SnackBar(
+                              //               content: Text(
+                              //                   'There was an error while trying to perform the payment'),
+                              //             ),
+                              //           );
+                              //         },
+                              //       ),
+                              isExistCard ? paySection : Container(),
+                            (isExistCard && !isShowCardSection)
+                                ? Container()
+                                : cardSection,
+                          ],
+                        ),
+                      ),
+                      isExistCard ? plusSection : Container(),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  ),
+                ),
+              );
   }
 }

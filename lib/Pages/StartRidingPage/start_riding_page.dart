@@ -223,6 +223,10 @@ class _StartRiding extends State<StartRiding> {
           PrimaryButton(
               context: context,
               onTap: () async {
+                setState(() {
+                  isLoading = true;
+                  isError = false;
+                });
                 PriceModel selectedPrice = _prices[0];
 
                 //============ Save Price ==========
@@ -236,6 +240,9 @@ class _StartRiding extends State<StartRiding> {
                   bool updateUserResult = await service.updateUser(currentUser);
                   if (updateUserResult) {
                     Future.delayed(const Duration(milliseconds: 200), () {
+                      setState(() {
+                        isLoading = false;
+                      });
                       AppProvider.of(context).setCurrentUser(currentUser);
                       HelperUtility.goPageReplace(
                           context: context,
@@ -247,12 +254,18 @@ class _StartRiding extends State<StartRiding> {
                     //     routeName: Routes.PAYMENT_METHODS,
                     //     arg: {"isStart": true});
                   } else {
+                    setState(() {
+                      isLoading = false;
+                    });
                     Alert.showMessage(
                         type: TypeAlert.error,
                         title: "ERROR",
                         message: Messages.ERROR_MSG);
                   }
                 } else {
+                  setState(() {
+                    isLoading = false;
+                  });
                   Alert.showMessage(
                       type: TypeAlert.error,
                       title: "ERROR",

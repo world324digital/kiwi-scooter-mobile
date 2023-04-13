@@ -264,7 +264,6 @@ class _WalletPage extends State<WalletPage> {
           ],
         ));
 
-
     /*********************
      * @Auth: world324digital
      * @Date: 2023.04.02

@@ -260,7 +260,7 @@ class _HomePageState extends State<HomePage>
           height: 56,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/greenSelectedbike.png'),
+                image: AssetImage('assets/images/selectedbike.png'),
                 fit: BoxFit.fill),
           ),
         );
@@ -270,7 +270,7 @@ class _HomePageState extends State<HomePage>
           height: 56,
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/redSelectedBike.png'),
+                image: AssetImage('assets/images/selectedbike.png'),
                 fit: BoxFit.fill),
           ),
         );
@@ -987,7 +987,7 @@ class _HomePageState extends State<HomePage>
                                     ),
                                   ),
                                   TextSpan(
-                                    text: ' per minute after riding',
+                                    text: 'per minute after riding',
                                     style: TextStyle(
                                       color: ColorConstants.cTxtColor2,
                                       fontSize: 13,
@@ -1755,7 +1755,7 @@ class _HomePageState extends State<HomePage>
                         LatLng(userLocation.latitude, userLocation.longitude),
                     interactiveFlags:
                         InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-                    zoom: 3,
+                    zoom: 10,
                     maxZoom: 18,
                     minZoom: 1,
 
@@ -1781,10 +1781,12 @@ class _HomePageState extends State<HomePage>
                             polylineCulling: true,
                             polylines: [
                               Polyline(
-                                  points: points,
-                                  strokeWidth: 4,
-                                  color: ColorConstants.cPrimaryBtnColor,
-                                  isDotted: true),
+                                points: points,
+                                strokeWidth: 4,
+                                color: ColorConstants.cPrimaryBtnColor,
+                                isDotted: true,
+                                strokeJoin: StrokeJoin.bevel,
+                              ),
                             ],
                           )
                         : Container(),

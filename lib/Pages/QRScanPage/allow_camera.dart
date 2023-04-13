@@ -198,15 +198,15 @@ class _AllowCamera extends State<AllowCamera> {
       child: Column(children: <Widget>[
         Container(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.06,
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          height: MediaQuery.of(context).size.height * 0.075,
+          padding: const EdgeInsets.only(top: 14, bottom: 14, left: 4, right: 4),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: ColorConstants.cPrimaryBtnColor,
               textStyle: const TextStyle(
                   color: Colors.white, fontFamily: 'Montserrat'),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(13.0),
+                borderRadius: BorderRadius.circular(16.0),
                 side: const BorderSide(color: ColorConstants.cPrimaryBtnColor),
               ),
             ),

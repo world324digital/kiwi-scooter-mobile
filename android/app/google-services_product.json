@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1080982779471",
+    "project_id": "kiwi-city-d5730",
+    "storage_bucket": "kiwi-city-d5730.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080982779471:android:8b66c89ab64af98c029c3a",
+        "android_client_info": {
+          "package_name": "com.kiwicity.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080982779471-nloj7t21kkao8koe68b2jnuj2lde1q04.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kiwicity.co",
+            "certificate_hash": "21db088804c6e645d18fb8448e2c8f3d972a2838"
+          }
+        },
+        {
+          "client_id": "1080982779471-e5r82jq5de5ap02chmqi47kd4jkmajfg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0YV6vgjZWWEBGThS3_rjfVaTNIO6ujMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080982779471-e5r82jq5de5ap02chmqi47kd4jkmajfg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

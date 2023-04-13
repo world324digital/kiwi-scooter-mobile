@@ -3,6 +3,7 @@ import 'package:KiwiCity/Helpers/helperUtility.dart';
 import 'package:KiwiCity/Models/location_model.dart';
 import 'package:KiwiCity/Models/review_model.dart';
 import 'package:KiwiCity/Pages/App/app_provider.dart';
+import 'package:KiwiCity/Services/firebase_service.dart';
 import 'package:KiwiCity/Pages/PaymentPage/payment_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -19,15 +20,17 @@ class RideDetail extends StatefulWidget {
 }
 
 class _RideDetail extends State<RideDetail> {
-  // List<LatLng> points = [];
+  List<LatLng> points = [];
 
   final mapbox = MapboxApi(
     accessToken: AppConstants.mapBoxAccessToken,
   );
+
+  FirebaseService service = FirebaseService();
   @override
   void initState() {
     super.initState();
-    // getPoints();
+    getPoints();
   }
 
   @override
@@ -35,86 +38,33 @@ class _RideDetail extends State<RideDetail> {
     super.dispose();
   }
 
-  // Future<void> getPoints() async {
-  //   ReviewModel _review = widget.data["review"];
-  //   LocationModel? startPoint = _review.startPoint;
-  //   LocationModel? endPoint = _review.endPoint;
-  //   points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
-  //       LatLng(endPoint!.lat, endPoint.long));
-  //   setState(() {});
-  // }
+  Future<void> getPoints() async {
+    ReviewModel _review = widget.data["review"];
+    String? reviewId = _review.id;
+    List<dynamic> route_points = await service.getPoints(reviewId);
+    points = await getRoute(route_points);
+    setState(() {});
+  }
 
-  // Future<List<LatLng>> getRoute(LatLng userPos, LatLng destination) async {
-  //   try {
-  //     final response = await mapbox.directions.request(
-  //       profile: NavigationProfile.CYCLING,
-  //       overview: NavigationOverview.FULL,
-  //       geometries: NavigationGeometries.GEOJSON,
-  //       steps: true,
-  //       coordinates: <List<double>>[
-  //         <double>[
-  //           userPos.latitude, // latitude
-  //           userPos.longitude, // longitude
-  //         ],
-  //         <double>[
-  //           destination.latitude, // latitude
-  //           destination.longitude, // longitude
-  //         ],
-  //       ],
-  //     );
+  Future<List<LatLng>> getRoute(List<dynamic> route_points) async {
+    try {
+      route_points.forEach((point) {
+        points.add(LatLng(point["lat"], point["long"]));
+      });
+      return points;
+    } catch (e) {
+      print("Get Route Error ::::> ${e}");
 
-  //     if (response.error != null) {
-  //       if (response.error is NavigationNoRouteError) {
-  //         // handle NoRoute response
-  //       } else if (response.error is NavigationNoSegmentError) {
-  //         // handle NoSegment response
-  //       }
-  //       return [];
-  //     }
-  //     if (response.routes!.isNotEmpty) {
-  //       print("Routes Data::::::> ${response.routes}");
-  //       final route = response.routes![0];
-  //       final eta = Duration(
-  //         seconds: route.duration!.toInt(),
-  //       );
-  //       final legs = route.legs;
-  //       print("Routes Data::::::> ${legs![0].steps!.length}");
-  //       points = [];
-  //       for (var leg in legs!) {
-  //         var steps = leg.steps;
-  //         for (var element in steps!) {
-  //           var maneuvar = element.maneuver;
-  //           var startPoint = maneuvar?.location;
-  //           var lng = startPoint?[0];
-  //           var lat = startPoint?[1];
-  //           print("${lat} , ${lng}");
-  //           if (lat != null && lng != null) {
-  //             points.add(LatLng(lat, lng));
-  //           }
-  //           // setState() {
-  //           //   points.add(LatLng(lat!, lng!));
-  //           // };
-  //         }
-  //       }
-  //       return points;
-  //     }
-  //   } catch (e) {
-  //     print("Get Route Error ::::> ${e}");
-
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text("Can't get correct route. Please retry!")),
-  //     );
-  //   }
-  //   return [];
-  // }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Can't get correct route. Please retry!")),
+      );
+    }
+    return [];
+  }
 
   @override
   Widget build(BuildContext context) {
-    print("================");
-    print(widget.data);
     ReviewModel _review = widget.data["review"];
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(_review.startPoint);
     Widget Items({
       required String name,
       required String value,
@@ -178,7 +128,7 @@ class _RideDetail extends State<RideDetail> {
               });
             },
           ),
-          Items(name: 'eScooter Code', value: review.id, top: 30),
+          Items(name: 'eScooter Code', value: review.scooterId, top: 30),
           Items(name: 'eScooter Type', value: review.scooter_type, top: 10),
           Container(
             padding: const EdgeInsets.only(top: 15, left: 22, right: 12),
@@ -271,7 +221,7 @@ class _RideDetail extends State<RideDetail> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(right: 20),
+                  padding: const EdgeInsets.only(right: 20, bottom: 10),
                   child: Text(
                     "\€${review.total_price.toString()}",
                     style: TextStyle(
@@ -362,6 +312,13 @@ class _RideDetail extends State<RideDetail> {
     double center_lat = startPoint!.lat + (endPoint!.lat - startPoint.lat) / 2;
     double center_long =
         startPoint.long + (endPoint.long - startPoint.long) / 2;
+    if (points.length > 0) {
+      int centerIndex = (points.length ~/ 2).toInt();
+      center_lat = points[centerIndex].latitude;
+      center_long = points[centerIndex].longitude;
+      print("cener location...........................");
+      print(points[centerIndex]);
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -409,7 +366,7 @@ class _RideDetail extends State<RideDetail> {
                         center: LatLng(center_lat, center_long),
                         interactiveFlags:
                             InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-                        zoom: 16,
+                        zoom: 15,
                         minZoom: 10,
                         maxZoom: 18,
                       ),
@@ -419,16 +376,16 @@ class _RideDetail extends State<RideDetail> {
                           userAgentPackageName:
                               'dev.fleaflet.flutter_map.example',
                         ),
-                        // PolylineLayer(
-                        //   polylineCulling: true,
-                        //   polylines: [
-                        //     Polyline(
-                        //       points: _review.points,
-                        //       strokeWidth: 2,
-                        //       color: ColorConstants.cPrimaryBtnColor,
-                        //     ),
-                        //   ],
-                        // ),
+                        PolylineLayer(
+                          polylineCulling: true,
+                          polylines: [
+                            Polyline(
+                              points: points,
+                              strokeWidth: 2,
+                              color: ColorConstants.cPrimaryBtnColor,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

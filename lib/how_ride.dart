@@ -45,10 +45,12 @@ class _HowRide extends State<HowRide> {
    * @Date: 2023.04.02
    * @Desc: Save Scooter Review
    */
-  Future<void> saveReview(ReviewModel review) async {
+  Future<void> saveReview(ReviewModel review, List<Map<String, dynamic>> _points) async {
     try {
-      // HelperUtility.showProgressDialog(context: context, key: _keyLoader);
-      await service.createReview(review);
+      HelperUtility.showProgressDialog(context: context, key: _keyLoader);
+      // String docId = await service.createReview(review);
+      await service.updateReview(review);
+      await service.saveRidePoints(review.id, _points);
       HelperUtility.closeProgressDialog(_keyLoader);
       Alert.showMessage(
           type: TypeAlert.success,
@@ -91,7 +93,7 @@ class _HowRide extends State<HowRide> {
     double _rating = 5.0;
     LocationModel _startPoint = appProvider.startPoint;
     LocationModel _endPoint = appProvider.endPoint;
-    List<LatLng> _points = appProvider.points;
+    List<Map<String, dynamic>> _points = appProvider.points;
     double _distance = appProvider.distance;
 
     Widget Items({
@@ -234,7 +236,7 @@ class _HowRide extends State<HowRide> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.only(right: 20),
+                padding: const EdgeInsets.only(right: 20, bottom: 20),
                 child: Text(
                   "\€${total_price.toString()}",
                   style: TextStyle(
@@ -354,8 +356,11 @@ class _HowRide extends State<HowRide> {
                       print(_startPoint);
 
                       print(_endPoint);
+
+                      String reviewId = await service.createReview();
                       ReviewModel review = new ReviewModel(
-                        id: scooter_id,
+                        id: reviewId,
+                        scooterId: scooter_id,
                         userId: user_id,
                         scooter_type: scooter_type,
                         startTime: start_time.millisecondsSinceEpoch,
@@ -371,10 +376,11 @@ class _HowRide extends State<HowRide> {
                         scooterImg: scooterImgUrl,
                         startPoint: _startPoint,
                         endPoint: _endPoint,
-                        points: _points,
+                        // points: _points,
                         distance: _distance,
                       );
-                      await saveReview(review);
+
+                      await saveReview(review, _points);
                     },
                     title: "Done"),
               )

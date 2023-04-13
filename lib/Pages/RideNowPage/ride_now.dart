@@ -96,7 +96,7 @@ class _RideNowState extends State<RideNow>
   bool isFlag = true;
   bool _alertShown = false;
   List<Polygon> polygon = [];
-  List<LatLng> points = [];
+  List<Map<String, dynamic>> points = [];
   @override
   void initState() {
     super.initState();
@@ -596,12 +596,13 @@ class _RideNowState extends State<RideNow>
    * @Date: 2023.04.10
    * @Desc: Calculate Riding distance between multiple points
    */
-  Future<void> calculateDistanceFromPoints(List<LatLng> point_list) async {
+  Future<void> calculateDistanceFromPoints(
+      List<Map<String, dynamic>> point_list) async {
     List<List<double>> distancePoints = [];
     for (int i = 0; i < point_list.length - 1; i++) {
-      distancePoints.add(<double>[
-        point_list[i].latitude, // latitude
-        point_list[i].longitude, // longitude
+      distancePoints.add([
+        point_list[i]['lat'], // latitude
+        point_list[i]['long'], // longitude
       ]);
     }
     try {
@@ -611,6 +612,11 @@ class _RideNowState extends State<RideNow>
         geometries: NavigationGeometries.GEOJSON,
         steps: true,
         coordinates: distancePoints,
+        // coordinates: [
+        //   [-77.03655, 38.8977], // Washington D.C.
+        //   [-122.419416, 37.774929], // San Francisco, CA
+        //   [-73.935242, 40.730610] // New York, NY
+        // ],
       );
 
       if (response.error != null) {
@@ -744,9 +750,7 @@ class _RideNowState extends State<RideNow>
 
           await calculateDistanceFromPoints(points);
 
-          print("endridddddddddddddddddddddddd");
-          print(points);
-          print(AppProvider.of(context).points);
+          distance = double.parse(distance.toStringAsFixed(2));
 
           AppProvider.of(context).setDistance(distance);
 
@@ -813,34 +817,24 @@ class _RideNowState extends State<RideNow>
     return (intersectCount % 2 == 1);
   }
 
-  bool _rayCrossesSegment(LatLng point, LatLng a, LatLng b) {
-    var aLongitude = a.longitude;
-    var bLongitude = b.longitude;
-    var aLatitude = a.latitude;
-    var bLatitude = b.latitude;
-    var pointLongitude = point.longitude;
-    var pointLatitude = point.latitude;
+  bool _rayCrossesSegment(LatLng point, LatLng vertA, LatLng vertB) {
+    double aY = vertA.latitude;
+    double bY = vertB.latitude;
+    double aX = vertA.longitude;
+    double bX = vertB.longitude;
+    double pY = point.latitude;
+    double pX = point.longitude;
 
-    if ((pointLatitude > aLatitude && pointLatitude > bLatitude) ||
-        (pointLatitude < aLatitude && pointLatitude < bLatitude)) {
-      return false;
+    if ((aY > pY && bY > pY) || (aY < pY && bY < pY) || (aX < pX && bX < pX)) {
+      return false; // a and b can't both be above or below pt.y, and a or
+      // b must be east of pt.x
     }
 
-    if (pointLongitude > max(aLongitude, bLongitude)) {
-      return false;
-    }
+    double m = (aY - bY) / (aX - bX); // Rise over run
+    double bee = (-aX) * m + aY; // y = mx + b
+    double x = (pY - bee) / m; // algebra is neat!
 
-    if (pointLongitude < min(aLongitude, bLongitude)) {
-      return true;
-    }
-
-    double red = (aLongitude != bLongitude)
-        ? ((bLatitude - aLatitude) / (bLongitude - aLongitude))
-        : double.infinity;
-    double blue = (aLongitude != pointLongitude)
-        ? ((pointLatitude - aLatitude) / (pointLongitude - aLongitude))
-        : double.infinity;
-    return (blue >= red);
+    return x > pX;
   }
 
   /*****************
@@ -986,10 +980,16 @@ class _RideNowState extends State<RideNow>
             print(position.toString()),
             setState(() {
               _setuserLocation = true;
+              moveToUserLocation();
+              if (userLocation?.latitude != position.latitude &&
+                  userLocation?.longitude != position.longitude) {
+                points.add(LocationModel(
+                        lat: position.latitude, long: position.longitude)
+                    .toMap());
+              }
               userLocation = position;
               isMapReady = true;
               // position = LatLng(37.31936, 101.94528);
-              points.add(LatLng(position.latitude, position.longitude));
               userLocationMarker = Marker(
                 width: 50.0,
                 height: 50.0,
