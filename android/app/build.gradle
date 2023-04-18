@@ -74,7 +74,7 @@ apply plugin: 'com.google.gms.google-services'
     //        storePassword keystoreProperties['storePassword']
     //    } 
         release {
-            storeFile file('kiwicity.keystore')
+            storeFile file('kiwicity.jks')
             storePassword 'kiwicity'
             keyAlias 'kiwicitykey'
             keyPassword 'kiwicity'

@@ -71,7 +71,7 @@ class AppConstants {
 
   static const String backServiceIdenitfier = "kiwiCityTask";
   static const String publishKey =
-      'pk_test_51MokUqEaT93AOXiCQMSJpNLJmuaRx6T8iSY8CKz0YTrXC02zgA8ONQ8svjLhElqUNeq2DNjRqj3HexbwDUVEyhdh009ZyJCNe3';
+      'pk_test_51KT4AVK43K1Nk6N3I5JoEl9mmWe322CfezgHf3aiEkUr9tj4IN3iBZkVx9bL6fV7cVIMH2ukOWJYQLNux1WJilDq00yUjEPpxn';
 }
 
 class URLS {
@@ -91,9 +91,9 @@ class URLS {
   static const String TURN_OFF_LIGHTS = "/turnofflights";
 
   static const String TERMS_CONDITION_URL =
-      "https://google.com";
-  static const String PRIVACY_URL = "https://google.com";
-  static const String SUPPORTT_URL = "https://google.com";
+      "http://kiwi-city.com";
+  static const String PRIVACY_URL = "http://kiwi-city.com/privacy-policy.html";
+  static const String SUPPORTT_URL = "http://kiwi-city.com";
 }
 
 class Messages {

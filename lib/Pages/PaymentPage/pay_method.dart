@@ -1024,7 +1024,7 @@ class _PayMethod extends State<PayMethod> {
                       Expanded(
                         child: ListView(
                           children: [
-                            if (AppProvider.of(context).selectedPrice != null)
+                            // if (AppProvider.of(context).selectedPrice != null)
                               // applePayWidget(),
                               // platform == TargetPlatform.iOS
                               //     ? ApplePayButtonWidget(

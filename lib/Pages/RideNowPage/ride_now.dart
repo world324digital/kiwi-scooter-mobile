@@ -972,6 +972,40 @@ class _RideNowState extends State<RideNow>
     return radians;
   }
 
+  void checkRidingZone(Position position) {
+    print(">>>>>>>>>>>>>>>>>>>>inside check result >>>>>>>>>>>>>>>>");
+
+    int intersectCount = 0;
+    for (int i = 0; i < polygon.length; i++) {
+      if (isPointInsidePolygon(
+          LatLng(position.latitude, position.longitude), polygon[i].points)) {
+        intersectCount++;
+      }
+    }
+
+    if (intersectCount == 0) {
+      if (inProgress && !isNoRideDialogOpen) {
+        isNoRideDialogOpen = true;
+        showBottomDialog(
+            img1: 'assets/images/prohibit1.png',
+            title: 'NO RIDE ZONE',
+            subtitle:
+                'You can be fined for riding in this zone. This scooter will remain lock until you leave this zone.',
+            btntxt: 'Okay',
+            onTap: () async {
+              isNoRideDialogOpen = false;
+
+              _timer?.cancel();
+              await onPause();
+              return Navigator.of(context).pop();
+            });
+        print("aaaaaaaaaaaaaaaaaa");
+      } else {
+        print("bbbbbbbbbbbbbbbbbb");
+      }
+    }
+  }
+
   void _toggleListening() {
     if (_positionStreamSubscription == null) {
       final positionStream = _geolocatorPlatform.getPositionStream();
@@ -980,6 +1014,7 @@ class _RideNowState extends State<RideNow>
         _positionStreamSubscription = null;
       }).listen((position) => {
             print(position.toString()),
+            checkRidingZone(position),
             setState(() {
               _setuserLocation = true;
               moveToUserLocation();
@@ -1004,39 +1039,6 @@ class _RideNowState extends State<RideNow>
                   ])),
                 ),
               );
-
-              print(">>>>>>>>>>>>>>>>>>>>inside check result >>>>>>>>>>>>>>>>");
-
-              int intersectCount = 0;
-              for (int i = 0; i < polygon.length; i++) {
-                if (isPointInsidePolygon(
-                    LatLng(position.latitude, position.longitude),
-                    polygon[i].points)) {
-                  intersectCount++;
-                }
-              }
-
-              if (intersectCount == 0) {
-                if (inProgress && !isNoRideDialogOpen) {
-                  isNoRideDialogOpen = true;
-                  showBottomDialog(
-                      img1: 'assets/images/prohibit1.png',
-                      title: 'NO RIDE ZONE',
-                      subtitle:
-                          'You can be fined for riding in this zone. This scooter will remain lock until you leave this zone.',
-                      btntxt: 'Okay',
-                      onTap: () async {
-                        isNoRideDialogOpen = false;
-
-                        _timer?.cancel();
-                        await onPause();
-                        return Navigator.of(context).pop();
-                      });
-                  print("aaaaaaaaaaaaaaaaaa");
-                } else {
-                  print("bbbbbbbbbbbbbbbbbb");
-                }
-              }
             }),
           });
       _positionStreamSubscription?.pause();
