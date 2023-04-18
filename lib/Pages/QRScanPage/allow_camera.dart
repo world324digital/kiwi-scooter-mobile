@@ -199,7 +199,7 @@ class _AllowCamera extends State<AllowCamera> {
         Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.075,
-          padding: const EdgeInsets.only(top: 14, bottom: 14, left: 4, right: 4),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: ColorConstants.cPrimaryBtnColor,

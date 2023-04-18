@@ -179,7 +179,7 @@ class _RideDetail extends State<RideDetail> {
             borderRadius: const BorderRadius.all(Radius.circular(15)),
           ),
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
             child: Column(children: [
               Items(
                 name: "Start Price",

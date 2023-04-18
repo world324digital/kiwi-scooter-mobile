@@ -315,50 +315,46 @@ class _LoginState extends State<Login> {
             },
             title: "Continue With Email",
             margin: EdgeInsets.only(bottom: 5)),
-        if (Platform.isAndroid)
-          FutureBuilder(
-            future: service.initializeFirebase(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text('Error initializing Firebase');
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                return PrimaryButton(
-                  context: context,
-                  onTap: () async {
-                    await googleSignIn();
-                  },
-                  title: "Continue With Google",
-                  icon: Image.asset(
-                    "assets/images/google_icon.png",
-                    width: 20,
-                    height: 20,
-                  ),
-                  color: Colors.white,
-                  txtColor: ColorConstants.cPrimaryBtnColor,
-                );
-              }
-              return CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Colors.white,
-                ),
-              );
-            },
-          )
-        else if (Platform.isIOS)
-          PrimaryButton(
-            context: context,
-            onTap: () async {
-              await appleSignIn();
-            },
-            title: "Sign In With Apple",
-            icon: Icon(Icons.apple_sharp),
-            color: Colors.white,
-            txtColor: ColorConstants.cPrimaryBtnColor,
-          ),
-        // SignInWithAppleButton(
-        //   onPressed: () async {},
-        //   borderRadius: BorderRadius.circular(16),
-        // ),
+        // if (Platform.isAndroid)
+        //   FutureBuilder(
+        //     future: service.initializeFirebase(),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.hasError) {
+        //         return Text('Error initializing Firebase');
+        //       } else if (snapshot.connectionState == ConnectionState.done) {
+        //         return PrimaryButton(
+        //           context: context,
+        //           onTap: () async {
+        //             await googleSignIn();
+        //           },
+        //           title: "Continue With Google",
+        //           icon: Image.asset(
+        //             "assets/images/google_icon.png",
+        //             width: 20,
+        //             height: 20,
+        //           ),
+        //           color: Colors.white,
+        //           txtColor: ColorConstants.cPrimaryBtnColor,
+        //         );
+        //       }
+        //       return CircularProgressIndicator(
+        //         valueColor: AlwaysStoppedAnimation<Color>(
+        //           Colors.white,
+        //         ),
+        //       );
+        //     },
+        //   )
+        // else if (Platform.isIOS)
+        //   PrimaryButton(
+        //     context: context,
+        //     onTap: () async {
+        //       await appleSignIn();
+        //     },
+        //     title: "Sign In With Apple",
+        //     icon: Icon(Icons.apple_sharp),
+        //     color: Colors.white,
+        //     txtColor: ColorConstants.cPrimaryBtnColor,
+        //   ),
         SizedBox(
           height: HelperUtility.screenHeight(context) * 0.03,
         )

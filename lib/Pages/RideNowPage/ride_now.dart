@@ -60,6 +60,7 @@ class _RideNowState extends State<RideNow>
   bool isMapReady = false;
   bool showProgressBar = false; // Show "Ride in Progress Bar"
   int currentHour = 0;
+  bool isNoRideDialogOpen = false;
 
   bool inProgress = true; // Ride in progress
   FirebaseService service = FirebaseService();
@@ -692,18 +693,6 @@ class _RideNowState extends State<RideNow>
     double riding_price =
         double.parse((price_per_minute * _usedTime / 60.0).toStringAsFixed(2));
 
-    int insideRegionCounts = 0;
-
-    for (int i = 0; i < polygon.length - 1; i++) {
-      bool isInside = isPointInsidePolygon(
-          LatLng(userLocation!.latitude, userLocation!.longitude),
-          polygon[i].points);
-      if (isInside) insideRegionCounts++;
-    }
-
-    print(">>>>>>>>>>>>>>>>>>>>insideRegionCounts>>>>>>>>>>>>>>>>>>>>>");
-    print(insideRegionCounts);
-
     showBottomDialog(
         img1: '',
         title: 'Riding price is',
@@ -773,11 +762,18 @@ class _RideNowState extends State<RideNow>
 
           if (updateUserResult) {
             HelperUtility.closeProgressDialog(_keyLoader);
+            // HelperUtility.goPageReplace(
+            //   context: context,
+            //   routeName: Routes.HOWRIDE,
+            //   arg: {"scooterPhoto": ""},
+            // );
+
+            final cameras = await availableCameras();
+            final firstCamera = cameras.first;
             HelperUtility.goPageReplace(
-              context: context,
-              routeName: Routes.HOWRIDE,
-              arg: {"scooterPhoto": ""},
-            );
+                context: context,
+                routeName: Routes.PHOTO_SCOTTER,
+                arg: {'camera': cameras});
           }
 
           // final cameras = await availableCameras();
@@ -808,34 +804,40 @@ class _RideNowState extends State<RideNow>
   }
 
   bool isPointInsidePolygon(LatLng point, List<LatLng> polygon) {
-    int intersectCount = 0;
-    for (int i = 0; i < polygon.length - 1; i++) {
-      if (_rayCrossesSegment(point, polygon[i], polygon[i + 1])) {
-        intersectCount++;
-      }
-    }
-    return (intersectCount % 2 == 1);
-  }
+    double x = point.latitude, y = point.longitude;
 
-  bool _rayCrossesSegment(LatLng point, LatLng vertA, LatLng vertB) {
-    double aY = vertA.latitude;
-    double bY = vertB.latitude;
-    double aX = vertA.longitude;
-    double bX = vertB.longitude;
-    double pY = point.latitude;
-    double pX = point.longitude;
+    bool inside = false;
+    for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      double xi = polygon[i].latitude, yi = polygon[i].longitude;
+      double xj = polygon[j].latitude, yj = polygon[j].longitude;
 
-    if ((aY > pY && bY > pY) || (aY < pY && bY < pY) || (aX < pX && bX < pX)) {
-      return false; // a and b can't both be above or below pt.y, and a or
-      // b must be east of pt.x
+      bool intersect =
+          ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
     }
 
-    double m = (aY - bY) / (aX - bX); // Rise over run
-    double bee = (-aX) * m + aY; // y = mx + b
-    double x = (pY - bee) / m; // algebra is neat!
-
-    return x > pX;
+    return inside;
   }
+
+  // bool _rayCrossesSegment(LatLng point, LatLng vertA, LatLng vertB) {
+  //   double aY = vertA.latitude;
+  //   double bY = vertB.latitude;
+  //   double aX = vertA.longitude;
+  //   double bX = vertB.longitude;
+  //   double pY = point.latitude;
+  //   double pX = point.longitude;
+
+  //   if ((aY > pY && bY > pY) || (aY < pY && bY < pY) || (aX < pX && bX < pX)) {
+  //     return false; // a and b can't both be above or below pt.y, and a or
+  //     // b must be east of pt.x
+  //   }
+
+  //   double m = (aY - bY) / (aX - bX); // Rise over run
+  //   double bee = (-aX) * m + aY; // y = mx + b
+  //   double x = (pY - bee) / m; // algebra is neat!
+
+  //   return x > pX;
+  // }
 
   /*****************
    * Show "Start Ride" Dialog
@@ -1002,6 +1004,39 @@ class _RideNowState extends State<RideNow>
                   ])),
                 ),
               );
+
+              print(">>>>>>>>>>>>>>>>>>>>inside check result >>>>>>>>>>>>>>>>");
+
+              int intersectCount = 0;
+              for (int i = 0; i < polygon.length; i++) {
+                if (isPointInsidePolygon(
+                    LatLng(position.latitude, position.longitude),
+                    polygon[i].points)) {
+                  intersectCount++;
+                }
+              }
+
+              if (intersectCount == 0) {
+                if (inProgress && !isNoRideDialogOpen) {
+                  isNoRideDialogOpen = true;
+                  showBottomDialog(
+                      img1: 'assets/images/prohibit1.png',
+                      title: 'NO RIDE ZONE',
+                      subtitle:
+                          'You can be fined for riding in this zone. This scooter will remain lock until you leave this zone.',
+                      btntxt: 'Okay',
+                      onTap: () async {
+                        isNoRideDialogOpen = false;
+
+                        _timer?.cancel();
+                        await onPause();
+                        return Navigator.of(context).pop();
+                      });
+                  print("aaaaaaaaaaaaaaaaaa");
+                } else {
+                  print("bbbbbbbbbbbbbbbbbb");
+                }
+              }
             }),
           });
       _positionStreamSubscription?.pause();

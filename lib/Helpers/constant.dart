@@ -69,11 +69,9 @@ class AppConstants {
   // static const String urlTemplate =
   //     'https://api.mapbox.com/styles/v1/rolandz/clg0n8s1o002101myonakrjgu/wmts?access_token=pk.eyJ1Ijoicm9sYW5keiIsImEiOiJjbGcwbXkyOXgxZGo1M2VxeW1nM2ttc2QxIn0.XhSysU0eukqhSWbAdgKmjg';
 
-  static const String backServiceIdenitfier = "rideMoveTask";
-  // static const String publishKey =
-  // "pk_live_51LcxWOBr5GZ1QA4FUKLGbxwWyBfQ0weDenecr2ej8ZMo3m9X4cIVilIHyXdf89B1yXlIkj2iWfv1QhB1xX7BFiTf00ZQnAi3G1";
+  static const String backServiceIdenitfier = "kiwiCityTask";
   static const String publishKey =
-      'pk_test_51KT4AVK43K1Nk6N3I5JoEl9mmWe322CfezgHf3aiEkUr9tj4IN3iBZkVx9bL6fV7cVIMH2ukOWJYQLNux1WJilDq00yUjEPpxn';
+      'pk_test_51MokUqEaT93AOXiCQMSJpNLJmuaRx6T8iSY8CKz0YTrXC02zgA8ONQ8svjLhElqUNeq2DNjRqj3HexbwDUVEyhdh009ZyJCNe3';
 }
 
 class URLS {

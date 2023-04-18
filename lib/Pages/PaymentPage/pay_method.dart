@@ -71,8 +71,8 @@ class _PayMethod extends State<PayMethod> {
 
   Future<void> stripeInitialize() async {
     FlutterStripe.Stripe.publishableKey = AppConstants.publishKey;
-    FlutterStripe.Stripe.merchantIdentifier =
-        'merchant.com.ridemoveisland.stripe';
+    // FlutterStripe.Stripe.merchantIdentifier =
+    //     'merchant.com.ridemoveisland.stripe';
     await FlutterStripe.Stripe.instance.applySettings();
   }
 
@@ -277,7 +277,7 @@ class _PayMethod extends State<PayMethod> {
           ],
           requiredShippingAddressFields: [],
           shippingMethods: [],
-          country: 'US',
+          country: 'LV',
           currency: 'EUR',
         ),
       );
