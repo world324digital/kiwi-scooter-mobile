@@ -27,7 +27,6 @@ class _RideHistory extends State<RideHistory> {
   bool isMapReady = false;
   List<LatLng> points = [];
   List pointList = [];
-  // List<Widget> reviewWidget = [];
   final mapbox = MapboxApi(
     accessToken: AppConstants.mapBoxAccessToken,
   );
@@ -35,10 +34,6 @@ class _RideHistory extends State<RideHistory> {
   @override
   void initState() {
     super.initState();
-    // Future.delayed(const Duration(seconds: 0), () async {
-    //   String id = AppProvider.of(context).currentUser.id;
-    //   if (id != null) await getReviews(id);
-    // });
   }
 
   @override
@@ -47,131 +42,10 @@ class _RideHistory extends State<RideHistory> {
   }
 
   Future<List<ReviewModel>> getReviews(String userId) async {
-    // setState(() {
-    //   isLoading = true;
-    //   isError = false;
-    // });
-    // try {
     FirebaseService service = FirebaseService();
     _reviews = await service.getReviews(userId);
-    // for (ReviewModel review in _reviews) {
-    //   LocationModel? startPoint = review.startPoint;
-    //   LocationModel? endPoint = review.endPoint;
-      // ================>>>>>>>>>>>>Map route part
-      // points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
-      //     LatLng(endPoint!.lat, endPoint.long));
-      // pointList.add(points);
-      // ================>>>>>>>>>>>>Map route part
-    // }
-
-    // setState(() {
-    //   isMapReady = true;
-    // });
     return _reviews;
-
-    // await reviewLists();
-    // setState(() {
-    //   isLoading = false;
-    //   isError = false;
-    //   isMapReady = true;
-    // });
-    // } catch (e) {
-    //   print("REIVEW GET ERROR:::::::::::::::::?");
-
-    //   print(e.toString());
-    //   setState(() {
-    //     isLoading = false;
-    //     isError = true;
-    //   });
-    // }
   }
-
-  // Future<List<LatLng>> getRoute(LatLng userPos, LatLng destination) async {
-  //   try {
-  //     final response = await mapbox.directions.request(
-  //       profile: NavigationProfile.CYCLING,
-  //       overview: NavigationOverview.FULL,
-  //       geometries: NavigationGeometries.GEOJSON,
-  //       steps: true,
-  //       coordinates: <List<double>>[
-  //         <double>[
-  //           userPos.latitude, // latitude
-  //           userPos.longitude, // longitude
-  //         ],
-  //         <double>[
-  //           destination.latitude, // latitude
-  //           destination.longitude, // longitude
-  //         ],
-  //       ],
-  //     );
-
-  //     if (response.error != null) {
-  //       if (response.error is NavigationNoRouteError) {
-  //         // handle NoRoute response
-  //       } else if (response.error is NavigationNoSegmentError) {
-  //         // handle NoSegment response
-  //       }
-  //       return [];
-  //     }
-  //     if (response.routes!.isNotEmpty) {
-  //       print("Routes Data::::::> ${response.routes}");
-  //       final route = response.routes![0];
-  //       final eta = Duration(
-  //         seconds: route.duration!.toInt(),
-  //       );
-  //       final legs = route.legs;
-  //       print("Routes Data::::::> ${legs![0].steps!.length}");
-  //       points = [];
-  //       for (var leg in legs!) {
-  //         var steps = leg.steps;
-  //         for (var element in steps!) {
-  //           var maneuvar = element.maneuver;
-  //           var startPoint = maneuvar?.location;
-  //           var lng = startPoint?[0];
-  //           var lat = startPoint?[1];
-  //           print("${lat} , ${lng}");
-  //           if (lat != null && lng != null) {
-  //             points.add(LatLng(lat, lng));
-  //           }
-  //           // setState() {
-  //           //   points.add(LatLng(lat!, lng!));
-  //           // };
-  //         }
-  //       }
-  //       return points;
-  //     }
-  //   } catch (e) {
-  //     print("Get Route Error ::::> ${e}");
-
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text("Can't get correct route. Please retry!")),
-  //     );
-  //   }
-  //   return [];
-  // }
-
-  // Future<List<Widget>> reviewLists() async {
-  //   for (ReviewModel review in _reviews) {
-  //     LocationModel? startPoint = review.startPoint;
-  //     LocationModel? endPoint = review.endPoint;
-  //     points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
-  //         LatLng(endPoint!.lat, endPoint.long));
-  //     reviewWidget.add(Item(
-  //       context: context,
-  //       review: review,
-  //       // points: points,
-  //     ));
-  //   }
-  //   return reviewWidget;
-  // }
-
-  // Future<List<LatLng>> getPoints(ReviewModel review) async {
-  //   LocationModel? startPoint = review.startPoint;
-  //   LocationModel? endPoint = review.endPoint;
-  //   points = await getRoute(LatLng(startPoint!.lat, startPoint.long),
-  //       LatLng(endPoint!.lat, endPoint.long));
-  //   return points;
-  // }
 
   Widget Item({
     required BuildContext context,
@@ -191,13 +65,6 @@ class _RideHistory extends State<RideHistory> {
       distanceForDisplay = distance.toString() + " m";
     }
 
-    double center_lat = startPoint!.lat + (endPoint!.lat - startPoint.lat) / 2;
-    double center_long =
-        startPoint.long + (endPoint.long - startPoint.long) / 2;
-    print("=======================");
-    print(startPoint.lat);
-    print(endPoint.lat);
-    print(center_lat);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -222,56 +89,6 @@ class _RideHistory extends State<RideHistory> {
         child: Container(
           padding: const EdgeInsets.only(bottom: 20),
           child: Column(children: [
-            // ================>>>>>>>>>>>>Map route part
-            // Container(
-            //   decoration:
-            //       BoxDecoration(borderRadius: BorderRadius.circular(20)),
-            //   height: 200,
-            //   width: double.infinity,
-            //   child: ClipRRect(
-            //     borderRadius: const BorderRadius.only(
-            //       topLeft: Radius.circular(20.0),
-            //       topRight: Radius.circular(20.0),
-            //     ),
-            //     child: FlutterMap(
-            //       options: MapOptions(
-            //         center: LatLng(center_lat, center_long),
-            //         interactiveFlags:
-            //             InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-            //         zoom: 13,
-            //         minZoom: 5,
-            //         maxZoom: 18,
-
-            //         onTap: (tapPosition, point) {
-            //           setState(() {
-            //             debugPrint("onTap Location: ${point.toString()}");
-            //           });
-            //         },
-            //         // onMapEvent: (p0) {
-            //         //   print("here-------------");
-            //         //   print(p0.zoom);
-            //         // },
-            //       ),
-            //       children: [
-            //         TileLayer(
-            //           urlTemplate: AppConstants.urlTemplate,
-            //           userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-            //         ),
-            //         PolylineLayer(
-            //           polylineCulling: true,
-            //           polylines: [
-            //             Polyline(
-            //               points: points,
-            //               strokeWidth: 2,
-            //               color: ColorConstants.cPrimaryBtnColor,
-            //             ),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            // ================>>>>>>>>>>>>Map route part
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(left: 25, top: 20),

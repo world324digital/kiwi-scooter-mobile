@@ -5,106 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
-// class ReviewModel {
-//   String id = "";
-//   String userId = "";
-//   String scooter_type = "";
-//   int startTime = DateTime.now().millisecondsSinceEpoch;
-//   int endTime = DateTime.now().millisecondsSinceEpoch;
-//   int duration = 0;
-
-//   double riding_price = 0.0;
-//   double start_price = 0.0;
-//   double vat_price = 0.0;
-//   double total_price = 0.0;
-//   String card_type = "";
-//   String card_number = "";
-//   double rating = 0.0;
-//   double distance = 0.0;
-//   String scooterImg = "";
-//   List<LocationModel>? points = [];
-//   late LocationModel? startPoint;
-//   late LocationModel? endPoint;
-
-//   ReviewModel({
-//     required this.id,
-//     required this.userId,
-//     required this.scooter_type,
-//     required this.startTime,
-//     required this.endTime,
-//     required this.duration,
-//     required this.riding_price,
-//     required this.start_price,
-//     required this.vat_price,
-//     required this.total_price,
-//     required this.card_type,
-//     required this.card_number,
-//     required this.rating,
-//     required this.scooterImg,
-//     required this.startPoint,
-//     required this.endPoint,
-//     required this.points,
-//     required this.distance,
-//   });
-
-//   factory ReviewModel.fromJson(Map<String, dynamic> json) {
-//     return ReviewModel(
-//       id: json['id'] ?? "",
-//       points: List<LocationModel>.from(json['points']),
-//       userId: json['userId'] ?? "",
-//       scooter_type:
-//           json['scooter_type'] != null ? json['scooter_type'].toString() : "",
-//       startTime: json['startTime'] != null
-//           ? int.parse(json['startTime'].toString())
-//           : DateTime.now().millisecondsSinceEpoch,
-//       endTime:
-//           json['endTime'] != null ? int.parse(json['endTime'].toString()) : 0,
-//       duration: json['duration'] != null ? json['duration'] : 0,
-//       riding_price: json['riding_price'] != null ? json['riding_price'] : 0.0,
-//       start_price: json['start_price'] != null ? json['start_price'] : 0.0,
-//       vat_price: json['vat_price'] != null ? json['vat_price'] : 0.0,
-//       total_price: json['total_price'] != null ? json['total_price'] : 0.0,
-//       card_type: json['card_type'] != null ? json['card_type'] : "",
-//       card_number: json['card_number'] != null ? json['card_number'] : "",
-//       rating: json['rating'] != null ? json['rating'] : 0.0,
-//       distance: json['distance'] != null ? json['distance'] : 0.0,
-//       scooterImg: json['scooterImg'] != null ? json['scooterImg'] : "",
-//       startPoint: json['startPoint'] != null
-//           ? LocationModel.fromMap(data: json['startPoint'])
-//           : null,
-//       endPoint: json['endPoint'] != null
-//           ? LocationModel.fromMap(data: json['endPoint'])
-//           : null,
-//     );
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     Map<String, dynamic> returnedMap = {};
-//     returnedMap["id"] = this.id;
-//     returnedMap["userId"] = this.userId;
-//     returnedMap["scooter_type"] = this.scooter_type;
-//     returnedMap["startTime"] = this.startTime;
-//     returnedMap["endTime"] = this.endTime;
-//     returnedMap["duration"] = this.duration;
-//     returnedMap["riding_price"] = this.riding_price;
-//     returnedMap["start_price"] = this.start_price;
-//     returnedMap["vat_price"] = this.vat_price;
-//     returnedMap["total_price"] = this.total_price;
-//     returnedMap["card_type"] = this.card_type;
-//     returnedMap["card_number"] = this.card_number;
-//     returnedMap["rating"] = this.rating;
-//     returnedMap["distance"] = this.distance;
-//     returnedMap["scooterImg"] = this.scooterImg;
-//     returnedMap['points'] = List<dynamic>.from(this.points!.map((attribute) => attribute));
-//     returnedMap["startPoint"] =
-//         (this.startPoint != null) ? this.startPoint!.toMap() : null;
-//     returnedMap["endPoint"] =
-//         (this.endPoint != null) ? this.endPoint!.toMap() : null;
-
-//     return returnedMap;
-//   }
-// }
-
 class ReviewModel {
   String id = "";
   String scooterId = "";
@@ -205,16 +105,6 @@ class ReviewModel {
       this.endPoint = data['endPoint'] != null
           ? LocationModel.fromMap(data: data['endPoint'])
           : null;
-
-      // this.points = List<LocationModel>.from(data["points"]);
-        
-      // this.points = data['endPoint'] != null
-      //     ? LocationModel.fromMap(data: data['endPoint'])
-      //     : null;
-
-      // print("map value of points      //////////////////////");
-      // print(data['points']);
-      // this.points = List.from(data['points'])
     } catch (e) {
       print(e);
       throw ("Couldn't get review  data correctly");

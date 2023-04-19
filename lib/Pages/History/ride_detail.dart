@@ -312,13 +312,6 @@ class _RideDetail extends State<RideDetail> {
     double center_lat = startPoint!.lat + (endPoint!.lat - startPoint.lat) / 2;
     double center_long =
         startPoint.long + (endPoint.long - startPoint.long) / 2;
-    if (points.length > 0) {
-      int centerIndex = (points.length ~/ 2).toInt();
-      center_lat = points[centerIndex].latitude;
-      center_long = points[centerIndex].longitude;
-      print("cener location...........................");
-      print(points[centerIndex]);
-    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,

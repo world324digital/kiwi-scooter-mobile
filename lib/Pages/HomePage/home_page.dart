@@ -1113,15 +1113,6 @@ class _HomePageState extends State<HomePage>
    */
   Future<void> sendRing() async {
     print("::::::::::::Send Ring :::::::::::::: $_selectedScooterImei");
-    // ------------ Show Progress Dialog ----------
-    // Dialogs.showLoadingDarkDialog(
-    //   context: context,
-    //   key: _keyLoader,
-    //   title: "Please wait...",
-    //   backgroundColor: Colors.white,
-    //   indicatorColor: ColorConstants.cPrimaryBtnColor,
-    //   textColor: ColorConstants.cPrimaryTitleColor,
-    // );
     try {
       var res = await HttpService().sendRing(scooterImei: _selectedScooterImei);
       print(res['message']);
@@ -1470,47 +1461,6 @@ class _HomePageState extends State<HomePage>
       },
     );
   }
-
-  /*****************************
-   * @Auth: world324digital
-   * @Date: 2023.04.03
-   * @Desc: Restart app when set permissions of App
-   */
-
-  // Future<void> _showRestartDialog() async {
-  //   Widget cancelButton = TextButton(
-  //     child: Text("Maybe later"),
-  //     onPressed: () {
-  //       Navigator.of(context).pop();
-  //     },
-  //   );
-  //   Widget okButton = TextButton(
-  //     child: Text("Restart"),
-  //     onPressed: () async {
-  //       Navigator.of(context).pop();
-  //       // await PM.openAppSettings();
-
-  //       Phoenix.rebirth(context);
-  //     },
-  //   );
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Alert'),
-  //         content: SingleChildScrollView(
-  //           child: ListBody(
-  //             children: const <Widget>[
-  //               Text('If you changed permission, Pleast restart app'),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[cancelButton, okButton],
-  //       );
-  //     },
-  //   );
-  // }
 
   /*****************************
    * @Auth: world324digital

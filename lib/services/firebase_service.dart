@@ -334,10 +334,8 @@ class FirebaseService {
       QuerySnapshot querySnapshot = await firestore
           .collection('reviews')
           .where("userId", isEqualTo: userId)
-          // .orderBy('endTime', descending: true) // Order by a field
+          .orderBy('endTime', descending: true) // Order by a field
           .get();
-      print("================");
-      print(querySnapshot.docs);
       List<ReviewModel> _reviews = [];
 
       querySnapshot.docs.forEach((doc) {

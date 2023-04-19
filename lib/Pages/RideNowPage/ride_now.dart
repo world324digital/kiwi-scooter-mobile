@@ -61,6 +61,7 @@ class _RideNowState extends State<RideNow>
   bool showProgressBar = false; // Show "Ride in Progress Bar"
   int currentHour = 0;
   bool isNoRideDialogOpen = false;
+  bool isStarted = false;
 
   bool inProgress = true; // Ride in progress
   FirebaseService service = FirebaseService();
@@ -599,42 +600,50 @@ class _RideNowState extends State<RideNow>
    */
   Future<void> calculateDistanceFromPoints(
       List<Map<String, dynamic>> point_list) async {
-    List<List<double>> distancePoints = [];
+    // List<List<double>> distancePoints = [];
+    print("/////////////////calculating distance print///////////////");
+    distance = 0;
     for (int i = 0; i < point_list.length - 1; i++) {
-      distancePoints.add([
-        point_list[i]['lat'], // latitude
-        point_list[i]['long'], // longitude
-      ]);
+      final point1 = LatLng(point_list[i]["lat"], point_list[i]["long"]);
+      final point2 =
+          LatLng(point_list[i + 1]["lat"], point_list[i + 1]["long"]);
+      distance += Distance().as(LengthUnit.Meter, point1, point2);
+      // print(point_list[i]['lat']);
+      // print(point_list[i]['long']);
+      // distancePoints.add([
+      //   point_list[i]['lat'], // latitude
+      //   point_list[i]['long'], // longitude
+      // ]);
     }
-    try {
-      final response = await mapbox.directions.request(
-        profile: NavigationProfile.CYCLING,
-        overview: NavigationOverview.FULL,
-        geometries: NavigationGeometries.GEOJSON,
-        steps: true,
-        coordinates: distancePoints,
-        // coordinates: [
-        //   [-77.03655, 38.8977], // Washington D.C.
-        //   [-122.419416, 37.774929], // San Francisco, CA
-        //   [-73.935242, 40.730610] // New York, NY
-        // ],
-      );
+    // try {
+    //   final response = await mapbox.directions.request(
+    //     profile: NavigationProfile.CYCLING,
+    //     overview: NavigationOverview.FULL,
+    //     geometries: NavigationGeometries.GEOJSON,
+    //     steps: true,
+    //     coordinates: distancePoints,
+    //     // coordinates: [
+    //     //   [-77.03655, 38.8977], // Washington D.C.
+    //     //   [-122.419416, 37.774929], // San Francisco, CA
+    //     //   [-73.935242, 40.730610] // New York, NY
+    //     // ],
+    //   );
 
-      if (response.error != null) {
-        if (response.error is NavigationNoRouteError) {
-          // handle NoRoute response
-        } else if (response.error is NavigationNoSegmentError) {
-          // handle NoSegment response
-        }
-        return;
-      }
-      if (response.routes!.isNotEmpty) {
-        final route = response.routes![0];
-        distance = route.distance!;
-      }
-    } catch (e) {
-      print("Calculate Distance Error ::::> ${e}");
-    }
+    //   if (response.error != null) {
+    //     if (response.error is NavigationNoRouteError) {
+    //       // handle NoRoute response
+    //     } else if (response.error is NavigationNoSegmentError) {
+    //       // handle NoSegment response
+    //     }
+    //     return;
+    //   }
+    //   if (response.routes!.isNotEmpty) {r
+    //     final route = response.routes![0];
+    //     distance = route.distance!;
+    //   }
+    // } catch (e) {
+    //   print("Calculate Distance Error ::::> ${e}");
+    // }
   }
 
   Future<void> onDone() async {
@@ -688,6 +697,7 @@ class _RideNowState extends State<RideNow>
 
 // If user have still time, this runs
   Future<void> onEndRide() async {
+    isStarted = false;
     double price_per_minute =
         AppProvider.of(context).selectedPrice?.costPerMinute ?? 0.0;
     double riding_price =
@@ -738,7 +748,7 @@ class _RideNowState extends State<RideNow>
               (currentUser.balance - riding_price).toStringAsFixed(2));
 
           await calculateDistanceFromPoints(points);
-
+          print(distance);
           distance = double.parse(distance.toStringAsFixed(2));
 
           AppProvider.of(context).setDistance(distance);
@@ -775,13 +785,6 @@ class _RideNowState extends State<RideNow>
                 routeName: Routes.PHOTO_SCOTTER,
                 arg: {'camera': cameras});
           }
-
-          // final cameras = await availableCameras();
-          // final firstCamera = cameras.first;
-          // HelperUtility.goPageReplace(
-          //     context: context,
-          //     routeName: Routes.PHOTO_SCOTTER,
-          //     arg: {'camera': cameras});
         });
   }
 
@@ -882,7 +885,7 @@ class _RideNowState extends State<RideNow>
           });
           // startTimer();
           startRiding();
-
+          isStarted = true;
           // _countTimeController.start();
         });
   }
@@ -983,7 +986,7 @@ class _RideNowState extends State<RideNow>
       }
     }
 
-    if (intersectCount == 0) {
+    if (intersectCount == 0 && isStarted) {
       if (inProgress && !isNoRideDialogOpen) {
         isNoRideDialogOpen = true;
         showBottomDialog(
