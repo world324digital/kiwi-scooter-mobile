@@ -81,14 +81,23 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAhUUNZr4_qPzztGA2KTM2X7rr8HMQ4fws',
-    appId: '1:1080982779471:ios:d95b5a81eb60971b029c3a',
-    messagingSenderId: '1080982779471',
-    projectId: "kiwi-city-d5730",
-    databaseURL: "https://kiwi-city-d5730-default-rtdb.firebaseio.com",
-    storageBucket: "kiwi-city-d5730.appspot.com",
+    apiKey: 'AIzaSyC8crUAmOLlg8qUMQ4J0Wa8oJyidaHpF-k',
+    appId: '1:692539061467:ios:02b3d6560891d87bc788fe',
+    messagingSenderId: '692539061467',
+    projectId: "kiwi-scooter",
+    databaseURL: "https://kiwi-scooter-default-rtdb.firebaseio.com",
+    storageBucket: "kiwi-scooter.appspot.com",
     iosClientId:
-        '1080982779471-kuilpkalvn39jt33lmal6kdk67cgn2ns.apps.googleusercontent.com',
-    iosBundleId: 'com.kiwicity.co',
+        '692539061467-vmjrj57jp6cem8sjqedou830rv8erldg.apps.googleusercontent.com',
+    iosBundleId: 'com.kiwicity.app',
+    // apiKey: 'AIzaSyAhUUNZr4_qPzztGA2KTM2X7rr8HMQ4fws',
+    // appId: '1:1080982779471:ios:d95b5a81eb60971b029c3a',
+    // messagingSenderId: '1080982779471',
+    // projectId: "kiwi-city-d5730",
+    // databaseURL: "https://kiwi-city-d5730-default-rtdb.firebaseio.com",
+    // storageBucket: "kiwi-city-d5730.appspot.com",
+    // iosClientId:
+    //     '1080982779471-kuilpkalvn39jt33lmal6kdk67cgn2ns.apps.googleusercontent.com',
+    // iosBundleId: 'com.kiwicity.co',
   );
 }
