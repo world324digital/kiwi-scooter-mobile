@@ -71,7 +71,7 @@ class AppConstants {
 
   static const String backServiceIdenitfier = "kiwiCityTask";
   static const String publishKey =
-      'pk_test_51KT4AVK43K1Nk6N3I5JoEl9mmWe322CfezgHf3aiEkUr9tj4IN3iBZkVx9bL6fV7cVIMH2ukOWJYQLNux1WJilDq00yUjEPpxn';
+      'pk_live_51MokUqEaT93AOXiCFJ8Ok2JDAcu5QoqM97C1hq9eNUpFAErI0VodhHNrtIMKL7eJrK8Hpc8liK6jKkn6tpGJNLj300l5JXN5VD';
 }
 
 class URLS {
