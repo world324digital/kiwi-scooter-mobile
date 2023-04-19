@@ -53,7 +53,7 @@ class App extends StatelessWidget {
                     );
                   },
                   debugShowCheckedModeBanner: false,
-                  title: 'Move',
+                  title: 'KiwiCity',
                   theme: ThemeData(
                     textTheme: const TextTheme(
                       headline5: TextStyle(
