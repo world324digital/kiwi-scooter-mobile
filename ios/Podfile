@@ -33,10 +33,9 @@ target 'Runner' do
   use_modular_headers!
 
   # pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => $FirebaseSDKVersion
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-  pod 'MLKitCommon', '~> 8.0'
   pod 'MLKitVision', :podspec => 'MLKitVision.podspec.json'
   pod 'MLKitCommon', :podspec => 'MLKitCommon.podspec.json'
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
 post_install do |installer|
