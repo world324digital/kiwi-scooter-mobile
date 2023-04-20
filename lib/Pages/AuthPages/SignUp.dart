@@ -92,7 +92,7 @@ class _SignUpPage extends State<SignUpPage> {
    * @Desc: Sign Up with Email
    */
   Future<void> _signUp() async {
-    await service.initializeFirebase();
+    // await service.initializeFirebase();
     FocusManager.instance.primaryFocus?.unfocus();
     if (_passwordController.text != _confirmController.text) {
       showMessage(context, 'Passwords do not match.', title: 'Info');

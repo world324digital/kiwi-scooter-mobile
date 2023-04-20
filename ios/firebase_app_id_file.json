@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:257318589642:ios:e03f1ae50a2adf48235033",
-  "FIREBASE_PROJECT_ID": "ride-move",
-  "GCM_SENDER_ID": "257318589642"
+  "GOOGLE_APP_ID": "1:1080982779471:ios:d95b5a81eb60971b029c3a",
+  "FIREBASE_PROJECT_ID": "kiwi-city-d5730",
+  "GCM_SENDER_ID": "1080982779471"
 }

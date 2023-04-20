@@ -59,7 +59,7 @@ class _LoginInputPage extends State<LoginInputPage> {
       // you'd often call a server or save the information in a database.
 
       FocusManager.instance.primaryFocus?.unfocus();
-      await service.initializeFirebase();
+      // await service.initializeFirebase();
 
       //===== Show Progress Dialog ==========
       HelperUtility.showProgressDialog(context: context, key: _keyLoader);
