@@ -94,6 +94,7 @@ void main() async {
   // FlutterStripe.Stripe.merchantIdentifier = 'merchant.com.rideisland.move';
   // await FlutterStripe.Stripe.instance.applySettings();
   await Firebase.initializeApp(
+    name: "kiwi-city",
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
