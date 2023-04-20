@@ -22,7 +22,7 @@ import 'package:KiwiCity/Widgets/primaryButton.dart';
 import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:KiwiCity/Widgets/unableAlert.dart';
 import 'package:KiwiCity/services/httpService.dart';
-import 'package:KiwiCity/services/local_notification_service.dart';
+// import 'package:KiwiCity/services/local_notification_service.dart';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class _RideNowState extends State<RideNow>
   // int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 300;
   // int _totalRidetime = 10;
 
-  late final NotificationService notificationService;
+  // late final NotificationService notificationService;
 
   /// is Show Init Start Riding Dialog
   bool isAllowDismiss = false;
@@ -116,9 +116,9 @@ class _RideNowState extends State<RideNow>
     _toggleServiceStatusStream();
     _toggleListening();
 
-    notificationService = NotificationService();
-    listenToNotificationStream();
-    notificationService.initSetUp();
+    // notificationService = NotificationService();
+    // listenToNotificationStream();
+    // notificationService.initSetUp();
     if (widget.data == null)
       Future.delayed(const Duration(seconds: 0), () async {
         showRidingDialog();
@@ -279,11 +279,11 @@ class _RideNowState extends State<RideNow>
   //   return _duration;
   // }
 
-  void listenToNotificationStream() =>
-      notificationService.behaviorSubject.listen((payload) {
-        print("============Notification Payload ============\r\n");
-        print(payload);
-      });
+  // void listenToNotificationStream() =>
+  //     notificationService.behaviorSubject.listen((payload) {
+  //       print("============Notification Payload ============\r\n");
+  //       print(payload);
+  //     });
 
 /********************
  * @Auth World324
@@ -400,7 +400,7 @@ class _RideNowState extends State<RideNow>
     _serviceStatusStreamSubscription?.pause();
     _serviceStatusStreamSubscription?.cancel();
     _timer?.cancel();
-    notificationService.cancelAllNotification();
+    // notificationService.cancelAllNotification();
     WidgetsBinding.instance.removeObserver(this);
 
     Workmanager().cancelAll();
@@ -1164,48 +1164,48 @@ class _RideNowState extends State<RideNow>
    * @Date: 2023.04.16
    * @Desc: Schedule Notification
    */
-  void scheduleNotification(
-      {required int totalRideTime,
-      required int notifyTimeBefore,
-      bool isRemove = true}) async {
-    if (isRemove) {
-      await notificationService.cancelAllNotification();
-      Workmanager().cancelAll();
-    }
+  // void scheduleNotification(
+  //     {required int totalRideTime,
+  //     required int notifyTimeBefore,
+  //     bool isRemove = true}) async {
+  //   if (isRemove) {
+  //     await notificationService.cancelAllNotification();
+  //     Workmanager().cancelAll();
+  //   }
 
-    // Schedule Background Service
-    //  Workmanager().registerOneOffTask("scooter", "simpleTask");
-    Workmanager().registerOneOffTask(
-      "scooter",
-      Platform.isAndroid
-          ? AppConstants.backServiceIdenitfier
-          : "scooter", // Ignored on iOS
-      initialDelay: Duration(seconds: totalRideTime),
-      constraints: Constraints(
-        // connected or metered mark the task as requiring internet
-        networkType: NetworkType.connected,
-        // x        // requiresCharging: true,
-      ),
-      // inputData: null // fully supported
-    );
+  //   // Schedule Background Service
+  //   //  Workmanager().registerOneOffTask("scooter", "simpleTask");
+  //   Workmanager().registerOneOffTask(
+  //     "scooter",
+  //     Platform.isAndroid
+  //         ? AppConstants.backServiceIdenitfier
+  //         : "scooter", // Ignored on iOS
+  //     initialDelay: Duration(seconds: totalRideTime),
+  //     constraints: Constraints(
+  //       // connected or metered mark the task as requiring internet
+  //       networkType: NetworkType.connected,
+  //       // x        // requiresCharging: true,
+  //     ),
+  //     // inputData: null // fully supported
+  //   );
 
-    notificationService.showScheduledLocalNotification(
-        id: 0,
-        title: "Time is Up!",
-        body:
-            "This scooter is locked and ride has ended. Please purchase addition time to keep riding.",
-        payload: "",
-        seconds: totalRideTime);
+  //   notificationService.showScheduledLocalNotification(
+  //       id: 0,
+  //       title: "Time is Up!",
+  //       body:
+  //           "This scooter is locked and ride has ended. Please purchase addition time to keep riding.",
+  //       payload: "",
+  //       seconds: totalRideTime);
 
-    if (totalRideTime - notifyTimeBefore > 0)
-      notificationService.showScheduledLocalNotification(
-          id: 1,
-          title: "You\'re almost out of time",
-          body:
-              "This scooter will automatically lock when the time is out. Please purchase addition time to keep riding.",
-          payload: "",
-          seconds: totalRideTime - notifyTimeBefore);
-  }
+  //   if (totalRideTime - notifyTimeBefore > 0)
+  //     notificationService.showScheduledLocalNotification(
+  //         id: 1,
+  //         title: "You\'re almost out of time",
+  //         body:
+  //             "This scooter will automatically lock when the time is out. Please purchase addition time to keep riding.",
+  //         payload: "",
+  //         seconds: totalRideTime - notifyTimeBefore);
+  // }
 
   /***************************
    * @Auth: world324digital

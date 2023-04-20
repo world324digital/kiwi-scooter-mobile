@@ -1,16 +1,17 @@
 import 'package:KiwiCity/Helpers/constant.dart';
-import 'package:KiwiCity/Helpers/helperUtility.dart';
+// import 'package:KiwiCity/Helpers/helperUtility.dart';
 import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
-import 'package:KiwiCity/Pages/AllowPermissionPage/screens/allow_notification_page.dart';
+import 'package:KiwiCity/Routes/routes.dart';
+// import 'package:KiwiCity/Pages/AllowPermissionPage/screens/allow_notification_page.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:KiwiCity/Widgets/primaryButton.dart';
-import 'package:KiwiCity/firebase_options.dart';
+// import 'package:KiwiCity/firebase_options.dart';
 
 class AllowLocationPage extends StatefulWidget {
   const AllowLocationPage({super.key, required this.onNext()});
@@ -92,7 +93,12 @@ class _AllowLocationPage extends State<AllowLocationPage> {
       onPressed: () {
         Navigator.of(context).pop();
 
-        return widget.onNext();
+        // return widget.onNext();
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          Routes.HOME,
+          (Route<dynamic> route) => false,
+        );
       },
     );
     Widget okButton = TextButton(
@@ -147,7 +153,13 @@ class _AllowLocationPage extends State<AllowLocationPage> {
       onPressed: () {
         Navigator.of(context).pop();
 
-        return widget.onNext();
+        // return widget.onNext();
+
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          Routes.HOME,
+          (Route<dynamic> route) => false,
+        );
       },
     );
     Widget okButton = TextButton(
@@ -240,7 +252,13 @@ class _AllowLocationPage extends State<AllowLocationPage> {
           title: "WARNING",
           message: Messages.WARNING_PERMISSION_CANCEL);
     }
-    return widget.onNext();
+    // return widget.onNext();
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      Routes.HOME,
+      (Route<dynamic> route) => false,
+    );
   }
 
   @override
@@ -313,7 +331,13 @@ class _AllowLocationPage extends State<AllowLocationPage> {
                 // //   MaterialPageRoute(builder: (context) => Notificate1()),
                 // // );
                 // if (_authStatus == "TrackingStatus.authorized") {
-                widget.onNext();
+                // widget.onNext();
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.HOME,
+                  (Route<dynamic> route) => false,
+                );
                 // } else {
                 //   requestAppTrackingPermission(context);
                 // }

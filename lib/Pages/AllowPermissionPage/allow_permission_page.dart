@@ -1,6 +1,6 @@
 import 'package:KiwiCity/Helpers/constant.dart';
 import 'package:KiwiCity/Pages/AllowPermissionPage/screens/allow_location_page.dart';
-import 'package:KiwiCity/Pages/AllowPermissionPage/screens/allow_notification_page.dart';
+// import 'package:KiwiCity/Pages/AllowPermissionPage/screens/allow_notification_page.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,7 +44,7 @@ class _AllowPermissionPage extends State<AllowPermissionPage> {
       AllowLocationPage(onNext: () {
         nextPage();
       }),
-      const AllowNotificationPage(),
+      // const AllowNotificationPage(),
     ];
     _buildPageView() {
       return Container(

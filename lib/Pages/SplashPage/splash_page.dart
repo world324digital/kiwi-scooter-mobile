@@ -41,7 +41,7 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> detectRoute() async {
     bool allow_location = await allowLocation();
-    bool allow_notification = await allowNotification();
+    // bool allow_notification = await allowNotification();
     // final isRideInProgress =
     //     await HelperUtility.checkForInProgressRides(context);
 
@@ -65,7 +65,7 @@ class _SplashPageState extends State<SplashPage> {
     //   );
     // } else
     if (allow_location) {
-      if (allow_notification) {
+      // if (allow_notification) {
         // if ride is in-progress
         // redirect to Routes.START_RIDING
         print("=========================");
@@ -82,12 +82,12 @@ class _SplashPageState extends State<SplashPage> {
             routeName: Routes.HOME,
           );
         }
-      } else {
-        HelperUtility.goPageReplace(
-            context: context,
-            routeName: Routes.ALLOW_PERMISSION,
-            arg: {'index': 1});
-      }
+      // } else {
+      //   HelperUtility.goPageReplace(
+      //       context: context,
+      //       routeName: Routes.ALLOW_PERMISSION,
+      //       arg: {'index': 1});
+      // }
     } else {
       HelperUtility.goPageReplace(
           context: context,
