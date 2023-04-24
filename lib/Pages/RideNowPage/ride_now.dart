@@ -772,18 +772,18 @@ class _RideNowState extends State<RideNow>
 
           if (updateUserResult) {
             HelperUtility.closeProgressDialog(_keyLoader);
-            // HelperUtility.goPageReplace(
-            //   context: context,
-            //   routeName: Routes.HOWRIDE,
-            //   arg: {"scooterPhoto": ""},
-            // );
-
-            final cameras = await availableCameras();
-            final firstCamera = cameras.first;
             HelperUtility.goPageReplace(
-                context: context,
-                routeName: Routes.PHOTO_SCOTTER,
-                arg: {'camera': cameras});
+              context: context,
+              routeName: Routes.HOWRIDE,
+              arg: {"scooterPhoto": ""},
+            );
+
+            // final cameras = await availableCameras();
+            // final firstCamera = cameras.first;
+            // HelperUtility.goPageReplace(
+            //     context: context,
+            //     routeName: Routes.PHOTO_SCOTTER,
+            //     arg: {'camera': cameras});
           }
         });
   }

@@ -401,6 +401,7 @@ class _WalletPage extends State<WalletPage> {
                         routeName: Routes.PAYMENT_METHODS,
                         arg: {
                           "deposit": true,
+                          "isStart": false,
                           "amount": amount,
                           "isMore": false
                         });

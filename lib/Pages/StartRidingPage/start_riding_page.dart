@@ -266,10 +266,19 @@ class _StartRiding extends State<StartRiding> {
                   setState(() {
                     isLoading = false;
                   });
-                  Alert.showMessage(
-                      type: TypeAlert.error,
-                      title: "ERROR",
-                      message: Messages.INSUFFICIENT_BALANCE);
+
+                  HelperUtility.goPage(
+                      context: context,
+                      routeName: Routes.PAYMENT_METHODS,
+                      arg: {
+                        "isStart": true,
+                        "deposit": false,
+                        "isMore": false,
+                      });
+                  // Alert.showMessage(
+                  //     type: TypeAlert.error,
+                  //     title: "ERROR",
+                  //     message: Messages.INSUFFICIENT_BALANCE);
                 }
                 // if (widget.data['isMore'] ?? false) {
                 //   final time = await Navigator.of(context).push(

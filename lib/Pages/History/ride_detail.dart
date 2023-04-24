@@ -22,6 +22,12 @@ class RideDetail extends StatefulWidget {
 class _RideDetail extends State<RideDetail> {
   List<LatLng> points = [];
 
+  double start_vat_price = 0.0;
+  double start_normal_price = 0.0;
+
+  double riding_vat_price = 0.0;
+  double riding_normal_price = 0.0;
+
   final mapbox = MapboxApi(
     accessToken: AppConstants.mapBoxAccessToken,
   );
@@ -179,21 +185,17 @@ class _RideDetail extends State<RideDetail> {
             borderRadius: const BorderRadius.all(Radius.circular(15)),
           ),
           child: Container(
-            padding: const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
             child: Column(children: [
               Items(
                 name: "Start Price",
-                value: "\€${review.start_price.toString()}",
+                value: "\€${review.start_price.toString()} = €${start_normal_price.toString()} + €${start_vat_price.toString()}(VAT %21)",
                 top: 0,
               ),
               Items(
                 name: "Riding Price",
-                value: "\€${review.riding_price.toString()}",
-                top: 10,
-              ),
-              Items(
-                name: "VAT(%21)",
-                value: "\€${review.vat_price.toString()}",
+                value: "\€${review.riding_price.toString()} = €${riding_normal_price.toString()} + €${riding_vat_price.toString()}(VAT %21)",
                 top: 10,
               ),
               Container(
@@ -312,6 +314,16 @@ class _RideDetail extends State<RideDetail> {
     double center_lat = startPoint!.lat + (endPoint!.lat - startPoint.lat) / 2;
     double center_long =
         startPoint.long + (endPoint.long - startPoint.long) / 2;
+
+    start_vat_price =
+        double.parse((_review.start_price * 0.21).toStringAsFixed(2));
+    start_normal_price = double.parse(
+        (_review.start_price - start_vat_price).toStringAsFixed(2));
+
+    riding_vat_price =
+        double.parse((_review.riding_price * 0.21).toStringAsFixed(2));
+    riding_normal_price = double.parse(
+        (_review.riding_price - riding_vat_price).toStringAsFixed(2));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,

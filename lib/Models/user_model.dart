@@ -8,6 +8,7 @@ class UserModel {
   String email = "";
   String dob = "";
   double balance = 0.0;
+  String role = "customer";
   late CardModel? card;
 
   UserModel({
@@ -18,6 +19,7 @@ class UserModel {
     required this.dob,
     required this.card,
     required this.balance,
+    required this.role,
   });
 
   UserModel.fromMap({required dynamic data, required String id}) {
@@ -25,6 +27,7 @@ class UserModel {
       this.id = id;
       this.firstName = data.data()['firstName'] ?? "";
       this.lastName = data.data()['lastName'] ?? "";
+      this.role = data.data()['role'] ?? "";
       this.email = data.data()['email'] ?? "";
       this.dob = data.data()['dob'] ?? "";
       this.balance = data.data()['balance'] ?? 0.0;
@@ -41,6 +44,7 @@ class UserModel {
     returnedMap["id"] = this.id;
     returnedMap["firstName"] = this.firstName;
     returnedMap["lastName"] = this.lastName;
+    returnedMap["role"] = this.role;
     returnedMap["email"] = this.email;
     returnedMap["dob"] = this.dob;
     returnedMap["balance"] = this.balance;

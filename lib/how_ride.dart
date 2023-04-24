@@ -83,10 +83,17 @@ class _HowRide extends State<HowRide> {
     double riding_price =
         double.parse((price_per_minute * duration / 60).toStringAsFixed(2));
     double start_price = appProvider.selectedPrice?.startCost ?? 0.0;
+
+    double start_vat_price = double.parse((start_price * 0.21).toStringAsFixed(2));
+    double start_normal_price = double.parse((start_price - start_vat_price).toStringAsFixed(2));
+    
+    double riding_vat_price = double.parse((riding_price * 0.21).toStringAsFixed(2));
+    double riding_normal_price = double.parse((riding_price - riding_vat_price).toStringAsFixed(2));
+
     double vat_price =
         double.parse(((start_price + riding_price) * 0.21).toStringAsFixed(2));
     double total_price = double.parse(
-        (riding_price + start_price + vat_price).toStringAsFixed(2));
+        (riding_price + start_price).toStringAsFixed(2));
     ;
     String card_type = card?.cardType ?? "";
     String card_number = card?.cardNumber ?? "";
@@ -201,19 +208,19 @@ class _HowRide extends State<HowRide> {
             SizedBox(height: 20),
             Items(
               name: "Start Price",
-              value: "\€${start_price.toString()}",
+              value: "\€${start_price.toString()} = €${start_normal_price.toString()} + €${start_vat_price.toString()}(VAT %21)",
               top: 0,
             ),
             Items(
               name: "Riding Price",
-              value: "\€${riding_price.toString()}",
+              value: "\€${riding_price.toString()} = €${riding_normal_price.toString()} + €${riding_vat_price.toString()}(VAT %21)",
               top: 10,
             ),
-            Items(
-              name: "VAT(%21)",
-              value: "\€${vat_price.toString()}",
-              top: 10,
-            ),
+            // Items(
+            //   name: "VAT(%21)",
+            //   value: "\€${vat_price.toString()}",
+            //   top: 10,
+            // ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(children: const <Widget>[

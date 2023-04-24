@@ -84,7 +84,12 @@ class _PayMethod extends State<PayMethod> {
   Future<void> paySubmit(CardModel card) async {
     print(card.cardType);
     String scooterID = AppProvider.of(context).scooterID;
-    // String amount = AppProvider.of(context).selectedPrice!.totalCost.toString();
+    String amount = "0";
+    if (widget.data["isStart"]) {
+      amount = AppProvider.of(context).selectedPrice!.startCost.toString();
+      print("//////////");
+      print(amount);
+    }
 
     setState(() {
       isLoading = true;
@@ -165,20 +170,23 @@ class _PayMethod extends State<PayMethod> {
         Alert.showMessage(
             type: TypeAlert.error, title: "ERROR", message: e.toString());
       }
-    } else {
-      setState(() {
-        isUnlocking = true;
-      });
+    } else if (widget.data["isStart"]){
+      // setState(() {
+      //   isUnlocking = true;
+      // });
 
       try {
+        UserModel currentUser = AppProvider.of(context).currentUser;
+        double user_balance = currentUser.balance;
+        String rest_amount = (double.parse(amount) - user_balance).toStringAsFixed(2);
         var res = await HttpService().cardPay(
             holderName: card.cardName,
             cardNumber: card.cardNumber,
             expiredMonth: card.expMonth,
             expiredYear: card.expYear,
             cvv: card.cvv,
-            // amount: amount);
-            amount: "0");
+            amount: rest_amount);
+            // amount: "0");
         print("Stripe Result :::::::::::::>");
         print(res);
 
@@ -194,9 +202,9 @@ class _PayMethod extends State<PayMethod> {
           // await powerOnScooter();
 
           // Card Informatin Save
-          UserModel currentUser = AppProvider.of(context).currentUser;
 
           card.id = currentUser.id;
+          currentUser.balance = 0.0;
           currentUser.card = card;
 
           FirebaseService service = FirebaseService();

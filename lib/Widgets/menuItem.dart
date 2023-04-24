@@ -21,7 +21,7 @@ Widget MenuBarItem({
       ? Container(
           height: 50,
           margin: const EdgeInsets.only(left: 16, right: 16),
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.only(bottom: 0),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),

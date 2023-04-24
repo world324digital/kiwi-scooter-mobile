@@ -110,6 +110,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                 id: result.user!.uid,
                 firstName: "",
                 lastName: "",
+                role: "customer",
                 email: _email,
                 dob: "",
                 card: null,
@@ -350,7 +351,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                   // ),
                   Container(
                     margin: const EdgeInsets.only(top: 10),
-                    padding: const EdgeInsets.only(bottom: 5),
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: InkWell(
                       onTap: () {
                         HelperUtility.goPage(
@@ -392,6 +393,7 @@ class _LoginInputPage extends State<LoginInputPage> {
             alignment: Alignment.center,
             // padding: const EdgeInsets.all(20),
             margin: EdgeInsets.only(top: 10, bottom: 40),
+            padding: EdgeInsets.only(top: 10, bottom: 10),
             child: GestureDetector(
               onTap: () {
                 HelperUtility.goPage(

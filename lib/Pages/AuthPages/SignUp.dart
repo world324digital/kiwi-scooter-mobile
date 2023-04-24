@@ -132,6 +132,7 @@ class _SignUpPage extends State<SignUpPage> {
             id: result,
             firstName: _firstName,
             lastName: _secondName,
+            role: "customer",
             email: email,
             dob: _dobController.text,
             card: null,
@@ -214,6 +215,7 @@ class _SignUpPage extends State<SignUpPage> {
   Widget build(BuildContext context) {
     Widget richTextSection = Container(
         margin: EdgeInsets.only(bottom: 20),
+        padding: EdgeInsets.only(top: 10, bottom: 10),
         child: RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
