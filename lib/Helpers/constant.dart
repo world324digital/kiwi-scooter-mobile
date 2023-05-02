@@ -95,8 +95,8 @@ class URLS {
   static const String TURN_OFF_LIGHTS = "/turnofflights";
 
   static const String TERMS_CONDITION_URL =
-      "http://kiwi-city.com";
-  static const String PRIVACY_URL = "http://kiwi-city.com/privacy-policy.html";
+      "https://kiwi-city.com";
+  static const String PRIVACY_URL = "https://kiwi-city.com/privacy-policy.html";
   static const String SUPPORTT_URL = "http://kiwi-city.com";
 }
 
