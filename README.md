@@ -1,14 +1,26 @@
 # Kiwi City Mobile Application
 
-How to run it?\n
-Set up environment of Flutter.\n
-Flutter SDK >= 3.7.5
+## Getting Started
 
-Clean flutter
-<code>flutter clean</code>
+### Prerequisites
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- [Android Studio](https://developer.android.com/studio) or [Xcode](https://developer.apple.com/xcode/) (optional for iOS development)
 
-Install packages
-<code>flutter pub get</code>
+## Running the app
 
-Run on imulator
-<code>flutter run</code>
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/world324digital/kiwi-scooter-mobile.git
+
+2. Navigate to the cloned repo and install dependencies:
+   cd kiwi-scooter-mobile && flutter pub get
+3. Run the app on an emulator or physical device:
+   For Android:
+      flutter run
+   For iOS:
+      flutter run -d <iOS device id>
+  
+## Building the app
+   To build a release version of the app, run the following command:
+      flutter build apk # Builds Android APK
+      flutter build ios # Builds iOS app bundle
