@@ -1,9 +1,10 @@
 import 'package:KiwiCity/Helpers/constant.dart';
-import 'package:KiwiCity/Pages/TermsSectionPage/prohibit.dart';
+// import 'package:KiwiCity/Pages/TermsSectionPage/prohibit.dart';
 import 'package:KiwiCity/Widgets/primaryButton.dart';
 import 'package:KiwiCity/Widgets/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TermsService extends StatefulWidget {
   const TermsService({super.key, required this.onNext});
@@ -16,29 +17,27 @@ class TermsService extends StatefulWidget {
 class _TermsService extends State<TermsService> {
   @override
   void initState() {
-
     super.initState();
   }
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     Widget headerSection = Container(
-      padding: EdgeInsets.only(top: 80, bottom: 20),
+      padding: EdgeInsets.only(top: 30, bottom: 20),
       child: Column(
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 30),
             child: Image.asset('assets/images/terms.png'),
           ),
-          TermsTitle(text: "Terms Of Service"),
+          TermsTitle(text: AppLocalizations.of(context).termsOfService),
           TermsContent(
-              text: 'Please take a moment to read our terms of service before starting your ride'),
+              text: AppLocalizations.of(context).termsOfServiceDescription),
         ],
       ),
     );
@@ -51,19 +50,19 @@ class _TermsService extends State<TermsService> {
             onTap: () {
               return widget.onNext();
             },
-            title: "I Agree"),
+            title: AppLocalizations.of(context).agree),
         Container(
           padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height * 0.1,
-              left: 50,
-              right: 50),
+            bottom: MediaQuery.of(context).size.height * 0.1,
+            left: 50,
+            right: 50,
+          ),
           child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                    text:
-                        'By clicking I Agree you are accepting our terms of use.',
+                    text: AppLocalizations.of(context).agreeMsg,
                     style: TextStyle(
                         color: ColorConstants.cTxtColor2,
                         fontSize: 14,

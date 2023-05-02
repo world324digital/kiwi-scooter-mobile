@@ -26,6 +26,7 @@ import '../MenuPage/main_menu.dart';
 import 'applePayButtonWidget.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as FlutterStripe;
 import 'package:pay/pay.dart' as pay;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PayMethod extends StatefulWidget {
   const PayMethod({Key? key, required this.data}) : super(key: key);
@@ -45,6 +46,7 @@ class _PayMethod extends State<PayMethod> {
   bool isShowCardSection = false;
   bool isLoading = false;
   String card_number = '1234********2525';
+  String amount = "0";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -84,7 +86,6 @@ class _PayMethod extends State<PayMethod> {
   Future<void> paySubmit(CardModel card) async {
     print(card.cardType);
     String scooterID = AppProvider.of(context).scooterID;
-    String amount = "0";
     if (widget.data["isStart"]) {
       amount = AppProvider.of(context).selectedPrice!.startCost.toString();
       print("//////////");
@@ -132,7 +133,7 @@ class _PayMethod extends State<PayMethod> {
           if (updateUserResult) {
             Alert.showMessage(
                 type: TypeAlert.success,
-                title: "Success",
+                title: AppLocalizations.of(context).success,
                 message: Messages.SUCCESS_DEPOSIT);
             Future.delayed(const Duration(milliseconds: 200), () {
               AppProvider.of(context).setCurrentUser(currentUser);
@@ -151,8 +152,8 @@ class _PayMethod extends State<PayMethod> {
             });
             Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
-                message: Messages.ERROR_MSG);
+                title: AppLocalizations.of(context).error,
+                message: AppLocalizations.of(context).errorMsg);
           }
         } else {
           setState(() {
@@ -160,17 +161,17 @@ class _PayMethod extends State<PayMethod> {
           });
           Alert.showMessage(
               type: TypeAlert.error,
-              title: "ERROR",
-              message: res['msg'] ?? Messages.ERROR_MSG);
+              title: AppLocalizations.of(context).error,
+              message: res['msg'] ?? AppLocalizations.of(context).errorMsg);
         }
       } catch (e) {
         setState(() {
           isLoading = false;
         });
         Alert.showMessage(
-            type: TypeAlert.error, title: "ERROR", message: e.toString());
+            type: TypeAlert.error, title: AppLocalizations.of(context).error, message: e.toString());
       }
-    } else if (widget.data["isStart"]){
+    } else if (widget.data["isStart"]) {
       // setState(() {
       //   isUnlocking = true;
       // });
@@ -178,7 +179,8 @@ class _PayMethod extends State<PayMethod> {
       try {
         UserModel currentUser = AppProvider.of(context).currentUser;
         double user_balance = currentUser.balance;
-        String rest_amount = (double.parse(amount) - user_balance).toStringAsFixed(2);
+        String rest_amount =
+            (double.parse(amount) - user_balance).toStringAsFixed(2);
         var res = await HttpService().cardPay(
             holderName: card.cardName,
             cardNumber: card.cardNumber,
@@ -186,7 +188,7 @@ class _PayMethod extends State<PayMethod> {
             expiredYear: card.expYear,
             cvv: card.cvv,
             amount: rest_amount);
-            // amount: "0");
+        // amount: "0");
         print("Stripe Result :::::::::::::>");
         print(res);
 
@@ -230,10 +232,13 @@ class _PayMethod extends State<PayMethod> {
               });
             }
           } else {
+            setState(() {
+              isLoading = false;
+            });
             Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
-                message: Messages.ERROR_MSG);
+                title: AppLocalizations.of(context).error,
+                message: AppLocalizations.of(context).errorMsg);
           }
           // } else {
           //   if (mounted) {
@@ -242,19 +247,22 @@ class _PayMethod extends State<PayMethod> {
           //     });
           //     Alert.showMessage(
           //         type: TypeAlert.error,
-          //         title: "ERROR",
-          //         message: powerOn['message'] ?? Messages.ERROR_MSG);
+          //         title: AppLocalizations.of(context).error,
+          //         message: powerOn['message'] ?? AppLocalizations.of(context).errorMsg);
           //   }
           // }
         } else {
+          setState(() {
+            isLoading = false;
+          });
           if (mounted)
             setState(() {
               isUnlocking = false;
             });
           Alert.showMessage(
               type: TypeAlert.error,
-              title: "ERROR",
-              message: res['msg'] ?? Messages.ERROR_MSG);
+              title: AppLocalizations.of(context).error,
+              message: res['msg'] ?? AppLocalizations.of(context).errorMsg);
         }
       } catch (e) {
         // print(e);
@@ -263,7 +271,7 @@ class _PayMethod extends State<PayMethod> {
             isUnlocking = false;
           });
         Alert.showMessage(
-            type: TypeAlert.error, title: "ERROR", message: e.toString());
+            type: TypeAlert.error, title: AppLocalizations.of(context).error, message: e.toString());
       }
     }
   }
@@ -273,15 +281,27 @@ class _PayMethod extends State<PayMethod> {
     try {
       // 1. Present Apple Pay sheet
       // await FlutterStripe.Stripe.instance.resetPaymentSheetCustomer();
+
+      if (widget.data["isStart"]) {
+        amount = AppProvider.of(context).selectedPrice!.startCost.toString();
+        print("For google pay option");
+        print(amount);
+      }
+
+      UserModel currentUser = AppProvider.of(context).currentUser;
+      double user_balance = currentUser.balance;
+      String rest_amount =
+          (double.parse(amount) - user_balance).toStringAsFixed(2);
+
       await FlutterStripe.Stripe.instance.presentApplePay(
         params: FlutterStripe.ApplePayPresentParams(
           cartItems: [
             FlutterStripe.ApplePayCartSummaryItem.immediate(
-              label: 'Kiwi City',
-              amount:
-                  // AppProvider.of(context).selectedPrice!.totalCost.toString(),
-                  "0",
-            ),
+                label: 'Kiwi City',
+                amount:
+                    // AppProvider.of(context).selectedPrice!.totalCost.toString(),
+                    // "0",
+                    rest_amount),
           ],
           requiredShippingAddressFields: [],
           shippingMethods: [],
@@ -302,7 +322,7 @@ class _PayMethod extends State<PayMethod> {
 
         Alert.showMessage(
           type: TypeAlert.success,
-          title: "SUCCESS",
+          title: AppLocalizations.of(context).success,
           message: "Apple pay Success!",
         );
         await payWithAppleGoogle();
@@ -315,7 +335,7 @@ class _PayMethod extends State<PayMethod> {
         message = error.code == "Canceled" ? error.message.toString() : message;
       }
       Alert.showMessage(
-          type: TypeAlert.error, title: "ERROR", message: message);
+          type: TypeAlert.error, title: AppLocalizations.of(context).error, message: message);
     }
   }
 
@@ -354,14 +374,14 @@ class _PayMethod extends State<PayMethod> {
         HelperUtility.closeProgressDialog(_keyLoader);
         Alert.showMessage(
             type: TypeAlert.success,
-            title: "SUCCESS",
+            title: AppLocalizations.of(context).success,
             message: 'Google Pay payment succesfully completed');
         await payWithAppleGoogle();
       } else {
         HelperUtility.closeProgressDialog(_keyLoader);
         Alert.showMessage(
             type: TypeAlert.error,
-            title: "ERROR",
+            title: AppLocalizations.of(context).error,
             message: 'Something went wrong. Please retry!');
       }
     } catch (e) {
@@ -373,7 +393,7 @@ class _PayMethod extends State<PayMethod> {
         message = error.code == "Canceled" ? error.message.toString() : message;
       }
       Alert.showMessage(
-          type: TypeAlert.error, title: "ERROR", message: message);
+          type: TypeAlert.error, title: AppLocalizations.of(context).error, message: message);
     }
   }
 
@@ -465,8 +485,8 @@ class _PayMethod extends State<PayMethod> {
       //   });
       //   Alert.showMessage(
       //       type: TypeAlert.error,
-      //       title: "ERROR",
-      //       message: powerOn['message'] ?? Messages.ERROR_MSG);
+      //       title: AppLocalizations.of(context).error,
+      //       message: powerOn['message'] ?? AppLocalizations.of(context).errorMsg);
       // }
       // HelperUtility.goPageReplace(
       //     context: context,
@@ -479,11 +499,23 @@ class _PayMethod extends State<PayMethod> {
    * Get Price Item
    */
   List<PaymentItem> getPriceItem() {
+    if (widget.data["isStart"]) {
+      amount = AppProvider.of(context).selectedPrice!.startCost.toString();
+      print("For google pay option");
+      print(amount);
+    }
+
+    UserModel currentUser = AppProvider.of(context).currentUser;
+    double user_balance = currentUser.balance;
+    String rest_amount =
+        (double.parse(amount) - user_balance).toStringAsFixed(2);
+
     return [
       PaymentItem(
         label: 'Kiwi City',
         // amount: AppProvider.of(context).selectedPrice!.totalCost.toString(),
-        amount: "0",
+        // amount: "0",
+        amount: rest_amount,
         status: PaymentItemStatus.final_price,
       )
     ];
@@ -548,7 +580,7 @@ class _PayMethod extends State<PayMethod> {
                               child: Text(
                                 appProvider.currentUser.card!.cardType != ""
                                     ? appProvider.currentUser.card!.cardType
-                                    : "Others",
+                                    : AppLocalizations.of(context).others,
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Color(0xff0B0B0B),
@@ -580,7 +612,7 @@ class _PayMethod extends State<PayMethod> {
                       color: Color(0xffC6D5F6),
                     ),
                     child: Text(
-                      'SELECTED',
+                      AppLocalizations.of(context).selected,
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -615,7 +647,7 @@ class _PayMethod extends State<PayMethod> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(left: 15, top: 20, bottom: 15),
               child: Text(
-                'Add New Credit Card',
+                AppLocalizations.of(context).addNewCard,
                 style: TextStyle(
                   fontSize: 16,
                   color: Color(0xff0B0B0B),
@@ -630,7 +662,7 @@ class _PayMethod extends State<PayMethod> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12),
               child: Text(
-                'Card Holder Name',
+                AppLocalizations.of(context).cardHolderName,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Color.fromRGBO(11, 11, 11, 1),
@@ -671,9 +703,9 @@ class _PayMethod extends State<PayMethod> {
                 textInputAction: TextInputAction.next,
                 validator: (value) {
                   if (value == "") {
-                    return "Please enter holder name";
+                    return AppLocalizations.of(context).cardHolderError;
                   } else if (value!.length > 100) {
-                    return "Name should be less than 100 characters";
+                    return AppLocalizations.of(context).cardHolderLengthError;
                   }
 
                   return null;
@@ -691,7 +723,7 @@ class _PayMethod extends State<PayMethod> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12),
               child: Text(
-                'Card Number',
+                AppLocalizations.of(context).cardNumber,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Color.fromRGBO(11, 11, 11, 1),
@@ -708,7 +740,7 @@ class _PayMethod extends State<PayMethod> {
                 decoration: InputDecoration(
                   contentPadding:
                       EdgeInsets.only(left: 15, top: 5, bottom: 5, right: 5),
-                  hintText: 'Card Number',
+                  hintText: AppLocalizations.of(context).cardNumber,
                   hintStyle: TextStyle(
                       color: Color.fromRGBO(181, 181, 181, 1),
                       fontFamily: 'Montserrat-Regular',
@@ -734,7 +766,7 @@ class _PayMethod extends State<PayMethod> {
                   String number = value!.trim();
                   CardType type = CardUtils.getCardTypeFrmNumber(number);
                   if (type == CardType.Invalid) {
-                    return "Invalid card number";
+                    return AppLocalizations.of(context).cardNumberError;
                   }
                   // if (value?.isEmpty ?? true) {
                   //   return 'Email Required';
@@ -763,7 +795,7 @@ class _PayMethod extends State<PayMethod> {
                       alignment: Alignment.topLeft,
                       padding: const EdgeInsets.only(left: 12, bottom: 12),
                       child: Text(
-                        'Expiration date',
+                        AppLocalizations.of(context).expDate,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: 12,
@@ -833,7 +865,7 @@ class _PayMethod extends State<PayMethod> {
                       alignment: Alignment.topRight,
                       padding: const EdgeInsets.only(left: 12, bottom: 12),
                       child: Text(
-                        'Security Code',
+                        AppLocalizations.of(context).securityCode,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: 12,
@@ -881,7 +913,7 @@ class _PayMethod extends State<PayMethod> {
                           String number = value!.trim();
 
                           if (value.length < 3) {
-                            return "Invalid code";
+                            return AppLocalizations.of(context).invalidCode;
                           }
                           // if (value?.isEmpty ?? true) {
                           //   return 'Email Required';
@@ -928,7 +960,7 @@ class _PayMethod extends State<PayMethod> {
                       await paySubmit(card);
                     }
                   },
-                  title: "Complete Payment",
+                  title: AppLocalizations.of(context).completePayment,
                   height: 50,
                   borderRadius: BorderRadius.circular(12)),
             )
@@ -953,7 +985,7 @@ class _PayMethod extends State<PayMethod> {
           width: 30,
           height: 30,
         )),
-        label: const Text('Add Another Payment',
+        label: Text(AppLocalizations.of(context).addPayment,
             style: TextStyle(
                 fontSize: 16.0,
                 color: Color.fromRGBO(102, 102, 102, 1),
@@ -1016,7 +1048,7 @@ class _PayMethod extends State<PayMethod> {
                       ),
                     ),
                     title: Text(
-                      'Payment Method',
+                      AppLocalizations.of(context).paymentMethod,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
@@ -1033,42 +1065,42 @@ class _PayMethod extends State<PayMethod> {
                         child: ListView(
                           children: [
                             // if (AppProvider.of(context).selectedPrice != null)
-                              // applePayWidget(),
-                              // platform == TargetPlatform.iOS
-                              //     ? ApplePayButtonWidget(
-                              //         padding: EdgeInsets.all(16),
-                              //         children: [
-                              //           FlutterStripe.ApplePayButton(
-                              //             onPressed: _handlePayPress,
-                              //           )
-                              //         ],
-                              //       )
-                              //     : pay.GooglePayButton(
-                              //         paymentConfigurationAsset:
-                              //             'google_pay_live.json',
-                              //         paymentItems: getPriceItem(),
-                              //         margin: const EdgeInsets.only(
-                              //             top: 15, right: 20, left: 20, bottom: 20),
-                              //         onPaymentResult: onGooglePayResult,
-                              //         loadingIndicator: const Center(
-                              //           child: CircularProgressIndicator(),
-                              //         ),
-                              //         onPressed: () async {
-                              //           // 1. Add your stripe publishable key to assets/google_pay_payment_profile.json
-                              //           // await debugChangedStripePublishableKey();
-                              //         },
-                              //         childOnError: Text(
-                              //             'Google Pay is not available in this device'),
-                              //         onError: (e) {
-                              //           ScaffoldMessenger.of(context).showSnackBar(
-                              //             const SnackBar(
-                              //               content: Text(
-                              //                   'There was an error while trying to perform the payment'),
-                              //             ),
-                              //           );
-                              //         },
-                              //       ),
-                              isExistCard ? paySection : Container(),
+                            // applePayWidget(),
+                            // platform == TargetPlatform.iOS
+                            //     ? ApplePayButtonWidget(
+                            //         padding: EdgeInsets.all(16),
+                            //         children: [
+                            //           FlutterStripe.ApplePayButton(
+                            //             onPressed: _handlePayPress,
+                            //           )
+                            //         ],
+                            //       )
+                            //     : pay.GooglePayButton(
+                            //         paymentConfigurationAsset:
+                            //             'google_pay_live.json',
+                            //         paymentItems: getPriceItem(),
+                            //         margin: const EdgeInsets.only(
+                            //             top: 15, right: 20, left: 20, bottom: 20),
+                            //         onPaymentResult: onGooglePayResult,
+                            //         loadingIndicator: const Center(
+                            //           child: CircularProgressIndicator(),
+                            //         ),
+                            //         onPressed: () async {
+                            //           // 1. Add your stripe publishable key to assets/google_pay_payment_profile.json
+                            //           // await debugChangedStripePublishableKey();
+                            //         },
+                            //         childOnError: Text(
+                            //             'Google Pay is not available in this device'),
+                            //         onError: (e) {
+                            //           ScaffoldMessenger.of(context).showSnackBar(
+                            //             const SnackBar(
+                            //               content: Text(
+                            //                   'There was an error while trying to perform the payment'),
+                            //             ),
+                            //           );
+                            //         },
+                            //       ),
+                            isExistCard ? paySection : Container(),
                             (isExistCard && !isShowCardSection)
                                 ? Container()
                                 : cardSection,

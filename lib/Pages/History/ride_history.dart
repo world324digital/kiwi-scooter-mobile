@@ -11,6 +11,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mapbox_api/mapbox_api.dart';
 import '../MenuPage/main_menu.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RideHistory extends StatefulWidget {
   const RideHistory({super.key});
@@ -52,8 +53,8 @@ class _RideHistory extends State<RideHistory> {
     required ReviewModel review,
     // required List<LatLng> points,
   }) {
-    LocationModel? startPoint = review.startPoint;
-    LocationModel? endPoint = review.endPoint;
+    // LocationModel? startPoint = review.startPoint;
+    // LocationModel? endPoint = review.endPoint;
     String distanceForDisplay = "";
 
     // double distance = review.duration * AppConstants.scooterSpeedPerSeconds;
@@ -77,9 +78,12 @@ class _RideHistory extends State<RideHistory> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => RideDetail(
-                      data: {"review": review},
-                    )),
+              builder: (context) => RideDetail(
+                data: {
+                  "review": review,
+                },
+              ),
+            ),
           );
           // HelperUtility.goPage(
           //     context: context,
@@ -238,7 +242,7 @@ class _RideHistory extends State<RideHistory> {
                 ),
               ),
               title: Text(
-                'Ride History',
+                AppLocalizations.of(context).rideHistory,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
@@ -281,7 +285,7 @@ class _RideHistory extends State<RideHistory> {
                           );
                         } else {
                           return Text(
-                            "NO HISTORY",
+                            AppLocalizations.of(context).noHistory,
                             style: TextStyle(fontSize: 20),
                           );
                         }

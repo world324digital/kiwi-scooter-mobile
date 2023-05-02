@@ -10,6 +10,7 @@ import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../StartRidingPage/start_riding_page.dart';
 import 'qr_scan_page.dart';
 
@@ -74,7 +75,7 @@ class _EnterCode extends State<EnterCode> {
           } else {
             Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
+                title: AppLocalizations.of(context).error,
                 message: Messages.ERROR_INVALID_SCOOTERID);
           }
         });
@@ -83,14 +84,17 @@ class _EnterCode extends State<EnterCode> {
         Future.delayed(const Duration(milliseconds: 500), () {
           HelperUtility.closeProgressDialog(_keyLoader);
           Alert.showMessage(
-              type: TypeAlert.error, title: "ERROR", message: e.toString());
+              type: TypeAlert.error,
+              title: AppLocalizations.of(context).error,
+              message: e.toString());
         });
       }
     } else {
       Alert.showMessage(
-          type: TypeAlert.warning,
-          title: "ERROR",
-          message: "Please enter code");
+        type: TypeAlert.warning,
+        title: AppLocalizations.of(context).error,
+        message: AppLocalizations.of(context).enterScooterCodeMsg1,
+      );
     }
   }
 
@@ -100,8 +104,8 @@ class _EnterCode extends State<EnterCode> {
     Widget headerSection = Container(
       padding:
           const EdgeInsets.only(top: 50, bottom: 50, left: 100, right: 100),
-      child: const Text(
-        'Enter the code on your scooter display',
+      child: Text(
+        AppLocalizations.of(context).enterScooterCodeMsg2,
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Colors.white,
@@ -168,7 +172,7 @@ class _EnterCode extends State<EnterCode> {
         onPressed: () async {
           await confirmScooterID();
         },
-        child: const Text('CONFIRM',
+        child: Text(AppLocalizations.of(context).confirm,
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
@@ -195,7 +199,7 @@ class _EnterCode extends State<EnterCode> {
                 width: 30,
                 height: 30,
               )),
-              label: const Text('Cancel',
+              label: Text(AppLocalizations.of(context).cancel,
                   style: TextStyle(
                       fontSize: 16.0,
                       color: Color.fromRGBO(255, 175, 164, 1),
@@ -239,7 +243,7 @@ class _EnterCode extends State<EnterCode> {
                   width: 30,
                   height: 30,
                 )),
-                label: const Text('Scan QR',
+                label: Text(AppLocalizations.of(context).scan,
                     style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.white,

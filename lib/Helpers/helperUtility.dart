@@ -9,6 +9,7 @@ import 'package:KiwiCity/Widgets/dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HelperUtility {
@@ -67,7 +68,7 @@ class HelperUtility {
     Dialogs.showLoadingDarkDialog(
       context: context,
       key: key,
-      title: title ?? "Please wait...",
+      title: title ?? AppLocalizations.of(context).wait,
       backgroundColor: Colors.white,
       indicatorColor: ColorConstants.cPrimaryBtnColor,
       textColor: ColorConstants.cPrimaryTitleColor,

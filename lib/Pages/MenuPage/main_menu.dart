@@ -10,6 +10,7 @@ import 'package:KiwiCity/Routes/routes.dart';
 import 'package:KiwiCity/Pages/History/ride_history.dart';
 import 'package:KiwiCity/video.dart';
 import 'package:KiwiCity/settings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainMenu extends StatefulWidget {
   final pageIndex;
@@ -98,7 +99,7 @@ class _MainMenu extends State<MainMenu> {
                 context: context,
                 menu_id: value.index,
                 index: 3,
-                text: "Ride Now",
+                text: AppLocalizations.of(context).rideNow,
                 routeName: Routes.RIDE_NOW,
                 img:
                     Image.asset(ImageConstants.RIDE_NOW, width: 18, height: 18),
@@ -110,7 +111,7 @@ class _MainMenu extends State<MainMenu> {
                   context: context,
                   menu_id: value.index,
                   index: 1,
-                  text: "Ride History",
+                  text: AppLocalizations.of(context).rideHistory,
                   routeName: Routes.RIDE_HISTORY,
                   img: Image.asset(
                     ImageConstants.RIDE_HISTORY,
@@ -128,7 +129,7 @@ class _MainMenu extends State<MainMenu> {
                   context: context,
                   menu_id: value.index,
                   index: 2,
-                  text: "Payment",
+                  text: AppLocalizations.of(context).payment,
                   routeName: Routes.MANAGE_PAYMETHOD,
                   img: Image.asset(ImageConstants.PAYMENT,
                       width: 18, height: 18),
@@ -140,10 +141,10 @@ class _MainMenu extends State<MainMenu> {
                   context: context,
                   menu_id: value.index,
                   index: 8,
-                  text: "My Wallet",
+                  text: AppLocalizations.of(context).myWallet,
                   routeName: Routes.WALLET,
-                  img: Image.asset(ImageConstants.WALLET,
-                      width: 18, height: 18),
+                  img:
+                      Image.asset(ImageConstants.WALLET, width: 18, height: 18),
                   activeImg: Image.asset(ImageConstants.WALLET_ACTIVE,
                       width: 18, height: 18),
                 ),
@@ -163,7 +164,7 @@ class _MainMenu extends State<MainMenu> {
                   context: context,
                   menu_id: value.index,
                   index: 5,
-                  text: "Terms of Service",
+                  text: AppLocalizations.of(context).termsOfService,
                   routeName: Routes.TERMS_OF_SERVICE,
                   img: Image.asset(ImageConstants.TERMS, width: 18, height: 18),
                   activeImg: Image.asset(ImageConstants.TERMS_ACTIVE,
@@ -184,20 +185,31 @@ class _MainMenu extends State<MainMenu> {
                   context: context,
                   menu_id: value.index,
                   index: 7,
-                  text: "Settings",
+                  text: AppLocalizations.of(context).settings,
                   routeName: Routes.SETTINGS,
                   img: Image.asset(ImageConstants.SETTINGS,
                       width: 18, height: 18),
                   activeImg: Image.asset(ImageConstants.SETTINGS_ACTIVE,
                       width: 18, height: 18),
                 ),
+              MenuBarItem(
+                context: context,
+                menu_id: value.index,
+                index: 9,
+                text: AppLocalizations.of(context).language,
+                routeName: Routes.LANGUAGE,
+                img: Icon(Icons.language_outlined,
+                    color: Colors.white, size: 18),
+                activeImg: Icon(Icons.language_outlined,
+                    color: ColorConstants.cPrimaryBtnColor, size: 18),
+              ),
               if (value.isLogin) Divider(color: Color(0xffEEEEEE)),
               if (value.isLogin)
                 MenuBarItem(
                   context: context,
                   menu_id: value.index,
                   index: 0,
-                  text: "Sign Out",
+                  text: AppLocalizations.of(context).signOut,
                   routeName: Routes.SIGN_OUT,
                   img: Icon(Icons.logout_outlined,
                       color: Colors.white, size: 20),

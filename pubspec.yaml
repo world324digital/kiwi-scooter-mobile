@@ -46,7 +46,7 @@ dependencies:
   camera: ^0.10.0+5
   flutter_countdown_timer: ^4.1.0
   mapbox_api: ^1.0.0
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.1.0
   page_view_indicators: ^2.0.0
   dots_indicator: ^2.1.0
 
@@ -54,7 +54,7 @@ dependencies:
   flutter_screenutil: ^5.6.0
   connectivity_plus: ^3.0.2
   flutter_dropdown_alert: ^1.0.6
-  intl: ^0.17.0
+  intl: any
   url_launcher: ^6.1.7
   google_sign_in: ^5.4.2
 
@@ -91,6 +91,8 @@ dependencies:
 
   workmanager: ^0.5.1
   flutter_stripe: ^7.0.0
+  flutter_localizations: 
+    sdk: flutter
   
 dev_dependencies:
   flutter_test:
@@ -122,7 +124,7 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

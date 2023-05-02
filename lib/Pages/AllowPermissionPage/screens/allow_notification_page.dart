@@ -9,6 +9,7 @@ import 'package:flutter_dropdown_alert/model/data_alert.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllowNotificationPage extends StatefulWidget {
   const AllowNotificationPage({super.key});
@@ -132,14 +133,14 @@ class _AllowNotificationPage extends State<AllowNotificationPage> {
             child: ListBody(
               children: <Widget>[
                 Text(
-                  "${Messages.WARNING_PERMISSION_DENIND_PERMENANT_TITLE}",
+                  "${AppLocalizations.of(context).warningPermissionDenindPermenantTitle}",
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: FontStyles.fLight,
                   ),
                 ),
                 Text(
-                  "${Messages.WARNING_PERMISSION_DENIND_PERMENANT_MSG}",
+                  "${AppLocalizations.of(context).warningPermissionDenindPermenantMsg}",
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: FontStyles.fLight,

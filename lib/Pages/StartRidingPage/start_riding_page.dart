@@ -17,6 +17,7 @@ import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:KiwiCity/Helpers/helperUtility.dart';
 import 'package:KiwiCity/Models/user_model.dart';
 import 'package:KiwiCity/Routes/routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StartRiding extends StatefulWidget {
   const StartRiding({Key? key, required this.data}) : super(key: key);
@@ -30,6 +31,8 @@ class _StartRiding extends State<StartRiding> {
   List<PriceModel> _prices = [];
   bool isLoading = true;
   bool isError = false;
+  String startPrice = "1";
+  String ridePrice = "0.25";
 
   List<Widget> getList(List<PriceModel> prices) {
     List<Widget> slideList = [];
@@ -62,6 +65,10 @@ class _StartRiding extends State<StartRiding> {
     try {
       FirebaseService service = FirebaseService();
       _prices = await service.getPrices();
+      PriceModel priceItem = _prices[0];
+      startPrice = priceItem.startCost.toString();
+      ridePrice = priceItem.costPerMinute.toString();
+
       // print("=========================================");
       // print(_prices);
       // if (_prices.length > 0) {
@@ -92,7 +99,7 @@ class _StartRiding extends State<StartRiding> {
     Widget headerSection = Container(
       padding: EdgeInsets.only(top: platform == TargetPlatform.iOS ? 40 : 10),
       child: Text(
-        'You can ride with only 1 EUR.',
+        AppLocalizations.of(context).startRidingMsg(startPrice),
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Color(0xff0B0B0B),
@@ -117,7 +124,7 @@ class _StartRiding extends State<StartRiding> {
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.only(left: 15, top: 20, bottom: 15),
             child: Text(
-              'Available Balance',
+              AppLocalizations.of(context).balance,
               style: TextStyle(
                 fontSize: 16,
                 color: Color(0xff0B0B0B),
@@ -169,7 +176,7 @@ class _StartRiding extends State<StartRiding> {
                 Container(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Text(
-                    'Then you can pay 0.25 EUR per minute\n after riding not now.',
+                    AppLocalizations.of(context).startRidingDescription(ridePrice),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color(0xff666666),
@@ -258,9 +265,10 @@ class _StartRiding extends State<StartRiding> {
                       isLoading = false;
                     });
                     Alert.showMessage(
-                        type: TypeAlert.error,
-                        title: "ERROR",
-                        message: Messages.ERROR_MSG);
+                      type: TypeAlert.error,
+                      title: AppLocalizations.of(context).error,
+                      message: AppLocalizations.of(context).errorMsg,
+                    );
                   }
                 } else {
                   setState(() {
@@ -277,7 +285,7 @@ class _StartRiding extends State<StartRiding> {
                       });
                   // Alert.showMessage(
                   //     type: TypeAlert.error,
-                  //     title: "ERROR",
+                  //     title: AppLocalizations.of(context).error,
                   //     message: Messages.INSUFFICIENT_BALANCE);
                 }
                 // if (widget.data['isMore'] ?? false) {
@@ -295,7 +303,7 @@ class _StartRiding extends State<StartRiding> {
                 //     arg: {"isMore": false});
                 // }
               },
-              title: 'Continue',
+              title: AppLocalizations.of(context).continueLabel,
               margin: EdgeInsets.only(bottom: Platform.isIOS ? 40 : 25))
         ]),
       ),

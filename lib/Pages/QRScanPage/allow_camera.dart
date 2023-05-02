@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllowCamera extends StatefulWidget {
   const AllowCamera({super.key});
@@ -63,14 +64,14 @@ class _AllowCamera extends State<AllowCamera> {
 
   Future<void> _showPermissionDialog() async {
     Widget cancelButton = TextButton(
-      child: Text("Enter Code"),
+      child: Text(AppLocalizations.of(context).enterCode),
       onPressed: () {
         Navigator.of(context).pop();
         HelperUtility.goPage(context: context, routeName: Routes.ENTERCODE);
       },
     );
     Widget okButton = TextButton(
-      child: Text("Open"),
+      child: Text(AppLocalizations.of(context).open),
       onPressed: () async {
         Navigator.of(context).pop();
         bool status = await openAppSettings();
@@ -82,19 +83,19 @@ class _AllowCamera extends State<AllowCamera> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('WARNING'),
+          title: Text(AppLocalizations.of(context).warning),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text(
-                  "${Messages.WARNING_PERMISSION_DENIND_PERMENANT_TITLE}",
+                  "${AppLocalizations.of(context).warningPermissionDenindPermenantTitle}",
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: FontStyles.fLight,
                   ),
                 ),
                 Text(
-                  "${Messages.WARNING_PERMISSION_DENIND_PERMENANT_MSG}",
+                  "${AppLocalizations.of(context).warningPermissionDenindPermenantMsg}",
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: FontStyles.fLight,
@@ -117,14 +118,14 @@ class _AllowCamera extends State<AllowCamera> {
 
   Future<void> _showRestartDialog() async {
     Widget cancelButton = TextButton(
-      child: Text("Maybe Later"),
+      child: Text(AppLocalizations.of(context).maybeLater),
       onPressed: () {
         Navigator.of(context).pop();
         HelperUtility.goPage(context: context, routeName: Routes.ENTERCODE);
       },
     );
     Widget okButton = TextButton(
-      child: Text("Restart"),
+      child: Text(AppLocalizations.of(context).restart),
       onPressed: () async {
         Navigator.of(context).pop();
         // await PM.openAppSettings();
@@ -136,11 +137,11 @@ class _AllowCamera extends State<AllowCamera> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Alert'),
+          title: Text(AppLocalizations.of(context).alert),
           content: SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
-                Text('If you changed permission, Pleast restart app'),
+              children: <Widget>[
+                Text(AppLocalizations.of(context).alertMsg),
               ],
             ),
           ),
@@ -157,19 +158,19 @@ class _AllowCamera extends State<AllowCamera> {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 100, bottom: 30),
+            margin: const EdgeInsets.only(top: 50, bottom: 30),
             child: Image.asset('assets/images/allowcamera.png'),
           ),
-          const Text(
-            'Camera Access',
+          Text(
+            AppLocalizations.of(context).cameraAccess,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20,
                 fontFamily: 'Montserrat-Bold',
                 fontWeight: FontWeight.w600),
           ),
-          const Text(
-            'Required To Scan Code',
+          Text(
+            AppLocalizations.of(context).requireScanCode,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20,
@@ -185,7 +186,7 @@ class _AllowCamera extends State<AllowCamera> {
         child: Container(
           child: Text(
               textAlign: TextAlign.center,
-              'We will need to access your camera \nso you can scan the QR code.',
+              AppLocalizations.of(context).accessCameraMsg,
               style: TextStyle(
                   fontSize: 14,
                   fontFamily: 'Montserrat-Medium',
@@ -213,8 +214,8 @@ class _AllowCamera extends State<AllowCamera> {
             onPressed: () async {
               await allowCamera();
             },
-            child: const Text(
-              'Allow Camera',
+            child: Text(
+              AppLocalizations.of(context).allowCamera,
               style: TextStyle(
                   fontSize: 16.0,
                   fontFamily: 'Montserrat-Bold',
@@ -233,7 +234,7 @@ class _AllowCamera extends State<AllowCamera> {
                     context: context, routeName: Routes.ENTERCODE);
               },
               child: Text(
-                'No, I\'ll enter code manually',
+                AppLocalizations.of(context).enterCodeMsg,
                 style: TextStyle(
                     fontSize: 12,
                     fontFamily: 'Montserrat-Bold',

@@ -13,6 +13,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:KiwiCity/services/httpService.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HowRide extends StatefulWidget {
   const HowRide({Key? key, required this.data}) : super(key: key);
@@ -45,7 +47,8 @@ class _HowRide extends State<HowRide> {
    * @Date: 2023.04.02
    * @Desc: Save Scooter Review
    */
-  Future<void> saveReview(ReviewModel review, List<Map<String, dynamic>> _points) async {
+  Future<void> saveReview(
+      ReviewModel review, List<Map<String, dynamic>> _points) async {
     try {
       HelperUtility.showProgressDialog(context: context, key: _keyLoader);
       // String docId = await service.createReview(review);
@@ -54,8 +57,8 @@ class _HowRide extends State<HowRide> {
       HelperUtility.closeProgressDialog(_keyLoader);
       Alert.showMessage(
           type: TypeAlert.success,
-          title: "SUCCESS",
-          message: "Thank you for feedback");
+          title: AppLocalizations.of(context).success,
+          message: AppLocalizations.of(context).feedbackMsg);
       HelperUtility.goPage(context: context, routeName: Routes.HOME);
     } catch (e) {
       print(e);
@@ -63,8 +66,8 @@ class _HowRide extends State<HowRide> {
 
       Alert.showMessage(
         type: TypeAlert.error,
-        title: "ERROR",
-        message: Messages.ERROR_MSG,
+        title: AppLocalizations.of(context).error,
+        message: AppLocalizations.of(context).errorMsg,
       );
     }
   }
@@ -84,16 +87,20 @@ class _HowRide extends State<HowRide> {
         double.parse((price_per_minute * duration / 60).toStringAsFixed(2));
     double start_price = appProvider.selectedPrice?.startCost ?? 0.0;
 
-    double start_vat_price = double.parse((start_price * 0.21).toStringAsFixed(2));
-    double start_normal_price = double.parse((start_price - start_vat_price).toStringAsFixed(2));
-    
-    double riding_vat_price = double.parse((riding_price * 0.21).toStringAsFixed(2));
-    double riding_normal_price = double.parse((riding_price - riding_vat_price).toStringAsFixed(2));
+    double start_vat_price =
+        double.parse((start_price * 0.21).toStringAsFixed(2));
+    double start_normal_price =
+        double.parse((start_price - start_vat_price).toStringAsFixed(2));
+
+    double riding_vat_price =
+        double.parse((riding_price * 0.21).toStringAsFixed(2));
+    double riding_normal_price =
+        double.parse((riding_price - riding_vat_price).toStringAsFixed(2));
 
     double vat_price =
         double.parse(((start_price + riding_price) * 0.21).toStringAsFixed(2));
-    double total_price = double.parse(
-        (riding_price + start_price).toStringAsFixed(2));
+    double total_price =
+        double.parse((riding_price + start_price).toStringAsFixed(2));
     ;
     String card_type = card?.cardType ?? "";
     String card_number = card?.cardNumber ?? "";
@@ -163,8 +170,8 @@ class _HowRide extends State<HowRide> {
             _rating = rating;
           },
         ),
-        Items(name: 'eScooter Code', value: scooter_id, top: 30),
-        Items(name: 'eScooter Type', value: scooter_type, top: 10),
+        Items(name: AppLocalizations.of(context).scooterCode, value: scooter_id, top: 30),
+        Items(name: AppLocalizations.of(context).scooterType, value: scooter_type, top: 10),
         Container(
           padding: const EdgeInsets.only(top: 15, left: 22, right: 12),
           child: Row(children: const <Widget>[
@@ -172,17 +179,17 @@ class _HowRide extends State<HowRide> {
           ]),
         ),
         Items(
-            name: 'Start Time',
+            name: AppLocalizations.of(context).startTime,
             value: HelperUtility.getFormattedTime(
                 start_time, "dd MMM yyyy E kk:mm"),
             top: 10),
         Items(
-            name: 'End Time',
+            name: AppLocalizations.of(context).endTime,
             value:
                 HelperUtility.getFormattedTime(end_time, "dd MMM yyyy E kk:mm"),
             top: 10),
         Items(
-            name: 'Duration',
+            name: AppLocalizations.of(context).duration,
             value: HelperUtility.getDayFromSeconds(duration),
             top: 10),
         Container(
@@ -194,7 +201,7 @@ class _HowRide extends State<HowRide> {
       ]),
     );
     Widget priceSection = Card(
-        margin: const EdgeInsets.only(left: 20, right: 20),
+        margin: const EdgeInsets.only(left: 10, right: 10),
         elevation: 0,
         shape: RoundedRectangleBorder(
           side: BorderSide(
@@ -207,13 +214,15 @@ class _HowRide extends State<HowRide> {
           child: Column(children: [
             SizedBox(height: 20),
             Items(
-              name: "Start Price",
-              value: "\€${start_price.toString()} = €${start_normal_price.toString()} + €${start_vat_price.toString()}(VAT %21)",
+              name: AppLocalizations.of(context).startPrice,
+              value:
+                  "\€${start_price.toString()} = €${start_normal_price.toString()} + €${start_vat_price.toString()}(VAT %21)",
               top: 0,
             ),
             Items(
-              name: "Riding Price",
-              value: "\€${riding_price.toString()} = €${riding_normal_price.toString()} + €${riding_vat_price.toString()}(VAT %21)",
+              name: AppLocalizations.of(context).ridingPrice,
+              value:
+                  "\€${riding_price.toString()} = €${riding_normal_price.toString()} + €${riding_vat_price.toString()}(VAT %21)",
               top: 10,
             ),
             // Items(
@@ -232,7 +241,7 @@ class _HowRide extends State<HowRide> {
                 child: Container(
                   padding: const EdgeInsets.only(left: 20, bottom: 20),
                   child: Text(
-                    'Total Amount',
+                    AppLocalizations.of(context).totalAmount,
                     style: TextStyle(
                         color: ColorConstants.cPrimaryTitleColor,
                         fontSize: 16,
@@ -340,7 +349,7 @@ class _HowRide extends State<HowRide> {
                   Container(
                     padding: const EdgeInsets.only(top: 32, bottom: 16),
                     child: Text(
-                      'How was your ride?',
+                      AppLocalizations.of(context).feedbackTitle,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20,
@@ -387,9 +396,34 @@ class _HowRide extends State<HowRide> {
                         distance: _distance,
                       );
 
+                      String distanceForDisplay = "";
+
+                      if (_distance > 1000) {
+                        _distance = _distance / 1000;
+                        distanceForDisplay = _distance.toString() + " km";
+                      } else {
+                        distanceForDisplay = _distance.toString() + " m";
+                      }
+
                       await saveReview(review, _points);
+                      await HttpService().sendInvoiceEmail(
+                        total: total_price.toString(),
+                        start_normal: start_normal_price.toString(),
+                        start_vat: start_vat_price.toString(),
+                        start_subtotal: start_price.toString(),
+                        riding_normal: riding_normal_price.toString(),
+                        riding_vat: riding_vat_price.toString(),
+                        riding_subtotal: riding_price.toString(),
+                        invoice_date: HelperUtility.getFormattedTime(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    review.startTime),
+                                "dd MMMM yyyy")
+                            .toString(),
+                        ride_distance: distanceForDisplay,
+                        user_email: AppProvider.of(context).currentUser.email,
+                      );
                     },
-                    title: "Done"),
+                    title: AppLocalizations.of(context).done),
               )
             ],
           ),

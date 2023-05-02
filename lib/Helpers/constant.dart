@@ -70,10 +70,10 @@ class AppConstants {
   //     'https://api.mapbox.com/styles/v1/rolandz/clg0n8s1o002101myonakrjgu/wmts?access_token=pk.eyJ1Ijoicm9sYW5keiIsImEiOiJjbGcwbXkyOXgxZGo1M2VxeW1nM2ttc2QxIn0.XhSysU0eukqhSWbAdgKmjg';
 
   static const String backServiceIdenitfier = "kiwiCityTask";
-  // static const String publishKey =
-  //     'pk_live_51MokUqEaT93AOXiCFJ8Ok2JDAcu5QoqM97C1hq9eNUpFAErI0VodhHNrtIMKL7eJrK8Hpc8liK6jKkn6tpGJNLj300l5JXN5VD';
   static const String publishKey =
-      'pk_test_51KT4AVK43K1Nk6N3I5JoEl9mmWe322CfezgHf3aiEkUr9tj4IN3iBZkVx9bL6fV7cVIMH2ukOWJYQLNux1WJilDq00yUjEPpxn';
+      'pk_live_51MokUqEaT93AOXiCFJ8Ok2JDAcu5QoqM97C1hq9eNUpFAErI0VodhHNrtIMKL7eJrK8Hpc8liK6jKkn6tpGJNLj300l5JXN5VD';
+  // static const String publishKey =
+  //     'pk_test_51KT4AVK43K1Nk6N3I5JoEl9mmWe322CfezgHf3aiEkUr9tj4IN3iBZkVx9bL6fV7cVIMH2ukOWJYQLNux1WJilDq00yUjEPpxn';
 }
 
 class URLS {
@@ -83,6 +83,7 @@ class URLS {
   static const String MQTT_PREFIX = "/mqtt";
 
   static const String SEND_REPORT_EMAIL = "/sendReport";
+  static const String SEND_INVOICE_EMAIL = "/sendinvoice";
   static const String SEND_RING_ON = "/alarmon";
   static const String SEND_RING_OFF = "/alarmoff";
   static const String CARD_PAY = "/cardPay";
@@ -97,6 +98,54 @@ class URLS {
       "http://kiwi-city.com";
   static const String PRIVACY_URL = "http://kiwi-city.com/privacy-policy.html";
   static const String SUPPORTT_URL = "http://kiwi-city.com";
+}
+
+class TextConstants {
+  static const Map<String, String> rideDetailLabel = {
+    "en": "Ride Detail",
+    "el": "Λεπτομέρεια διαδρομής",
+    "lv": "Brauciena detaļas"
+  };
+  static const Map<String, String> startPriceLabel = {
+    "en": "Start Price",
+    "el": "Τιμή έναρξης",
+    "lv": "Sākuma cena"
+  };
+  static const Map<String, String> ridingPriceLabel = {
+    "en": "Riding Price",
+    "el": "Τιμή ιππασίας",
+    "lv": "Izjādes cena"
+  };
+  static const Map<String, String> startTimeLabel = {
+    "en": "Start Time",
+    "el": "Ώρα έναρξης",
+    "lv": "Sākuma laiks"
+  };
+  static const Map<String, String> endTimeLabel = {
+    "en": "End Time",
+    "el": "Ώρα λήξης",
+    "lv": "Beigu laiks"
+  };
+  static const Map<String, String> durationLabel = {
+    "en": "Duration",
+    "el": "Διάρκεια",
+    "lv": "Ilgums"
+  };
+  static const Map<String, String> totalAmountLabel = {
+    "en": "Total Amount",
+    "el": "Συνολικό ποσό",
+    "lv": "Kopā summa"
+  };
+  static const Map<String, String> scooterCodeLabel = {
+    "en": "eScooter Code",
+    "el": "Κωδικός eScooter",
+    "lv": "eScooter kods"
+  };
+  static const Map<String, String> scooterTypeLabel = {
+    "en": "eScooter Type",
+    "el": "Τύπος eScooter",
+    "lv": "eScooter tips"
+  };
 }
 
 class Messages {

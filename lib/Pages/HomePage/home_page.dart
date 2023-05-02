@@ -27,6 +27,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mapbox_api/mapbox_api.dart';
 import 'package:permission_handler/permission_handler.dart' as PM;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:KiwiCity/services/firebase_service.dart';
+import 'package:KiwiCity/Models/price_model.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -39,6 +42,7 @@ class _HomePageState extends State<HomePage>
   // final mapBoxAccessToken = AppConstants.mapBoxAccessToken;
   final username = AppConstants.username;
   final db = FirebaseFirestore.instance;
+  List<PriceModel> _prices = [];
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -82,6 +86,20 @@ class _HomePageState extends State<HomePage>
   bool isAllowLocation = false;
 
   String _authStatus = 'Unknown'; // For iOS
+  String startPrice = "1";
+  String ridePrice = "0.25";
+
+  Future<void> getPrices() async {
+    try {
+      FirebaseService service = FirebaseService();
+      _prices = await service.getPrices();
+      PriceModel priceItem = _prices[0];
+      startPrice = priceItem.startCost.toString();
+      ridePrice = priceItem.costPerMinute.toString();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
   // String _authStatus = "TrackingStatus.authorized"; // For Andriod
 
   /***********************************
@@ -322,7 +340,7 @@ class _HomePageState extends State<HomePage>
                   reservePossibility = 0;
                   // await unableAlert(
                   //   context: context,
-                  //   message: Messages.ERROR_UNABLE_FAR_AWAY,
+                  //   message: AppLocalizations.of(context).errorUnableFarAway,
                   // );
                   // return;z
                 } else {
@@ -638,9 +656,9 @@ class _HomePageState extends State<HomePage>
                             children: [
                               MyFont.text(
                                 // _selectedScooter.g,
-                                "Kiwi eScooter",
+                                AppLocalizations.of(context).kiwiScooterLabel,
                                 color: ColorConstants.cPrimaryTitleColor,
-                                fontSize: 16,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 lineHeight: 1.25,
                                 fontFamily: FontStyles.fBold,
@@ -652,7 +670,7 @@ class _HomePageState extends State<HomePage>
                                 child: MyFont.text(
                                   "#${_selectedScooter.scooterID}",
                                   color: ColorConstants.cTxtColor2,
-                                  fontSize: 14,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.w300,
                                   fontFamily: FontStyles.fLight,
                                 ),
@@ -670,7 +688,7 @@ class _HomePageState extends State<HomePage>
                                 MyFont.text(
                                   " ${_selectedScooter.soc.toString()}%",
                                   color: ColorConstants.cPrimaryTitleColor,
-                                  fontSize: 14,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontStyles.fLight,
                                 )
@@ -684,7 +702,7 @@ class _HomePageState extends State<HomePage>
                                       await sendRing();
                                     },
                                     child: Container(
-                                      width: 90,
+                                      width: 120,
                                       height: 40,
                                       padding: const EdgeInsets.symmetric(
                                         // horizontal: 10,
@@ -707,7 +725,8 @@ class _HomePageState extends State<HomePage>
                                             margin:
                                                 const EdgeInsets.only(left: 10),
                                             child: Text(
-                                              'Ring',
+                                              AppLocalizations.of(context)
+                                                  .ring,
                                               style: TextStyle(
                                                 color:
                                                     ColorConstants.cTxtColor2,
@@ -957,7 +976,7 @@ class _HomePageState extends State<HomePage>
                               text: TextSpan(
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: '\€1 ',
+                                    text: '\€${startPrice} ',
                                     style: TextStyle(
                                       color: ColorConstants.cPrimaryTitleColor,
                                       fontSize: 12,
@@ -967,7 +986,8 @@ class _HomePageState extends State<HomePage>
                                     ),
                                   ),
                                   TextSpan(
-                                    text: 'before riding + ',
+                                    text: AppLocalizations.of(context)
+                                        .ridingNote1,
                                     style: TextStyle(
                                       color: ColorConstants.cTxtColor2,
                                       fontSize: 13,
@@ -977,7 +997,7 @@ class _HomePageState extends State<HomePage>
                                     ),
                                   ),
                                   TextSpan(
-                                    text: '\€0.25 ',
+                                    text: '\€${ridePrice} ',
                                     style: TextStyle(
                                       color: ColorConstants.cPrimaryTitleColor,
                                       fontSize: 12,
@@ -987,7 +1007,8 @@ class _HomePageState extends State<HomePage>
                                     ),
                                   ),
                                   TextSpan(
-                                    text: 'per minute after riding',
+                                    text: AppLocalizations.of(context)
+                                        .ridingNote2,
                                     style: TextStyle(
                                       color: ColorConstants.cTxtColor2,
                                       fontSize: 13,
@@ -1032,7 +1053,8 @@ class _HomePageState extends State<HomePage>
                       } else {
                         await unableAlert(
                           context: context,
-                          message: Messages.ERROR_UNABLE_FAR_AWAY,
+                          message:
+                              AppLocalizations.of(context).errorUnableFarAway,
                         );
                       }
                       // Navigator.push(
@@ -1040,7 +1062,7 @@ class _HomePageState extends State<HomePage>
                       //   MaterialPageRoute(builder: (context) => const QRViewExample()),
                       // );
                     },
-                    title: "Ride Now",
+                    title: AppLocalizations.of(context).rideNow,
                     icon: Container(
                       child: Image.asset(
                         'assets/images/ridenowbike.png',
@@ -1090,19 +1112,21 @@ class _HomePageState extends State<HomePage>
         });
         Alert.showMessage(
             type: TypeAlert.success,
-            title: "SUCCESS",
+            title: AppLocalizations.of(context).success,
             message: Messages.SUCCESS_SEND_REPORT);
       } else {
         Alert.showMessage(
             type: TypeAlert.error,
-            title: "ERROR",
-            message: res['message'] ?? Messages.ERROR_MSG);
+            title: AppLocalizations.of(context).error,
+            message: res['message'] ?? AppLocalizations.of(context).errorMsg);
       }
     } catch (e) {
       //------------ Dismiss Progress Dialog  -------------------
       HelperUtility.closeProgressDialog(_keyLoader);
       Alert.showMessage(
-          type: TypeAlert.error, title: "ERROR", message: e.toString());
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: e.toString());
     }
   }
 
@@ -1123,17 +1147,18 @@ class _HomePageState extends State<HomePage>
       } else {
         Alert.showMessage(
             type: TypeAlert.success,
-            title: "ERROR",
-            message: res['message'] ?? Messages.ERROR_MSG);
+            title: AppLocalizations.of(context).error,
+            message: res['message'] ?? AppLocalizations.of(context).errorMsg);
       }
     } catch (e) {
       print(e.toString());
       //------------ Dismiss Progress Dialog  -------------------
       // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       unableAlert(
-          error: e.toString(),
-          message: Messages.ERROR_UNABLE_SCOOTER,
-          context: context);
+        error: e.toString(),
+        message: AppLocalizations.of(context).errorUnableScooter,
+        context: context,
+      );
     }
   }
 
@@ -1153,8 +1178,8 @@ class _HomePageState extends State<HomePage>
       } else {
         Alert.showMessage(
             type: TypeAlert.success,
-            title: "ERROR",
-            message: res['message'] ?? Messages.ERROR_MSG);
+            title: AppLocalizations.of(context).error,
+            message: res['message'] ?? AppLocalizations.of(context).errorMsg);
       }
     } catch (e) {
       print(e.toString());
@@ -1162,7 +1187,7 @@ class _HomePageState extends State<HomePage>
       // Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       unableAlert(
           error: e.toString(),
-          message: Messages.ERROR_UNABLE_SCOOTER,
+          message: AppLocalizations.of(context).errorUnableScooter,
           context: context);
     }
   }
@@ -1170,6 +1195,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+    getPrices();
     WidgetsBinding.instance.addObserver(this);
 
     _mapController = MapController();
@@ -1272,72 +1298,72 @@ class _HomePageState extends State<HomePage>
     // }
   }
 
-  Dialog NoRideDialog = Dialog(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          padding:
-              const EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Container(
-                child: Image.asset('assets/images/prohibit.png'),
-              ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 10, top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        "NO RIDE ZONE",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: FontStyles.fBold,
-                          fontWeight: FontWeight.w600,
-                          color: ColorConstants.cPrimaryTitleColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 20),
-                child: Text(
-                  "You can be fined for riding in this zone. This scooter will remain lock until you leave this zone.",
-                  style: TextStyle(
-                    fontFamily: FontStyles.fMedium,
-                    color: Color(0xffAD0505),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    height: 1.6,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+  // Dialog NoRideDialog = Dialog(
+  //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+  //   child: Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: <Widget>[
+  //       Container(
+  //         padding:
+  //             const EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+  //         decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.circular(20),
+  //           boxShadow: [
+  //             BoxShadow(
+  //               color: Colors.grey.withOpacity(0.2),
+  //               spreadRadius: 2,
+  //               blurRadius: 5,
+  //               offset: Offset(0, 3), // changes position of shadow
+  //             ),
+  //           ],
+  //         ),
+  //         child: Column(
+  //           children: [
+  //             Container(
+  //               child: Image.asset('assets/images/prohibit.png'),
+  //             ),
+  //             Container(
+  //               margin: const EdgeInsets.only(bottom: 10, top: 20),
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   Container(
+  //                     padding: const EdgeInsets.only(left: 10),
+  //                     child: Text(
+  //                       AppLocalizations.of(context).noRideZoneTitle,
+  //                       style: TextStyle(
+  //                         fontSize: 20,
+  //                         fontFamily: FontStyles.fBold,
+  //                         fontWeight: FontWeight.w600,
+  //                         color: ColorConstants.cPrimaryTitleColor,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             Container(
+  //               margin: EdgeInsets.only(bottom: 20),
+  //               child: Text(
+  //                 AppLocalizations.of(context).noRideZoneMsg,
+  //                 style: TextStyle(
+  //                   fontFamily: FontStyles.fMedium,
+  //                   color: Color(0xffAD0505),
+  //                   fontSize: 14,
+  //                   fontWeight: FontWeight.w700,
+  //                   height: 1.6,
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
 
-        // ========= PAYMENT PART =============
-      ],
-    ),
-  );
+  //       // ========= PAYMENT PART =============
+  //     ],
+  //   ),
+  // );
 
   /*****************************
    * @Auth: world324digital
@@ -1349,22 +1375,23 @@ class _HomePageState extends State<HomePage>
       await showDialog<void>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('WARNING'),
-          content: const Text(
-              'App Tracking Permission is denined!\r\n\r\nNeed to access your location tracking to find eScooter near you and to track your location while riding the eScooter. \r\n\r\nWould you go to Settings and allow it?'),
+          title: Text(AppLocalizations.of(context).warning),
+          content: Text(
+            AppLocalizations.of(context).trackingError,
+          ),
           actions: [
             TextButton(
               onPressed: () async {
                 await PM.openAppSettings();
               },
-              child: const Text('Yes'),
+              child: Text(AppLocalizations.of(context).yes),
             ),
             TextButton(
               onPressed: () async {
                 Navigator.pop(context);
                 // await checkPermission();
               },
-              child: const Text('Maybe Later'),
+              child: Text(AppLocalizations.of(context).maybeLater),
             ),
           ],
         ),
@@ -1390,15 +1417,14 @@ class _HomePageState extends State<HomePage>
       await showDialog<void>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('WARNING'),
-          content: const Text(
-              'App Tracking Permission is denined!\r\n\r\nNeed to access your location tracking to find eScooter near you and to track your location while riding the eScooter. \r\n\r\nWould you go to Settings and allow it?'),
+          title: Text(AppLocalizations.of(context).warning),
+          content: Text(AppLocalizations.of(context).trackingError),
           actions: [
             TextButton(
               onPressed: () async {
                 await PM.openAppSettings();
               },
-              child: const Text('Yes'),
+              child: Text(AppLocalizations.of(context).yes),
             ),
             TextButton(
               onPressed: () {
@@ -1407,7 +1433,7 @@ class _HomePageState extends State<HomePage>
                   isAllowLocation = false;
                 });
               },
-              child: const Text('Maybe Later'),
+              child: Text(AppLocalizations.of(context).maybeLater),
             ),
           ],
         ),
@@ -1421,7 +1447,7 @@ class _HomePageState extends State<HomePage>
 
   Future<void> _showPermissionDialog() async {
     Widget cancelButton = TextButton(
-      child: Text("Maybe later"),
+      child: Text(AppLocalizations.of(context).maybeLater),
       onPressed: () {
         setState(() {
           isAllowLocation = false;
@@ -1430,7 +1456,7 @@ class _HomePageState extends State<HomePage>
       },
     );
     Widget okButton = TextButton(
-      child: Text("Allow"),
+      child: Text(AppLocalizations.of(context).allow),
       onPressed: () async {
         Navigator.of(context).pop();
         bool status = await PM.openAppSettings();
@@ -1442,12 +1468,12 @@ class _HomePageState extends State<HomePage>
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Let \'s begin'),
+          title: Text(AppLocalizations.of(context).begin),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text(
-                  'We need to allow location permission so we can find a scooter near you.',
+                  AppLocalizations.of(context).allowMsg,
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: FontStyles.fLight,
@@ -1869,7 +1895,7 @@ class _HomePageState extends State<HomePage>
                               context: context, routeName: Routes.LOGIN);
                         }
                       },
-                      title: "Scan to ride",
+                      title: AppLocalizations.of(context).scanToRide,
                       fontFamily: FontStyles.fBold,
                       icon: Container(
                         child: Image.asset(

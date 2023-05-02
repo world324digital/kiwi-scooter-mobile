@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:KiwiCity/Models/price_model.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:validators/validators.dart';
 
@@ -26,6 +28,47 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   FirebaseService service = FirebaseService();
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
+  List<PriceModel> _prices = [];
+  bool isLoading = true;
+  bool isError = false;
+  String ridePrice = "0.25";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPrices();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> getPrices() async {
+    setState(() {
+      isLoading = true;
+      isError = false;
+    });
+    try {
+      FirebaseService service = FirebaseService();
+      _prices = await service.getPrices();
+      PriceModel selectedPrice = _prices[0];
+      AppProvider.of(context).setPriceModel(selectedPrice);
+      ridePrice = selectedPrice.costPerMinute.toStringAsFixed(2);
+      setState(() {
+        isLoading = false;
+        isError = false;
+      });
+    } catch (e) {
+      print(e.toString());
+      setState(() {
+        isLoading = false;
+        isError = true;
+      });
+    }
+  }
 
   /***********************
    * @Auth: world.digital.dev@gmail.com
@@ -114,9 +157,10 @@ class _LoginState extends State<Login> {
             AppProvider.of(context).setLoginType(LoginType.GOOGLE);
 
             Alert.showMessage(
-                type: TypeAlert.success,
-                title: "SUCCESS",
-                message: "SignUp Success.");
+              type: TypeAlert.success,
+              title: AppLocalizations.of(context).success,
+              message: AppLocalizations.of(context).signUpSuccess,
+            );
 
             HelperUtility.goPage(
               context: context,
@@ -125,23 +169,23 @@ class _LoginState extends State<Login> {
           } else {
             Alert.showMessage(
               type: TypeAlert.error,
-              title: "ERROR",
-              message: Messages.ERROR_MSG,
+              title: AppLocalizations.of(context).error,
+              message: AppLocalizations.of(context).errorMsg,
             );
           }
         }
       } else {
         Alert.showMessage(
           type: TypeAlert.error,
-          title: "ERROR",
-          message: Messages.ERROR_MSG,
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).errorMsg,
         );
       }
     } catch (e) {
       print(e);
       Alert.showMessage(
         type: TypeAlert.error,
-        title: "ERROR",
+        title: AppLocalizations.of(context).error,
         message: e.toString(),
       );
     }
@@ -230,9 +274,10 @@ class _LoginState extends State<Login> {
               AppProvider.of(context).setLoginType(LoginType.APPLE);
 
               Alert.showMessage(
-                  type: TypeAlert.success,
-                  title: "SUCCESS",
-                  message: "SignUp Success.");
+                type: TypeAlert.success,
+                title: AppLocalizations.of(context).success,
+                message: AppLocalizations.of(context).signUpSuccess,
+              );
 
               HelperUtility.goPage(
                 context: context,
@@ -241,8 +286,8 @@ class _LoginState extends State<Login> {
             } else {
               Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
-                message: Messages.ERROR_MSG,
+                title: AppLocalizations.of(context).error,
+                message: AppLocalizations.of(context).errorMsg,
               );
             }
           });
@@ -250,8 +295,8 @@ class _LoginState extends State<Login> {
       } else {
         Alert.showMessage(
           type: TypeAlert.error,
-          title: "ERROR",
-          message: Messages.ERROR_MSG,
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).errorMsg,
         );
       }
     } catch (e) {
@@ -261,8 +306,8 @@ class _LoginState extends State<Login> {
         print(e);
         Alert.showMessage(
           type: TypeAlert.error,
-          title: "ERROR",
-          message: "You are failed. Please retry!",
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).failedError,
         );
       });
     }
@@ -287,9 +332,7 @@ class _LoginState extends State<Login> {
               children: [
                 /*2*/
                 Text(
-                  'Fuel prices are high! Save time and money \n '
-                  'by renting eScooters for less than \€0.25/min \n'
-                  'to explore your destination!',
+                  AppLocalizations.of(context).homeDescription(ridePrice),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: FontStyles.fMedium,
@@ -315,7 +358,7 @@ class _LoginState extends State<Login> {
               HelperUtility.goPage(
                   context: context, routeName: Routes.LOGIN_INPUT);
             },
-            title: "Continue With Email",
+            title: AppLocalizations.of(context).continueWithEmail,
             margin: EdgeInsets.only(bottom: 5)),
         // if (Platform.isAndroid)
         //   FutureBuilder(
@@ -369,33 +412,38 @@ class _LoginState extends State<Login> {
       ),
       child: Scaffold(
           backgroundColor: Colors.white,
-          body: Column(children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 80),
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: MediaQuery.of(context).size.width * 0.48,
-                      height: MediaQuery.of(context).size.height * 0.07,
+          body: isLoading
+              ? Center(
+                  child: CircularProgressIndicator(
+                      color: ColorConstants.cPrimaryBtnColor),
+                )
+              : Column(children: [
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 80),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            width: MediaQuery.of(context).size.width * 0.48,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                          ),
+                        ),
+                        titleSection,
+                        Container(
+                            margin: const EdgeInsets.only(top: 40),
+                            width: double.infinity,
+                            child: Image.asset(
+                              'assets/images/bikerun.png',
+                              // width: MediaQuery.of(context).size.width * 0.48,
+                              height: MediaQuery.of(context).size.height * 0.40,
+                              // fit: BoxFit.fill
+                            ))
+                      ],
                     ),
                   ),
-                  titleSection,
-                  Container(
-                      margin: const EdgeInsets.only(top: 40),
-                      width: double.infinity,
-                      child: Image.asset(
-                        'assets/images/bikerun.png',
-                        // width: MediaQuery.of(context).size.width * 0.48,
-                        height: MediaQuery.of(context).size.height * 0.40,
-                        // fit: BoxFit.fill
-                      ))
-                ],
-              ),
-            ),
-            buttonSection
-          ])),
+                  buttonSection
+                ])),
     );
   }
 }

@@ -5,6 +5,10 @@ import 'package:KiwiCity/Widgets/terms.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:KiwiCity/locale_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TermItem extends StatefulWidget {
   TermItem({super.key, required this.onNext, required this.termItem});
@@ -16,6 +20,7 @@ class TermItem extends StatefulWidget {
 }
 
 class _TermItem extends State<TermItem> {
+  String localeString = 'en';
   @override
   void initState() {
     super.initState();
@@ -26,9 +31,28 @@ class _TermItem extends State<TermItem> {
     super.dispose();
   }
 
+  Future<void> getLocale() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      localeString = prefs.getString('locale')!;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    getLocale();
     var termItem = widget.termItem;
+    String title = termItem.enTitle;
+    String description = termItem.enDescription;
+    if (localeString == 'el') {
+      title = termItem.elTitle;
+      description = termItem.elDescription;
+    } else if (localeString == 'lv') {
+      title = termItem.lvTitle;
+      description = termItem.lvDescription;
+    }
     String imageUrl = 'assets/images/' + termItem.img;
     Widget headerSection = Container(
       padding: EdgeInsets.only(top: 60, bottom: 20),
@@ -61,8 +85,8 @@ class _TermItem extends State<TermItem> {
             //   },
             // ),
           ),
-          TermsTitle(text: termItem.title),
-          TermsContent(text: termItem.description),
+          TermsTitle(text: title),
+          TermsContent(text: description),
         ],
       ),
     );
@@ -75,7 +99,7 @@ class _TermItem extends State<TermItem> {
             onTap: () {
               return widget.onNext();
             },
-            title: "Okay")
+            title: AppLocalizations.of(context).okay)
       ]),
     ));
     return AnnotatedRegion<SystemUiOverlayStyle>(

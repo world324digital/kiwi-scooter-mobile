@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'license_scan_overlay.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class PhotoScooter extends StatefulWidget {
@@ -79,9 +80,9 @@ class _PhotoScooterState extends State<PhotoScooter> {
       HelperUtility.closeProgressDialog(_keyLoader);
       unableAlert(
           context: context,
-          message: "Unable to take a photo of your scooter. Please try again.",
-          btnTxt: "Try Again",
-          title: 'Unable to upload',
+          message: AppLocalizations.of(context).uploadErrorMsg,
+          btnTxt: AppLocalizations.of(context).tryAgain,
+          title: AppLocalizations.of(context).uploadErrorTitle,
           onTap: () async {
             await takePicture();
           });
@@ -155,7 +156,7 @@ class _PhotoScooterState extends State<PhotoScooter> {
                 alignment: Alignment.topCenter,
                 child: Text(
                     textAlign: TextAlign.center,
-                    'Take a shot of the eScooter\n parked properly',
+                    AppLocalizations.of(context).takePhotoMsg,
                     style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.white,

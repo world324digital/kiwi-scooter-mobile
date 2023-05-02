@@ -10,6 +10,7 @@ class Routes {
   static const String TERMS_OF_SERVICE = "/terms_of_service";
   static const String SUPPROT = "/support";
   static const String SETTINGS = "/settings";
+  static const String LANGUAGE = "/language";
 
   static const String ENTERCODE = "/enter_code";
   static const String QR_SCAN = "/qr_scan";

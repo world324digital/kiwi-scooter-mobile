@@ -24,6 +24,7 @@ import 'package:KiwiCity/how_ride.dart';
 // import 'package:KiwiCity/photo_scooter_old.dart';
 import 'package:KiwiCity/photo_scooter.dart';
 import 'package:KiwiCity/settings.dart';
+import 'package:KiwiCity/language.dart';
 import 'package:KiwiCity/video.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -76,6 +77,8 @@ class RouteGenerator {
 
       case Routes.WALLET:
         return PageTransition(child: WalletPage(), type: transitionType);
+      case Routes.LANGUAGE:
+        return PageTransition(child: LanguageSetting(), type: transitionType);
       // case Routes.SUPPROT:
       case Routes.RIDE_NOW:
         return MaterialPageRoute(

@@ -67,8 +67,6 @@ class _TermsSectionPage extends State<TermsSectionPage> {
     try {
       FirebaseService service = FirebaseService();
       termSections = await service.getTerms();
-      print("====================");
-      print(termSections[0].img);
       setState(() {
         isLoading = false;
         isError = false;

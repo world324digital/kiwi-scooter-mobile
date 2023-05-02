@@ -17,6 +17,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart' as QRSCAN;
 import 'package:permission_handler/permission_handler.dart' as PM;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'enter_code.dart';
 
@@ -75,9 +76,10 @@ class _QRScanPageState extends State<QRScanPage> {
       status = await Permission.camera.request();
       if (!status.isGranted) {
         Alert.showMessage(
-            type: TypeAlert.warning,
-            title: "Camera permission denined.",
-            message: "Please allow your camera to scan QR code.");
+          type: TypeAlert.warning,
+          title: AppLocalizations.of(context).cameraDeniedError,
+          message: AppLocalizations.of(context).cameraDeniedErrorMsg,
+        );
         setState(() {
           isCameraAvailable = false;
         });
@@ -175,7 +177,7 @@ class _QRScanPageState extends State<QRScanPage> {
             // );
             // Alert.showMessage(
             //     type: TypeAlert.error,
-            //     title: "ERROR",
+            //     title: AppLocalizations.of(context).error,
             //     message: Messages.ERROR_INVALID_SCOOTERID);
             // setState(() {
             //   isConfirming = false;
@@ -190,7 +192,7 @@ class _QRScanPageState extends State<QRScanPage> {
           // });
           // HelperUtility.closeProgressDialog(_keyLoader);
           // Alert.showMessage(
-          //     type: TypeAlert.error, title: "ERROR", message: e.toString());
+          //     type: TypeAlert.error, title: AppLocalizations.of(context).error, message: e.toString());
         }
       });
     } else {
@@ -199,7 +201,7 @@ class _QRScanPageState extends State<QRScanPage> {
       // });
       // Alert.showMessage(
       //     type: TypeAlert.warning,
-      //     title: "ERROR",
+      //     title: AppLocalizations.of(context).error,
       //     message: "Please enter code");
     }
   }
@@ -301,7 +303,7 @@ class _QRScanPageState extends State<QRScanPage> {
               alignment: Alignment.topCenter,
               child: Text(
                   textAlign: TextAlign.center,
-                  'Scan QR Code or Enter Code displayed on the scooter',
+                  AppLocalizations.of(context).scanMsg,
                   style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.white,
@@ -317,7 +319,7 @@ class _QRScanPageState extends State<QRScanPage> {
                       children: [
                         Text(
                           textAlign: TextAlign.center,
-                          'Invalid QR code',
+                          AppLocalizations.of(context).invalidQr,
                           style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.red,
@@ -375,7 +377,7 @@ class _QRScanPageState extends State<QRScanPage> {
                               width: 30,
                               height: 30,
                             )),
-                            label: const Text('Cancel',
+                            label: Text(AppLocalizations.of(context).cancel,
                                 style: TextStyle(
                                     fontSize: 16.0,
                                     color: Color.fromRGBO(255, 175, 164, 1),
@@ -427,7 +429,7 @@ class _QRScanPageState extends State<QRScanPage> {
                               width: 30,
                               height: 30,
                             )),
-                            label: const Text('Flashlight',
+                            label: Text(AppLocalizations.of(context).flashlight,
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     color: Colors.white,
@@ -474,7 +476,7 @@ class _QRScanPageState extends State<QRScanPage> {
                           width: 50,
                           height: 30,
                         )),
-                        label: const Text('Manually Enter code',
+                        label: Text(AppLocalizations.of(context).manualEnterMsg,
                             style: TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.white,

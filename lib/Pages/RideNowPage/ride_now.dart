@@ -8,6 +8,7 @@ import 'package:KiwiCity/Helpers/helperUtility.dart';
 import 'package:KiwiCity/Helpers/local_storage.dart';
 import 'package:KiwiCity/Models/location_model.dart';
 import 'package:KiwiCity/Models/price_model.dart';
+import 'package:KiwiCity/Models/card_model.dart';
 import 'package:KiwiCity/Models/transaction_model.dart';
 import 'package:KiwiCity/Models/user_model.dart';
 import 'package:KiwiCity/Pages/App/app_provider.dart';
@@ -34,6 +35,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:mapbox_api/mapbox_api.dart';
 import 'package:intl/intl.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RideNow extends StatefulWidget {
   RideNow({Key? key, this.data}) : super(key: key);
@@ -377,7 +379,7 @@ class _RideNowState extends State<RideNow>
         unableAlert(
             scooterID: AppProvider.of(context).scooterID,
             error: res['message'],
-            message: Messages.ERROR_UNABLE_SCOOTER,
+            message: AppLocalizations.of(context).errorUnableScooter,
             context: context);
       }
     } catch (e) {
@@ -387,7 +389,7 @@ class _RideNowState extends State<RideNow>
       unableAlert(
           scooterID: AppProvider.of(context).scooterID,
           error: e.toString(),
-          message: Messages.ERROR_UNABLE_SCOOTER + "lightstatus catch",
+          message: AppLocalizations.of(context).errorUnableScooter,
           context: context);
     }
   }
@@ -407,74 +409,73 @@ class _RideNowState extends State<RideNow>
     super.dispose();
   }
 
-  Dialog NoRideDialog = Dialog(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          padding:
-              const EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Container(
-                child: Image.asset('assets/images/prohibit.png'),
-              ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 10, top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        "NO RIDE ZONE",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: FontStyles.fBold,
-                          fontWeight: FontWeight.w600,
-                          color: ColorConstants.cPrimaryTitleColor,
+  Future<void> showNoRideDialog(BuildContext context) {
+    Dialog NoRideDialog = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            padding:
+                const EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  child: Image.asset('assets/images/prohibit.png'),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10, top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          AppLocalizations.of(context).noRideZoneTitle,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: FontStyles.fBold,
+                            fontWeight: FontWeight.w600,
+                            color: ColorConstants.cPrimaryTitleColor,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 20),
-                child: Text(
-                  "You can be fined for riding in this zone. This scooter will remain lock until you leave this zone.",
-                  style: TextStyle(
-                    fontFamily: FontStyles.fMedium,
-                    color: Color(0xffAD0505),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    height: 1.6,
+                    ],
                   ),
                 ),
-              ),
-            ],
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    AppLocalizations.of(context).noRideZoneMsg,
+                    style: TextStyle(
+                      fontFamily: FontStyles.fMedium,
+                      color: Color(0xffAD0505),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      height: 1.6,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
 
-        // ========= PAYMENT PART =============
-      ],
-    ),
-  );
-
-  Future<void> showNoRideDialog(BuildContext context) {
+          // ========= PAYMENT PART =============
+        ],
+      ),
+    );
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -705,9 +706,9 @@ class _RideNowState extends State<RideNow>
 
     showBottomDialog(
         img1: '',
-        title: 'Riding price is',
+        title: AppLocalizations.of(context).ridingPriceNote,
         subtitle: '€${riding_price.toString()}',
-        btntxt: 'Confirm End Ride',
+        btntxt: AppLocalizations.of(context).confirmEndRide,
         onTap: () async {
           Navigator.of(context).pop();
           _timer?.cancel();
@@ -739,51 +740,90 @@ class _RideNowState extends State<RideNow>
           HelperUtility.showProgressDialog(
             context: context,
             key: _keyLoader,
-            title: "Please wait...",
+            title: AppLocalizations.of(context).wait,
           );
 
           UserModel currentUser = AppProvider.of(context).currentUser;
 
-          currentUser.balance = double.parse(
-              (currentUser.balance - riding_price).toStringAsFixed(2));
+          double user_balance = currentUser.balance;
+          var res;
+          var errorMsg = AppLocalizations.of(context).errorMsg;
+          bool isPaidBalance = false;
 
-          await calculateDistanceFromPoints(points);
-          print(distance);
-          distance = double.parse(distance.toStringAsFixed(2));
+          if (riding_price >= 0.5) {
+            if (user_balance >= riding_price) {
+              currentUser.balance = double.parse(
+                  (currentUser.balance - riding_price).toStringAsFixed(2));
+              isPaidBalance = true;
+            } else {
+              String rest_amount =
+                  (riding_price - user_balance).toStringAsFixed(2);
+              CardModel card = currentUser.card!;
+              res = await HttpService().cardPay(
+                  holderName: card.cardName,
+                  cardNumber: card.cardNumber,
+                  expiredMonth: card.expMonth,
+                  expiredYear: card.expYear,
+                  cvv: card.cvv,
+                  amount: rest_amount);
+              // amount: "0");
+              print("Final Riding Stripe Result :::::::::::::>");
+              print(res);
+              if (!res['result']) {
+                errorMsg = res['msg'];
+              }
+            }
+          } else {
+            currentUser.balance = double.parse(
+                (currentUser.balance - riding_price).toStringAsFixed(2));
+            isPaidBalance = true;
+          }
 
-          AppProvider.of(context).setDistance(distance);
+          if (isPaidBalance || !isPaidBalance && res['result']) {
+            await calculateDistanceFromPoints(points);
+            print(distance);
+            distance = double.parse(distance.toStringAsFixed(2));
 
-          double amount_fixed =
-              double.parse((riding_price + 1).toStringAsFixed(2));
+            AppProvider.of(context).setDistance(distance);
 
-          TransactionModel transaction = new TransactionModel(
-            userId: currentUser.id,
-            userName: currentUser.firstName + " " + currentUser.lastName,
-            stripeId: "",
-            stripeTxId: "",
-            rideDistance: distance,
-            rideTime: _usedTime,
-            amount: amount_fixed,
-            txType: "Ride",
-          );
-          await service.createTransaction(transaction);
+            double amount_fixed =
+                double.parse((riding_price + 1).toStringAsFixed(2));
 
-          bool updateUserResult = await service.updateUser(currentUser);
-
-          if (updateUserResult) {
-            HelperUtility.closeProgressDialog(_keyLoader);
-            HelperUtility.goPageReplace(
-              context: context,
-              routeName: Routes.HOWRIDE,
-              arg: {"scooterPhoto": ""},
+            TransactionModel transaction = new TransactionModel(
+              userId: currentUser.id,
+              userName: currentUser.firstName + " " + currentUser.lastName,
+              stripeId: "",
+              stripeTxId: "",
+              rideDistance: distance,
+              rideTime: _usedTime,
+              amount: amount_fixed,
+              txType: "Ride",
             );
+            await service.createTransaction(transaction);
 
-            // final cameras = await availableCameras();
-            // final firstCamera = cameras.first;
-            // HelperUtility.goPageReplace(
-            //     context: context,
-            //     routeName: Routes.PHOTO_SCOTTER,
-            //     arg: {'camera': cameras});
+            bool updateUserResult = await service.updateUser(currentUser);
+
+            if (updateUserResult) {
+              HelperUtility.closeProgressDialog(_keyLoader);
+              HelperUtility.goPageReplace(
+                context: context,
+                routeName: Routes.HOWRIDE,
+                arg: {"scooterPhoto": ""},
+              );
+
+              // final cameras = await availableCameras();
+              // final firstCamera = cameras.first;
+              // HelperUtility.goPageReplace(
+              //     context: context,
+              //     routeName: Routes.PHOTO_SCOTTER,
+              //     arg: {'camera': cameras});
+            }
+          } else {
+            HelperUtility.closeProgressDialog(_keyLoader);
+            Alert.showMessage(
+                type: TypeAlert.error,
+                title: AppLocalizations.of(context).error,
+                message: errorMsg);
           }
         });
   }
@@ -796,12 +836,14 @@ class _RideNowState extends State<RideNow>
         // showRingDialog();
       } else {
         Alert.showMessage(
-            type: TypeAlert.error, title: "ERROR", message: "Failed Alarm");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).failAlarm);
       }
     } catch (e) {
       unableAlert(
           error: e.toString(),
-          message: Messages.ERROR_UNABLE_SCOOTER,
+          message: AppLocalizations.of(context).errorUnableScooter,
           context: context);
     }
   }
@@ -868,10 +910,9 @@ class _RideNowState extends State<RideNow>
     showBottomDialog(
         img1: 'assets/images/nowbike.png',
         img2: 'assets/images/nowcheck.png',
-        title: 'Let\'s ride',
-        subtitle:
-            'You can start your ride by now. Kick your scooter to get going!',
-        btntxt: "Start Riding",
+        title: AppLocalizations.of(context).beginRide,
+        subtitle: AppLocalizations.of(context).beginRideMsg,
+        btntxt: AppLocalizations.of(context).startRiding,
         isDismissible: false,
         enableDrag: false,
         onTap: () {
@@ -991,10 +1032,9 @@ class _RideNowState extends State<RideNow>
         isNoRideDialogOpen = true;
         showBottomDialog(
             img1: 'assets/images/prohibit1.png',
-            title: 'NO RIDE ZONE',
-            subtitle:
-                'You can be fined for riding in this zone. This scooter will remain lock until you leave this zone.',
-            btntxt: 'Okay',
+            title: AppLocalizations.of(context).noRideZoneTitle,
+            subtitle: AppLocalizations.of(context).noRideZoneMsg,
+            btntxt: AppLocalizations.of(context).okay,
             onTap: () async {
               isNoRideDialogOpen = false;
 
@@ -1110,7 +1150,7 @@ class _RideNowState extends State<RideNow>
     } else {
       await unableAlert(
         context: context,
-        message: Messages.ERROR_UNABLE_INUSE,
+        message: AppLocalizations.of(context).errorUnableInuse,
         error: "",
         scooterID: AppProvider.of(context).scooterID,
       );
@@ -1218,7 +1258,9 @@ class _RideNowState extends State<RideNow>
     HelperUtility.showProgressDialog(
       context: context,
       key: _keyLoader,
-      title: isUnlock ? "Unlocking..." : "Locking...",
+      title: isUnlock
+          ? AppLocalizations.of(context).unlocking
+          : AppLocalizations.of(context).locking,
       // title: inProgress ? "Pause..." : "Resume...",
     );
 
@@ -1235,7 +1277,7 @@ class _RideNowState extends State<RideNow>
     } else {
       await unableAlert(
         context: context,
-        message: Messages.ERROR_UNABLE_SCOOTER,
+        message: AppLocalizations.of(context).errorUnableScooter,
         error: res['message'],
         scooterID: AppProvider.of(context).scooterID,
       );
@@ -1248,7 +1290,9 @@ class _RideNowState extends State<RideNow>
     HelperUtility.showProgressDialog(
       context: context,
       key: _keyLoader,
-      title: isUnlock ? "Unlocking..." : "Locking...",
+      title: isUnlock
+          ? AppLocalizations.of(context).unlocking
+          : AppLocalizations.of(context).locking,
       // title: inProgress ? "Pause..." : "Resume...",
     );
 
@@ -1262,7 +1306,7 @@ class _RideNowState extends State<RideNow>
     } else {
       await unableAlert(
         context: context,
-        message: Messages.ERROR_UNABLE_SCOOTER + "change Power",
+        message: AppLocalizations.of(context).errorUnableScooter,
         error: res['message'],
         scooterID: AppProvider.of(context).scooterID,
       );
@@ -1591,8 +1635,10 @@ class _RideNowState extends State<RideNow>
                                           'assets/images/RideInProgressIcon.png')),
                                   label: Text(
                                     inProgress
-                                        ? 'Ride Is Progress'
-                                        : 'Ride Is Paused',
+                                        ? AppLocalizations.of(context)
+                                            .rideProgress
+                                        : AppLocalizations.of(context)
+                                            .ridePause,
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 16.0,
@@ -1776,7 +1822,10 @@ class _RideNowState extends State<RideNow>
                                               ? onPause()
                                               : onResume();
                                         },
-                                        title: inProgress ? "Lock" : "Unlock",
+                                        title: inProgress
+                                            ? AppLocalizations.of(context).lock
+                                            : AppLocalizations.of(context)
+                                                .unlock,
                                         icon: Image.asset(
                                           inProgress
                                               ? 'assets/images/lock.png'
@@ -1793,7 +1842,8 @@ class _RideNowState extends State<RideNow>
                                       onTap: () async {
                                         await onEndRide();
                                       },
-                                      title: "End Ride",
+                                      title:
+                                          AppLocalizations.of(context).endRide,
                                       icon: Container(
                                         child: Image.asset(
                                           'assets/images/endride.png',

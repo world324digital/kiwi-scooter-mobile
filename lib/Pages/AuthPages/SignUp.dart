@@ -17,6 +17,7 @@ import 'package:validators/validators.dart';
 import '../QRScanPage/allow_camera.dart';
 import 'package:KiwiCity/services/firebase_service.dart';
 import 'package:KiwiCity/tools/functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -81,7 +82,7 @@ class _SignUpPage extends State<SignUpPage> {
     //   // throw 'Could not launch $url';
     //   Alert.showMessage(
     //       type: TypeAlert.error,
-    //       title: "ERROR",
+    //       title: AppLocalizations.of(context).error,
     //       message: "Can't launch URL: ${url}");
     // }
   }
@@ -95,7 +96,8 @@ class _SignUpPage extends State<SignUpPage> {
     // await service.initializeFirebase();
     FocusManager.instance.primaryFocus?.unfocus();
     if (_passwordController.text != _confirmController.text) {
-      showMessage(context, 'Passwords do not match.', title: 'Info');
+      showMessage(context, AppLocalizations.of(context).passwordNotMatch,
+          title: AppLocalizations.of(context).info);
     }
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
@@ -112,20 +114,24 @@ class _SignUpPage extends State<SignUpPage> {
           HelperUtility.closeProgressDialog(_keyLoader);
           // ignore: use_build_context_synchronously
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message:
-                  "Password strength is too weak. it must be at least 8 in length and contain at least one number.");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).passwordWeak,
+          );
         } else if (result == 'DUPLICATED') {
           HelperUtility.closeProgressDialog(_keyLoader);
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: "This email address has already been used.");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).emailDuplicated,
+          );
         } else if (result == 'FAILED') {
           HelperUtility.closeProgressDialog(_keyLoader);
           Alert.showMessage(
-              type: TypeAlert.error, title: "ERROR", message: "SignUp Failed.");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).signUpFailed,
+          );
         } else {
           // ignore: use_build_context_synchronously
           UserModel userModel = new UserModel(
@@ -145,9 +151,10 @@ class _SignUpPage extends State<SignUpPage> {
             print(res);
             if (res) {
               Alert.showMessage(
-                  type: TypeAlert.success,
-                  title: "SUCCESS",
-                  message: "SignUp Success.");
+                type: TypeAlert.success,
+                title: AppLocalizations.of(context).success,
+                message: AppLocalizations.of(context).signUpSuccess,
+              );
 
               //========== Store Logined to local Storage ========
               await storeDataToLocal(
@@ -171,8 +178,8 @@ class _SignUpPage extends State<SignUpPage> {
             } else {
               Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
-                message: Messages.ERROR_MSG,
+                title: AppLocalizations.of(context).error,
+                message: AppLocalizations.of(context).errorMsg,
               );
             }
           }).onError((error, stackTrace) {
@@ -181,7 +188,7 @@ class _SignUpPage extends State<SignUpPage> {
             print(error);
             Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
+                title: AppLocalizations.of(context).error,
                 message: error.toString());
           });
         }
@@ -190,7 +197,9 @@ class _SignUpPage extends State<SignUpPage> {
         HelperUtility.closeProgressDialog(_keyLoader);
 
         Alert.showMessage(
-            type: TypeAlert.error, title: "ERROR", message: error.toString());
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: error.toString());
       });
     }
   }
@@ -223,13 +232,13 @@ class _SignUpPage extends State<SignUpPage> {
                 fontFamily: 'Montserrat', color: Colors.grey, fontSize: 15.0),
             children: <TextSpan>[
               TextSpan(
-                  text: 'By creating an account, you agree to our ',
+                  text: AppLocalizations.of(context).terms1,
                   style: TextStyle(
                       fontSize: 12,
                       color: Color.fromRGBO(102, 102, 102, 1),
                       fontFamily: FontStyles.fMedium)),
               TextSpan(
-                  text: 'Terms \& Conditions',
+                  text: AppLocalizations.of(context).terms2,
                   style: TextStyle(
                     color: ColorConstants.cPrimaryBtnColor,
                     fontSize: 12,
@@ -241,14 +250,14 @@ class _SignUpPage extends State<SignUpPage> {
                       _launchURL(URLS.TERMS_CONDITION_URL);
                     }),
               TextSpan(
-                  text: ' and acknowledge our ',
+                  text: AppLocalizations.of(context).terms3,
                   style: TextStyle(
                     color: Color.fromRGBO(102, 102, 102, 1),
                     fontSize: 12,
                     fontFamily: FontStyles.fMedium,
                   )),
               TextSpan(
-                  text: 'Privacy Policy',
+                  text: AppLocalizations.of(context).terms4,
                   style: TextStyle(
                     color: ColorConstants.cPrimaryBtnColor,
                     fontSize: 12,
@@ -272,7 +281,7 @@ class _SignUpPage extends State<SignUpPage> {
           onTap: () async {
             await _signUp();
           },
-          title: "Create an Account",
+          title: AppLocalizations.of(context).createNewAccount,
         ),
         Container(
           padding:
@@ -294,7 +303,7 @@ class _SignUpPage extends State<SignUpPage> {
                   Container(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'First Name',
+                      AppLocalizations.of(context).firstName,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: ColorConstants.cPrimaryTitleColor,
@@ -317,7 +326,7 @@ class _SignUpPage extends State<SignUpPage> {
                             fontSize: 14,
                             fontFamily: 'Montserrat-Regular',
                             color: Color.fromRGBO(181, 181, 181, 1)),
-                        hintText: 'First Name',
+                        hintText: AppLocalizations.of(context).firstName,
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(15.0)),
@@ -346,7 +355,7 @@ class _SignUpPage extends State<SignUpPage> {
                       ],
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'First Name Required';
+                          return AppLocalizations.of(context).firstNameRequired;
                         }
                         return null;
                       },
@@ -361,7 +370,7 @@ class _SignUpPage extends State<SignUpPage> {
                   Container(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'Last Name',
+                      AppLocalizations.of(context).lastName,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: ColorConstants.cPrimaryTitleColor,
@@ -381,7 +390,7 @@ class _SignUpPage extends State<SignUpPage> {
                             fontSize: 14,
                             fontFamily: 'Montserrat-Regular',
                             color: Color.fromRGBO(181, 181, 181, 1)),
-                        hintText: 'Last Name',
+                        hintText: AppLocalizations.of(context).lastName,
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(15.0)),
@@ -407,7 +416,7 @@ class _SignUpPage extends State<SignUpPage> {
                       textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'Last Name Required';
+                          return AppLocalizations.of(context).lastNameRequired;
                         }
                         return null;
                       },
@@ -422,7 +431,7 @@ class _SignUpPage extends State<SignUpPage> {
                   Container(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'Email',
+                      AppLocalizations.of(context).email,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: ColorConstants.cPrimaryTitleColor,
@@ -468,10 +477,10 @@ class _SignUpPage extends State<SignUpPage> {
                       textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'Email Required';
+                          return AppLocalizations.of(context).emailRequired;
                         }
                         if (!isEmail(value!)) {
-                          return 'Invalid Email';
+                          return AppLocalizations.of(context).invalidEmail;
                         }
                         return null;
                       },
@@ -486,7 +495,7 @@ class _SignUpPage extends State<SignUpPage> {
                   Container(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'Date of Birth',
+                      AppLocalizations.of(context).dob,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: ColorConstants.cPrimaryTitleColor,
@@ -547,14 +556,14 @@ class _SignUpPage extends State<SignUpPage> {
                       textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'Birthday Required.';
+                          return AppLocalizations.of(context).dobRequired;
                         }
                         if (!isDate(value!)) {
-                          return 'Invalid Date';
+                          return AppLocalizations.of(context).invalidDate;
                         } else if (DateTime.now().year -
                                 DateTime.parse(value).year <
                             16) {
-                          return "Must be at least age 16+";
+                          return AppLocalizations.of(context).ageError;
                         }
                         return null;
                       },
@@ -577,7 +586,7 @@ class _SignUpPage extends State<SignUpPage> {
                   Container(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'Password',
+                      AppLocalizations.of(context).password,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: ColorConstants.cPrimaryTitleColor,
@@ -596,16 +605,16 @@ class _SignUpPage extends State<SignUpPage> {
                       obscureText: !_passwordVisible,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'Password Required';
+                          return AppLocalizations.of(context).passwordRequired;
                         }
                         if ((value?.length)! < 6) {
-                          return 'must contain 6 letters at least';
+                          return AppLocalizations.of(context).passwordInvalid;
                         }
                         return null;
                       }, //This will obscure text dynamically
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 10),
-                        hintText: 'password',
+                        hintText: AppLocalizations.of(context).password,
                         hintStyle: TextStyle(
                             fontSize: 14,
                             fontFamily: 'Montserrat-Regular',
@@ -654,7 +663,7 @@ class _SignUpPage extends State<SignUpPage> {
                   Container(
                     margin: const EdgeInsets.only(left: 8, bottom: 15),
                     child: Text(
-                      '6 characters minimum',
+                      AppLocalizations.of(context).passwordLength,
                       style: TextStyle(
                           fontSize: 12,
                           color: Color.fromRGBO(102, 102, 102, 1),
@@ -665,7 +674,7 @@ class _SignUpPage extends State<SignUpPage> {
                   Container(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'Confirm Password',
+                      AppLocalizations.of(context).confirmPassword,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: ColorConstants.cPrimaryTitleColor,
@@ -685,7 +694,7 @@ class _SignUpPage extends State<SignUpPage> {
                           !_passwordVisible, //This will obscure text dynamically
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 10),
-                        hintText: 'password',
+                        hintText: AppLocalizations.of(context).password,
                         hintStyle: TextStyle(
                             fontSize: 14,
                             fontFamily: 'Montserrat-Regular',
@@ -731,10 +740,10 @@ class _SignUpPage extends State<SignUpPage> {
                       ),
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'You must confirm Password';
+                          return AppLocalizations.of(context).confirmPasswordError;
                         }
                         if ((value?.length)! < 6) {
-                          return 'must contain 6 letters at least';
+                          return AppLocalizations.of(context).passwordInvalid;
                         }
                         return null;
                       },
@@ -743,7 +752,7 @@ class _SignUpPage extends State<SignUpPage> {
                   Container(
                     margin: const EdgeInsets.only(bottom: 15),
                     child: Text(
-                      '6 characters minimum',
+                      AppLocalizations.of(context).passwordLength,
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
@@ -776,9 +785,9 @@ class _SignUpPage extends State<SignUpPage> {
               ),
             ),
             title: Container(
-              padding: EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: 5),
               child: Text(
-                'Create New Account',
+                AppLocalizations.of(context).createNewAccount,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,

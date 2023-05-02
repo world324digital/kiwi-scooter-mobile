@@ -117,6 +117,54 @@ class HttpService {
 
   /*********************************
    * @Auth: world324digital@gmail.com
+   * @Date: 2023.04.27
+   * @Desc: Send Report Email
+   */
+  Future sendInvoiceEmail({
+    required String total,
+    required String start_normal,
+    required String start_vat,
+    required String start_subtotal,
+    required String riding_normal,
+    required String riding_vat,
+    required String riding_subtotal,
+    required String invoice_date,
+    required String ride_distance,
+    required String user_email,
+  }) async {
+    return await checkInternetConnection().then((internet) async {
+      if (internet != null && internet) {
+        return await getHeader(data: {}).then((header) async {
+          paramsKeyHeaderVal = header;
+
+          paramsKeyVal["total"] = "$total";
+          paramsKeyVal["start_normal"] = "$start_normal";
+          paramsKeyVal["start_vat"] = "$start_vat";
+          paramsKeyVal["start_subtotal"] = "$start_subtotal";
+          paramsKeyVal["riding_normal"] = "$riding_normal";
+          paramsKeyVal["riding_vat"] = "$riding_vat";
+          paramsKeyVal["riding_subtotal"] = "$riding_subtotal";
+          paramsKeyVal["invoice_date"] = "$invoice_date";
+          paramsKeyVal["ride_distance"] = "$ride_distance";
+          paramsKeyVal["user_email"] = "$user_email";
+          return await _network
+              .post(
+            "${URLS.BASE_URL}${URLS.API_PREFIX}${URLS.SEND_INVOICE_EMAIL}",
+            body: utf8.encode(json.encode(paramsKeyVal)),
+            header: paramsKeyHeaderVal,
+          )
+              .then((dynamic res) {
+            return res;
+          });
+        });
+      } else {
+        return {"result": false, "message": Messages.NETWORK_ERROR};
+      }
+    });
+  }
+
+  /*********************************
+   * @Auth: world324digital@gmail.com
    * @Date: 2023.04.05
    * @Desc: Send Ring Command
    */

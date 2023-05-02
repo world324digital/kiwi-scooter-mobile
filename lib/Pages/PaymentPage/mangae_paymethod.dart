@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:pay/pay.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../MenuPage/main_menu.dart';
 
@@ -121,8 +122,8 @@ class _ManagePayMethod extends State<ManagePayMethod> {
           } else {
             Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
-                message: Messages.ERROR_MSG);
+                title: AppLocalizations.of(context).error,
+                message: AppLocalizations.of(context).errorMsg);
           }
         } else {
           if (mounted) {
@@ -131,8 +132,9 @@ class _ManagePayMethod extends State<ManagePayMethod> {
             });
             Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
-                message: powerOn['message'] ?? Messages.ERROR_MSG);
+                title: AppLocalizations.of(context).error,
+                message: powerOn['message'] ??
+                    AppLocalizations.of(context).errorMsg);
           }
         }
       } else {
@@ -142,8 +144,8 @@ class _ManagePayMethod extends State<ManagePayMethod> {
           });
         Alert.showMessage(
             type: TypeAlert.error,
-            title: "ERROR",
-            message: res['message'] ?? Messages.ERROR_MSG);
+            title: AppLocalizations.of(context).error,
+            message: res['message'] ?? AppLocalizations.of(context).errorMsg);
       }
     } catch (e) {
       print(e);
@@ -152,7 +154,9 @@ class _ManagePayMethod extends State<ManagePayMethod> {
           isUnlocking = false;
         });
       Alert.showMessage(
-          type: TypeAlert.error, title: "ERROR", message: e.toString());
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: e.toString());
     }
   }
 
@@ -177,8 +181,9 @@ class _ManagePayMethod extends State<ManagePayMethod> {
       });
       Alert.showMessage(
           type: TypeAlert.error,
-          title: "ERROR",
-          message: powerOn['message'] ?? Messages.ERROR_MSG);
+          title: AppLocalizations.of(context).error,
+          message:
+              powerOn['message'] ?? AppLocalizations.of(context).errorMsg);
     }
   }
 
@@ -202,18 +207,23 @@ class _ManagePayMethod extends State<ManagePayMethod> {
 
       if (updateCardResult) {
         Alert.showMessage(
-            type: TypeAlert.success,
-            title: "SUCCESS",
-            message: "Operation success!");
+          type: TypeAlert.success,
+          title: AppLocalizations.of(context).success,
+          message: AppLocalizations.of(context).successMsg,
+        );
       } else {
         Alert.showMessage(
-            type: TypeAlert.error, title: "ERROR", message: Messages.ERROR_MSG);
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).errorMsg);
       }
     } catch (e) {
       print(e);
       HelperUtility.closeProgressDialog(_keyLoader);
       Alert.showMessage(
-          type: TypeAlert.error, title: "ERROR", message: Messages.ERROR_MSG);
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).errorMsg);
     }
   }
 
@@ -230,37 +240,37 @@ class _ManagePayMethod extends State<ManagePayMethod> {
      * @Date: 2023.04.02
      * @Desc: Header Section
      */
-    Widget headerSection = Container(
-        padding: const EdgeInsets.only(top: 10, bottom: 12),
-        child: Row(
-          children: [
-            Expanded(
-                child: Row(children: [
-              Container(
-                  margin: const EdgeInsets.only(left: 20, right: 20),
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Image.asset('assets/images/arrow.png'))),
-              Text(
-                'Payment Method',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Montserrat-SemiBold',
-                    fontWeight: FontWeight.w600,
-                    height: 1.4),
-              ),
-            ])),
-            // Container(
-            //     child: Image.asset(
-            //   'assets/images/note.png',
-            //   width: 30,
-            //   height: 30,
-            // ))
-          ],
-        ));
+    // Widget headerSection = Container(
+    //     padding: const EdgeInsets.only(top: 10, bottom: 12),
+    //     child: Row(
+    //       children: [
+    //         Expanded(
+    //             child: Row(children: [
+    //           Container(
+    //               margin: const EdgeInsets.only(left: 20, right: 20),
+    //               child: GestureDetector(
+    //                   onTap: () {
+    //                     Navigator.pop(context);
+    //                   },
+    //                   child: Image.asset('assets/images/arrow.png'))),
+    //           Text(
+    //             AppLocalizations.of(context).paymentMethod,
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //                 fontSize: 20,
+    //                 fontFamily: 'Montserrat-SemiBold',
+    //                 fontWeight: FontWeight.w600,
+    //                 height: 1.4),
+    //           ),
+    //         ])),
+    //         // Container(
+    //         //     child: Image.asset(
+    //         //   'assets/images/note.png',
+    //         //   width: 30,
+    //         //   height: 30,
+    //         // ))
+    //       ],
+    //     ));
 
     /*********************
      * @Auth: world324digital
@@ -321,7 +331,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
     //               print(error);
     //               Alert.showMessage(
     //                   type: TypeAlert.error,
-    //                   title: "ERROR",
+    //                   title: AppLocalizations.of(context).error,
     //                   message: error.toString());
     //             },
     //             loadingIndicator: const Center(
@@ -438,7 +448,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                     color: Color(0xffC6D5F6),
                   ),
                   child: Text(
-                    'SELECTED',
+                    AppLocalizations.of(context).selected,
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -472,7 +482,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(left: 15, top: 20, bottom: 15),
               child: Text(
-                'Add New Credit Card',
+                AppLocalizations.of(context).addNewCard,
                 style: TextStyle(
                   fontSize: 16,
                   color: Color(0xff0B0B0B),
@@ -487,7 +497,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12),
               child: Text(
-                'Card Holder Name',
+                AppLocalizations.of(context).cardHolderName,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Color.fromRGBO(11, 11, 11, 1),
@@ -528,9 +538,9 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                 textInputAction: TextInputAction.next,
                 validator: (value) {
                   if (value == "") {
-                    return "Please enter holder name";
+                    return AppLocalizations.of(context).cardHolderError;
                   } else if (value!.length > 100) {
-                    return "Name should be less than 100 characters";
+                    return AppLocalizations.of(context).cardHolderLengthError;
                   }
 
                   return null;
@@ -548,7 +558,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12),
               child: Text(
-                'Card Number',
+                AppLocalizations.of(context).cardNumber,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Color.fromRGBO(11, 11, 11, 1),
@@ -565,7 +575,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                 decoration: InputDecoration(
                   contentPadding:
                       EdgeInsets.only(left: 15, top: 5, bottom: 5, right: 5),
-                  hintText: 'Card Number',
+                  hintText: AppLocalizations.of(context).cardNumber,
                   hintStyle: TextStyle(
                       color: Color.fromRGBO(181, 181, 181, 1),
                       fontFamily: 'Montserrat-Regular',
@@ -591,7 +601,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                   String number = value!.trim();
                   CardType type = CardUtils.getCardTypeFrmNumber(number);
                   if (type == CardType.Invalid) {
-                    return "Invalid card number";
+                    return AppLocalizations.of(context).cardNumberError;
                   }
                   // if (value?.isEmpty ?? true) {
                   //   return 'Email Required';
@@ -620,7 +630,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                       alignment: Alignment.topLeft,
                       padding: const EdgeInsets.only(left: 12, bottom: 12),
                       child: Text(
-                        'Expiration date',
+                        AppLocalizations.of(context).expDate,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: 12,
@@ -690,7 +700,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                       alignment: Alignment.topRight,
                       padding: const EdgeInsets.only(left: 12, bottom: 12),
                       child: Text(
-                        'Security Code',
+                        AppLocalizations.of(context).securityCode,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: 12,
@@ -738,7 +748,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                           String number = value!.trim();
 
                           if (value.length < 3) {
-                            return "Invalid code";
+                            return AppLocalizations.of(context).invalidCode;
                           }
                           // if (value?.isEmpty ?? true) {
                           //   return 'Email Required';
@@ -760,7 +770,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(bottom: 10, left: 12),
               child: Text(
-                'ZIP Code',
+                AppLocalizations.of(context).zipCode,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     fontSize: 12,
@@ -775,7 +785,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                 controller: _cardZipCodeController,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(left: 15, right: 5),
-                  hintText: 'ZIP Code',
+                  hintText: AppLocalizations.of(context).zipCode,
                   hintStyle: TextStyle(
                       color: Color.fromRGBO(181, 181, 181, 1),
                       fontFamily: 'Montserrat-Regular',
@@ -801,7 +811,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                   // String number = value!.trim();
                   // String type = CardUtils.getCardTypeFrmNumber(number);
                   if (value == "") {
-                    return "Please enter zip code";
+                    return AppLocalizations.of(context).zipCodeError;
                   }
                   // if (value?.isEmpty ?? true) {
                   //   return 'Email Required';
@@ -846,7 +856,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
                       // await paySubmit(card);
                     }
                   },
-                  title: "Complete Payment",
+                  title: AppLocalizations.of(context).completePayment,
                   height: 50,
                   borderRadius: BorderRadius.circular(12)),
             )
@@ -871,7 +881,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
           width: 30,
           height: 30,
         )),
-        label: const Text('Add Another Payment',
+        label: Text(AppLocalizations.of(context).addPayment,
             style: TextStyle(
                 fontSize: 16.0,
                 color: Color.fromRGBO(102, 102, 102, 1),
@@ -927,7 +937,7 @@ class _ManagePayMethod extends State<ManagePayMethod> {
             ),
           ),
           title: Text(
-            'Payment Method',
+            AppLocalizations.of(context).paymentMethod,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20,

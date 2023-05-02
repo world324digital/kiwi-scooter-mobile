@@ -14,6 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:validators/validators.dart';
 import 'package:KiwiCity/services/auth.dart';
 import 'package:KiwiCity/services/firebase_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginInputPage extends StatefulWidget {
   const LoginInputPage({super.key});
@@ -155,37 +156,42 @@ class _LoginInputPage extends State<LoginInputPage> {
           print('user_not_found');
 
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: "This user could not be found!");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).userNotFound,
+          );
         } else if (e.code == 'wrong-password') {
           print('wrong password');
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: "This password is wrong");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).passwordWrong,
+          );
         } else if (e.code == 'user-disabled') {
           print('user disabled');
 
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: "This user is disabled.");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).userDisabled,
+          );
         } else if (e.code == 'invalid-email') {
           print(e.code == 'invalid-email');
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: "This email is invalid.");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).invalidEmail,
+          );
         } else {
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: Messages.ERROR_MSG);
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).errorMsg,
+          );
         }
       } catch (e) {
         Alert.showMessage(
-            type: TypeAlert.error, title: "ERROR", message: e.toString());
+            type: TypeAlert.error, title: AppLocalizations.of(context).error, message: e.toString());
       }
       // HelperUtility.closeProgressDialog(_keyLoader);
     }
@@ -209,7 +215,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                   Container(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'Email Address',
+                      AppLocalizations.of(context).emailAddress,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: Colors.black,
@@ -232,7 +238,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                             fontFamily: 'Montserrat-Regular',
                             color: Color.fromRGBO(181, 181, 181, 1)),
                         contentPadding: const EdgeInsets.only(left: 10),
-                        hintText: 'Email Address',
+                        hintText: AppLocalizations.of(context).emailAddress,
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
                             borderRadius: BorderRadius.circular(15.0)),
@@ -252,10 +258,10 @@ class _LoginInputPage extends State<LoginInputPage> {
                       textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'Email Required';
+                          return AppLocalizations.of(context).emailRequired;
                         }
                         if (!isEmail(value!)) {
-                          return 'Invalid Email';
+                          return AppLocalizations.of(context).invalidEmailAddress;
                         }
                         return null;
                       },
@@ -270,7 +276,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                     margin: const EdgeInsets.only(top: 20),
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      'Password',
+                      AppLocalizations.of(context).password,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: Colors.black,
@@ -288,10 +294,10 @@ class _LoginInputPage extends State<LoginInputPage> {
                       obscureText: !_passwordVisible,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'Password Required';
+                          return AppLocalizations.of(context).passwordRequired;
                         }
                         if ((value?.length)! < 6) {
-                          return 'must contain 6 letters at least';
+                          return AppLocalizations.of(context).passwordInvalid;
                         }
                         return null;
                       },
@@ -302,7 +308,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                       }, //This will obscure text dynamically
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 10),
-                        hintText: 'password',
+                        hintText: AppLocalizations.of(context).password,
                         hintStyle: TextStyle(
                             fontSize: 14,
                             fontFamily: 'Montserrat-Regular',
@@ -359,7 +365,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                             routeName: Routes.FORGET_PASSWORD);
                       },
                       child: Text(
-                        'Forget Your Password?',
+                        AppLocalizations.of(context).forgetPasswordQ,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           color: Colors.black,
@@ -387,7 +393,7 @@ class _LoginInputPage extends State<LoginInputPage> {
           onTap: () async {
             await loginWithEmail();
           },
-          title: "Login Now",
+          title: AppLocalizations.of(context).loginNow,
         ),
         Container(
             alignment: Alignment.center,
@@ -400,7 +406,7 @@ class _LoginInputPage extends State<LoginInputPage> {
                     context: context, routeName: Routes.SIGN_UP);
               },
               child: Text(
-                'Create New Account',
+                AppLocalizations.of(context).createNewAccount,
                 style: TextStyle(
                   fontSize: 12,
                   fontFamily: 'Montserrat-Medium',
@@ -433,7 +439,7 @@ class _LoginInputPage extends State<LoginInputPage> {
               title: Container(
                 padding: EdgeInsets.only(left: 20),
                 child: Text(
-                  'Continue with Email',
+                  AppLocalizations.of(context).continueWithEmail,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,

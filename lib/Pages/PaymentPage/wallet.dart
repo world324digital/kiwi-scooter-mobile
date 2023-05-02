@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:pay/pay.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../MenuPage/main_menu.dart';
 
@@ -123,8 +124,8 @@ class _WalletPage extends State<WalletPage> {
           } else {
             Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
-                message: Messages.ERROR_MSG);
+                title: AppLocalizations.of(context).error,
+                message: AppLocalizations.of(context).errorMsg);
           }
         } else {
           if (mounted) {
@@ -133,8 +134,8 @@ class _WalletPage extends State<WalletPage> {
             });
             Alert.showMessage(
                 type: TypeAlert.error,
-                title: "ERROR",
-                message: powerOn['message'] ?? Messages.ERROR_MSG);
+                title: AppLocalizations.of(context).error,
+                message: powerOn['message'] ?? AppLocalizations.of(context).errorMsg);
           }
         }
       } else {
@@ -144,8 +145,8 @@ class _WalletPage extends State<WalletPage> {
           });
         Alert.showMessage(
             type: TypeAlert.error,
-            title: "ERROR",
-            message: res['message'] ?? Messages.ERROR_MSG);
+            title: AppLocalizations.of(context).error,
+            message: res['message'] ?? AppLocalizations.of(context).errorMsg);
       }
     } catch (e) {
       print(e);
@@ -154,7 +155,7 @@ class _WalletPage extends State<WalletPage> {
           isUnlocking = false;
         });
       Alert.showMessage(
-          type: TypeAlert.error, title: "ERROR", message: e.toString());
+          type: TypeAlert.error, title: AppLocalizations.of(context).error, message: e.toString());
     }
   }
 
@@ -179,8 +180,8 @@ class _WalletPage extends State<WalletPage> {
       });
       Alert.showMessage(
           type: TypeAlert.error,
-          title: "ERROR",
-          message: powerOn['message'] ?? Messages.ERROR_MSG);
+          title: AppLocalizations.of(context).error,
+          message: powerOn['message'] ?? AppLocalizations.of(context).errorMsg);
     }
   }
 
@@ -205,17 +206,17 @@ class _WalletPage extends State<WalletPage> {
       if (updateCardResult) {
         Alert.showMessage(
             type: TypeAlert.success,
-            title: "SUCCESS",
-            message: "Operation success!");
+            title: AppLocalizations.of(context).success,
+            message: AppLocalizations.of(context).successMsg);
       } else {
         Alert.showMessage(
-            type: TypeAlert.error, title: "ERROR", message: Messages.ERROR_MSG);
+            type: TypeAlert.error, title: AppLocalizations.of(context).error, message: AppLocalizations.of(context).errorMsg);
       }
     } catch (e) {
       print(e);
       HelperUtility.closeProgressDialog(_keyLoader);
       Alert.showMessage(
-          type: TypeAlert.error, title: "ERROR", message: Messages.ERROR_MSG);
+          type: TypeAlert.error, title: AppLocalizations.of(context).error, message: AppLocalizations.of(context).errorMsg);
     }
   }
 
@@ -246,7 +247,7 @@ class _WalletPage extends State<WalletPage> {
                       },
                       child: Image.asset('assets/images/arrow.png'))),
               Text(
-                'My Wallet',
+                AppLocalizations.of(context).myWallet,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20,
@@ -280,7 +281,7 @@ class _WalletPage extends State<WalletPage> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(left: 0, top: 20, bottom: 15),
               child: Text(
-                'Available Balance',
+                AppLocalizations.of(context).balance,
                 style: TextStyle(
                   fontSize: 16,
                   color: Color(0xff0B0B0B),
@@ -306,7 +307,7 @@ class _WalletPage extends State<WalletPage> {
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(left: 0, top: 20, bottom: 15),
               child: Text(
-                'Add Money',
+                AppLocalizations.of(context).addMoney,
                 style: TextStyle(
                   fontSize: 16,
                   color: Color(0xff0B0B0B),
@@ -315,26 +316,26 @@ class _WalletPage extends State<WalletPage> {
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(left: 0, top: 0, bottom: 15),
-              child: Text(
-                'More rides, more discount',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xff666666),
-                  fontFamily: FontStyles.fMedium,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
+            // Container(
+            //   alignment: Alignment.topLeft,
+            //   padding: const EdgeInsets.only(left: 0, top: 0, bottom: 15),
+            //   child: Text(
+            //     AppLocalizations.of(context).moreRides,
+            //     style: TextStyle(
+            //       fontSize: 14,
+            //       color: Color(0xff666666),
+            //       fontFamily: FontStyles.fMedium,
+            //       fontWeight: FontWeight.w500,
+            //     ),
+            //   ),
+            // ),
 
             //------------- Deposit amount --------------
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(top: 10, bottom: 10, left: 0),
               child: Text(
-                'Enter amount',
+                AppLocalizations.of(context).enterAmount,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Color.fromRGBO(11, 11, 11, 1),
@@ -375,11 +376,11 @@ class _WalletPage extends State<WalletPage> {
                 textInputAction: TextInputAction.next,
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Please enter a deposit balance';
+                    return AppLocalizations.of(context).depositError;
                   }
                   final deposit = num.tryParse(value ?? '0');
-                  if (deposit == null || deposit <= 0) {
-                    return 'Please enter a valid deposit amount';
+                  if (deposit == null || deposit < 0.5) {
+                    return AppLocalizations.of(context).depositInvalidError;
                   }
                   return null;
                 },
@@ -407,7 +408,7 @@ class _WalletPage extends State<WalletPage> {
                         });
                   }
                 },
-                title: "Pay Now",
+                title: AppLocalizations.of(context).payNow,
                 horizontalPadding: 0,
               ),
             )
@@ -432,7 +433,7 @@ class _WalletPage extends State<WalletPage> {
           width: 30,
           height: 30,
         )),
-        label: const Text('Add Another Payment',
+        label: Text(AppLocalizations.of(context).addPayment,
             style: TextStyle(
                 fontSize: 16.0,
                 color: Color.fromRGBO(102, 102, 102, 1),
@@ -488,7 +489,7 @@ class _WalletPage extends State<WalletPage> {
             ),
           ),
           title: Text(
-            'My Wallet',
+            AppLocalizations.of(context).myWallet,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20,

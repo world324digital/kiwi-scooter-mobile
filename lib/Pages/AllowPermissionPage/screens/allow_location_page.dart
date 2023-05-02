@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:KiwiCity/Widgets/primaryButton.dart';
 // import 'package:KiwiCity/firebase_options.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllowLocationPage extends StatefulWidget {
   const AllowLocationPage({super.key, required this.onNext()});
@@ -119,14 +120,14 @@ class _AllowLocationPage extends State<AllowLocationPage> {
             child: ListBody(
               children: <Widget>[
                 Text(
-                  "${Messages.WARNING_PERMISSION_DENIND_PERMENANT_TITLE}",
+                  "${AppLocalizations.of(context).warningPermissionDenindPermenantTitle}",
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: FontStyles.fLight,
                   ),
                 ),
                 Text(
-                  "${Messages.WARNING_PERMISSION_DENIND_PERMENANT_MSG}",
+                  "${AppLocalizations.of(context).warningPermissionDenindPermenantMsg}",
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: FontStyles.fLight,
@@ -274,8 +275,9 @@ class _AllowLocationPage extends State<AllowLocationPage> {
               height: MediaQuery.of(context).size.height * 0.4,
             ),
           ),
-          const Text(
-            'Allow Location',
+          Text(
+            // 'Allow Location',
+            AppLocalizations.of(context).allowLocation,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20,
@@ -296,8 +298,8 @@ class _AllowLocationPage extends State<AllowLocationPage> {
             /*1*/
             child: Container(
                 alignment: Alignment.center,
-                child: const Text(
-                  "To provide the best possible experience and help you find eScooters quickly, KiwiCity requires access to your device's location.",
+                child: Text(
+                  AppLocalizations.of(context).allowLocationDescription,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'Montserrat-SemiBold',
@@ -316,7 +318,8 @@ class _AllowLocationPage extends State<AllowLocationPage> {
       child: Column(children: <Widget>[
         PrimaryButton(
           context: context,
-          title: "Allow Location",
+          // title: "Allow Location",
+          title: AppLocalizations.of(context).allowLocation,
           onTap: () {
             allowLocation();
           },
@@ -343,7 +346,8 @@ class _AllowLocationPage extends State<AllowLocationPage> {
                 // }
               },
               child: Text(
-                'Maybe Later',
+                // 'Maybe Later',
+                AppLocalizations.of(context).maybeLater,
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -356,20 +360,20 @@ class _AllowLocationPage extends State<AllowLocationPage> {
     ));
 
     return Column(
-      children: [
-        Expanded(
-            child: ListView(
-          children: [
-            headerSection,
-            titleSection,
-          ],
-        )),
-        allowSection,
-        SizedBox(
-          height: 30,
-        )
-        // AllowLocationPage()
-      ],
-    );
+        children: [
+          Expanded(
+              child: ListView(
+            children: [
+              headerSection,
+              titleSection,
+            ],
+          )),
+          allowSection,
+          SizedBox(
+            height: 30,
+          )
+          // AllowLocationPage()
+        ],
+      );
   }
 }

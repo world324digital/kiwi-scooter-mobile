@@ -15,6 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:validators/validators.dart';
 import 'package:KiwiCity/services/auth.dart';
 import 'package:KiwiCity/services/firebase_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   const ForgetPasswordPage({super.key});
@@ -65,7 +66,9 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
           isSent = true;
         });
         Alert.showMessage(
-            type: TypeAlert.success, title: "Success", message: "Email sent!");
+            type: TypeAlert.success,
+            title: AppLocalizations.of(context).success,
+            message: AppLocalizations.of(context).emailSent);
       } on FirebaseAuthException catch (e) {
         print("AAAAAAAA");
 
@@ -75,25 +78,30 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
           print('user_not_found');
 
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: "This user could not be found!");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).userNotFound,
+          );
         } else if (e.code == 'invalid-email') {
           print(e.code == 'invalid-email');
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: "This email is invalid.");
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).invalidEmail,
+          );
         } else {
           Alert.showMessage(
-              type: TypeAlert.error,
-              title: "ERROR",
-              message: Messages.ERROR_MSG);
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).errorMsg,
+          );
         }
       } catch (e) {
         HelperUtility.closeProgressDialog(_keyLoader);
         Alert.showMessage(
-            type: TypeAlert.error, title: "ERROR", message: e.toString());
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: e.toString());
       }
       // HelperUtility.closeProgressDialog(_keyLoader);
     }
@@ -118,7 +126,7 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
                           Container(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
-                              'Email Address',
+                              AppLocalizations.of(context).emailAddress,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   color: Colors.black,
@@ -142,7 +150,8 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
                                     fontFamily: 'Montserrat-Regular',
                                     color: Color.fromRGBO(181, 181, 181, 1)),
                                 contentPadding: const EdgeInsets.only(left: 10),
-                                hintText: 'Email Address',
+                                hintText:
+                                    AppLocalizations.of(context).emailAddress,
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.red),
                                     borderRadius: BorderRadius.circular(15.0)),
@@ -162,10 +171,12 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
                               textInputAction: TextInputAction.next,
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {
-                                  return 'Email Required';
+                                  return AppLocalizations.of(context)
+                                      .emailRequired;
                                 }
                                 if (!isEmail(value!)) {
-                                  return 'Invalid Email';
+                                  return AppLocalizations.of(context)
+                                      .invalidEmailAddress;
                                 }
                                 return null;
                               },
@@ -186,7 +197,7 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
                   child: Column(
                     children: [
                       Text(
-                        "We have sent you a reset password link. Please check your email.",
+                        AppLocalizations.of(context).restPasswordSent,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: FontStyles.fMedium,
@@ -222,7 +233,9 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
                   Navigator.of(context).pop();
                 }
               },
-              title: !isSent ? "Next" : "Done"),
+              title: !isSent
+                  ? AppLocalizations.of(context).next
+                  : AppLocalizations.of(context).done),
         ]),
       ),
     );
@@ -245,9 +258,9 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
             ),
           ),
           title: Container(
-            padding: EdgeInsets.only(left: 40),
+            padding: EdgeInsets.only(left: 5),
             child: Text(
-              'Forget Password',
+              AppLocalizations.of(context).forgetPassword,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,

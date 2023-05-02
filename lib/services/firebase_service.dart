@@ -354,8 +354,6 @@ class FirebaseService {
           .collection('userAgreement')
           // .orderBy('startTime', descending: true)
           .get();
-      print("================");
-      print(querySnapshot.docs);
 
       querySnapshot.docs.forEach((doc) {
         print(doc.data());

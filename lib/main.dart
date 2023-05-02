@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:KiwiCity/locale_provider.dart';
 // import 'package:workmanager/workmanager.dart';
 import 'firebase_options.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as FlutterStripe;

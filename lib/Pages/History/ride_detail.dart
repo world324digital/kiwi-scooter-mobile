@@ -5,6 +5,7 @@ import 'package:KiwiCity/Models/review_model.dart';
 import 'package:KiwiCity/Pages/App/app_provider.dart';
 import 'package:KiwiCity/Services/firebase_service.dart';
 import 'package:KiwiCity/Pages/PaymentPage/payment_helper.dart';
+import 'package:KiwiCity/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -13,7 +14,7 @@ import 'package:mapbox_api/mapbox_api.dart';
 
 class RideDetail extends StatefulWidget {
   RideDetail({super.key, required this.data});
-  dynamic data;
+  final dynamic data;
 
   @override
   State<RideDetail> createState() => _RideDetail();
@@ -44,6 +45,17 @@ class _RideDetail extends State<RideDetail> {
     super.dispose();
   }
 
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+
+  //   // Get the localized hello world message and update the state
+  //   final appLocalizations = AppLocalizations.of(context)!;
+  //   setState(() {
+  //     _helloMessage = appLocalizations.rideDetail;
+  //   });
+  // }
+
   Future<void> getPoints() async {
     ReviewModel _review = widget.data["review"];
     String? reviewId = _review.id;
@@ -71,6 +83,8 @@ class _RideDetail extends State<RideDetail> {
   @override
   Widget build(BuildContext context) {
     ReviewModel _review = widget.data["review"];
+    print("nnnnnnnnnnnnnnnnnnnn");
+    String languageCode = LocaleProvider.of(context).locale.languageCode;
     Widget Items({
       required String name,
       required String value,
@@ -79,34 +93,36 @@ class _RideDetail extends State<RideDetail> {
     }) {
       return Container(
         margin: EdgeInsets.only(top: top),
-        child: Row(children: [
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(left: 20),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  name,
+                  style: TextStyle(
+                      color: Color.fromRGBO(102, 102, 102, 1),
+                      fontSize: 14,
+                      fontFamily: 'Montserrat-Medium',
+                      fontWeight: FontWeight.w500,
+                      height: 1.25),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(right: 20),
               child: Text(
-                name,
+                value,
                 style: TextStyle(
-                    color: Color.fromRGBO(102, 102, 102, 1),
+                    color: Color.fromRGBO(11, 11, 11, 1),
                     fontSize: 14,
                     fontFamily: 'Montserrat-Medium',
                     fontWeight: FontWeight.w500,
                     height: 1.25),
               ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(right: 20),
-            child: Text(
-              value,
-              style: TextStyle(
-                  color: Color.fromRGBO(11, 11, 11, 1),
-                  fontSize: 14,
-                  fontFamily: 'Montserrat-Medium',
-                  fontWeight: FontWeight.w500,
-                  height: 1.25),
-            ),
-          )
-        ]),
+          ],
+        ),
       );
     }
 
@@ -134,8 +150,8 @@ class _RideDetail extends State<RideDetail> {
               });
             },
           ),
-          Items(name: 'eScooter Code', value: review.scooterId, top: 30),
-          Items(name: 'eScooter Type', value: review.scooter_type, top: 10),
+          Items(name: TextConstants.scooterCodeLabel[languageCode]!, value: review.scooterId, top: 30),
+          Items(name: TextConstants.scooterTypeLabel[languageCode]!, value: review.scooter_type, top: 10),
           Container(
             padding: const EdgeInsets.only(top: 15, left: 22, right: 12),
             child: Row(children: const <Widget>[
@@ -146,19 +162,19 @@ class _RideDetail extends State<RideDetail> {
             ]),
           ),
           Items(
-              name: 'Start Time',
+              name: TextConstants.startTimeLabel[languageCode]!,
               value: HelperUtility.getFormattedTime(
                   DateTime.fromMillisecondsSinceEpoch(review.startTime),
                   "dd MMM yyyy E kk:mm"),
               top: 10),
           Items(
-              name: 'End Time',
+              name: TextConstants.endTimeLabel[languageCode]!,
               value: HelperUtility.getFormattedTime(
                   DateTime.fromMillisecondsSinceEpoch(review.endTime),
                   "dd MMM yyyy E kk:mm"),
               top: 10),
           Items(
-              name: 'Duration',
+              name: TextConstants.durationLabel[languageCode]!,
               value: HelperUtility.getDayFromSeconds(review.duration),
               top: 10),
           Container(
@@ -176,7 +192,7 @@ class _RideDetail extends State<RideDetail> {
 
     Widget priceSection({required ReviewModel review}) {
       return Card(
-          margin: const EdgeInsets.only(left: 20, right: 20),
+          margin: const EdgeInsets.only(left: 10, right: 10),
           elevation: 0,
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -189,13 +205,15 @@ class _RideDetail extends State<RideDetail> {
                 const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
             child: Column(children: [
               Items(
-                name: "Start Price",
-                value: "\€${review.start_price.toString()} = €${start_normal_price.toString()} + €${start_vat_price.toString()}(VAT %21)",
+                name: TextConstants.startPriceLabel[languageCode]!,
+                value:
+                    "\€${review.start_price.toString()} = €${start_normal_price.toString()} + €${start_vat_price.toString()}(VAT %21)",
                 top: 0,
               ),
               Items(
-                name: "Riding Price",
-                value: "\€${review.riding_price.toString()} = €${riding_normal_price.toString()} + €${riding_vat_price.toString()}(VAT %21)",
+                name: TextConstants.ridingPriceLabel[languageCode]!,
+                value:
+                    "\€${review.riding_price.toString()} = €${riding_normal_price.toString()} + €${riding_vat_price.toString()}(VAT %21)",
                 top: 10,
               ),
               Container(
@@ -212,7 +230,7 @@ class _RideDetail extends State<RideDetail> {
                   child: Container(
                     padding: const EdgeInsets.only(left: 20, bottom: 10),
                     child: Text(
-                      'Total Amount',
+                      TextConstants.totalAmountLabel[languageCode]!,
                       style: TextStyle(
                           color: ColorConstants.cPrimaryTitleColor,
                           fontSize: 16,
@@ -324,88 +342,97 @@ class _RideDetail extends State<RideDetail> {
         double.parse((_review.riding_price * 0.21).toStringAsFixed(2));
     riding_normal_price = double.parse(
         (_review.riding_price - riding_vat_price).toStringAsFixed(2));
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: const Color(0xffB5B5B5),
+
+    print(LocaleProvider.of(context).locale.languageCode);
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Container(
+        color: Colors.white,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: const Color(0xffB5B5B5),
+              ),
+            ),
+            title: Text(
+              TextConstants.rideDetailLabel[languageCode]!,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'Montserrat-SemiBold',
+                fontWeight: FontWeight.w600,
+                color: ColorConstants.cPrimaryTitleColor,
+                height: 1.4,
+              ),
+            ),
           ),
-        ),
-        title: Text(
-          'Ride Detail',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            fontFamily: 'Montserrat-SemiBold',
-            fontWeight: FontWeight.w600,
-            color: ColorConstants.cPrimaryTitleColor,
-            height: 1.4,
-          ),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                // detailSection,
-                Container(
-                  padding:
-                      const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                  height: 230,
-                  width: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: FlutterMap(
-                      options: MapOptions(
-                        center: LatLng(center_lat, center_long),
-                        interactiveFlags:
-                            InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-                        zoom: 15,
-                        minZoom: 10,
-                        maxZoom: 18,
-                      ),
-                      children: [
-                        TileLayer(
-                          urlTemplate: AppConstants.urlTemplate,
-                          userAgentPackageName:
-                              'dev.fleaflet.flutter_map.example',
-                        ),
-                        PolylineLayer(
-                          polylineCulling: true,
-                          polylines: [
-                            Polyline(
-                              points: points,
-                              strokeWidth: 2,
-                              color: ColorConstants.cPrimaryBtnColor,
+          backgroundColor: Colors.white,
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: 30,
+                    ),
+                    // detailSection,
+                    Container(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 20),
+                      height: 230,
+                      width: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: FlutterMap(
+                          options: MapOptions(
+                            center: LatLng(center_lat, center_long),
+                            interactiveFlags: InteractiveFlag.pinchZoom |
+                                InteractiveFlag.drag,
+                            zoom: 15,
+                            minZoom: 10,
+                            maxZoom: 18,
+                          ),
+                          children: [
+                            TileLayer(
+                              urlTemplate: AppConstants.urlTemplate,
+                              userAgentPackageName:
+                                  'dev.fleaflet.flutter_map.example',
+                            ),
+                            PolylineLayer(
+                              polylineCulling: true,
+                              polylines: [
+                                Polyline(
+                                  points: points,
+                                  strokeWidth: 2,
+                                  color: ColorConstants.cPrimaryBtnColor,
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    detailSection(review: _review),
+                    priceSection(review: _review),
+                    // visaSection(review: _review),
+                    SizedBox(
+                      height: 20,
+                    )
+                    // userdetailSection,
+                  ],
                 ),
-                detailSection(review: _review),
-                priceSection(review: _review),
-                // visaSection(review: _review),
-                SizedBox(
-                  height: 20,
-                )
-                // userdetailSection,
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
