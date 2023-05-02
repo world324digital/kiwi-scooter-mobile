@@ -13,6 +13,7 @@
    git clone https://github.com/world324digital/kiwi-scooter-mobile.git
 
 2. Navigate to the cloned repo and install dependencies:
+   ```sh
    cd kiwi-scooter-mobile && flutter pub get
 3. Run the app on an emulator or physical device:
    - For Android:
@@ -24,9 +25,7 @@
       flutter run -d <iOS device id>
   
 ## Building the app
-1. To build a release version of the app, run the following command:
+To build a release version of the app, run the following command:
    ```sh
    flutter build apk # Builds Android APK
-   
-   ```sh
    flutter build ios # Builds iOS app bundle
