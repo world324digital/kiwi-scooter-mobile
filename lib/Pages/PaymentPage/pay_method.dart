@@ -1064,42 +1064,6 @@ class _PayMethod extends State<PayMethod> {
                       Expanded(
                         child: ListView(
                           children: [
-                            // if (AppProvider.of(context).selectedPrice != null)
-                            // applePayWidget(),
-                            // platform == TargetPlatform.iOS
-                            //     ? ApplePayButtonWidget(
-                            //         padding: EdgeInsets.all(16),
-                            //         children: [
-                            //           FlutterStripe.ApplePayButton(
-                            //             onPressed: _handlePayPress,
-                            //           )
-                            //         ],
-                            //       )
-                            //     : pay.GooglePayButton(
-                            //         paymentConfigurationAsset:
-                            //             'google_pay_live.json',
-                            //         paymentItems: getPriceItem(),
-                            //         margin: const EdgeInsets.only(
-                            //             top: 15, right: 20, left: 20, bottom: 20),
-                            //         onPaymentResult: onGooglePayResult,
-                            //         loadingIndicator: const Center(
-                            //           child: CircularProgressIndicator(),
-                            //         ),
-                            //         onPressed: () async {
-                            //           // 1. Add your stripe publishable key to assets/google_pay_payment_profile.json
-                            //           // await debugChangedStripePublishableKey();
-                            //         },
-                            //         childOnError: Text(
-                            //             'Google Pay is not available in this device'),
-                            //         onError: (e) {
-                            //           ScaffoldMessenger.of(context).showSnackBar(
-                            //             const SnackBar(
-                            //               content: Text(
-                            //                   'There was an error while trying to perform the payment'),
-                            //             ),
-                            //           );
-                            //         },
-                            //       ),
                             isExistCard ? paySection : Container(),
                             (isExistCard && !isShowCardSection)
                                 ? Container()

@@ -197,46 +197,6 @@ class _ContEmail extends State<ContEmail> {
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
-                  // Container(
-                  //     padding:const EdgeInsets.only(top:32),
-                  //     child:Row(
-                  //         children: const <Widget>[
-                  //           Expanded(
-                  //               child: Divider(
-                  //                 thickness: 1,
-                  //                 color:Colors.grey
-                  //               )
-                  //           ),
-                  //
-                  //           Text("    or    ", style: TextStyle(fontSize: 20),),
-                  //
-                  //           Expanded(
-                  //               child: Divider(
-                  //                 thickness: 1,
-                  //                 color:Colors.grey
-                  //               )
-                  //           ),
-                  //         ]
-                  //     )
-                  // ),
-                  // Container(
-                  //     width: double.infinity,
-                  //     padding: const EdgeInsets.only(top:25),
-                  //     child: ElevatedButton.icon(
-                  //       icon:Icon(Icons.apple_sharp, color: Colors.black),
-                  //       label: Text('Continue with Apple', style: TextStyle(fontSize: 18.0, fontFamily: 'Montserrat', color: Colors.black),),
-                  //       style:ElevatedButton.styleFrom(
-                  //         backgroundColor: Colors.white,
-                  //         padding: const EdgeInsets.all(17),
-                  //         textStyle: TextStyle(color: Colors.white),
-                  //         shape:  RoundedRectangleBorder(
-                  //           borderRadius:  BorderRadius.circular(16.0),
-                  //           side: const BorderSide(color: Colors.black),
-                  //         ),
-                  //       ),
-                  //       onPressed: () {},
-                  //     )
-                  // )
                 ],
               ),
             ),

@@ -41,29 +41,9 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> detectRoute() async {
     bool allow_location = await allowLocation();
-    // bool allow_notification = await allowNotification();
-    // final isRideInProgress =
-    //     await HelperUtility.checkForInProgressRides(context);
 
     List<String>? tempReview = await getDataInLocal(
         key: AppLocalKeys.TEMP_REVIEW, type: StorableDataType.STRINGLIST);
-
-    // List<String>? tempReview =
-    //     await _sharedPreferences.getStringList(AppLocalKeys.TEMP_REVIEW);
-    // if (tempReview!.length > 0) {
-    //   HelperUtility.goPage(
-    //     context: context,
-    //     routeName: Routes.RIDE_NOW,
-    //     arg: tempReview,
-    //   );
-    // }
-    // if (tempReview!.length > 0) {
-    //   HelperUtility.goPage(
-    //     context: context,
-    //     routeName: Routes.RIDE_NOW,
-    //     arg: tempReview,
-    //   );
-    // } else
     if (allow_location) {
       // if (allow_notification) {
         // if ride is in-progress
