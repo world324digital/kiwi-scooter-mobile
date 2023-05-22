@@ -191,7 +191,9 @@ class _LoginInputPage extends State<LoginInputPage> {
         }
       } catch (e) {
         Alert.showMessage(
-            type: TypeAlert.error, title: AppLocalizations.of(context).error, message: e.toString());
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: e.toString());
       }
       // HelperUtility.closeProgressDialog(_keyLoader);
     }
@@ -261,7 +263,8 @@ class _LoginInputPage extends State<LoginInputPage> {
                           return AppLocalizations.of(context).emailRequired;
                         }
                         if (!isEmail(value!)) {
-                          return AppLocalizations.of(context).invalidEmailAddress;
+                          return AppLocalizations.of(context)
+                              .invalidEmailAddress;
                         }
                         return null;
                       },
@@ -396,71 +399,73 @@ class _LoginInputPage extends State<LoginInputPage> {
           title: AppLocalizations.of(context).loginNow,
         ),
         Container(
-            alignment: Alignment.center,
-            // padding: const EdgeInsets.all(20),
-            margin: EdgeInsets.only(top: 10, bottom: 40),
-            padding: EdgeInsets.only(top: 10, bottom: 10),
-            child: GestureDetector(
-              onTap: () {
-                HelperUtility.goPage(
-                    context: context, routeName: Routes.SIGN_UP);
-              },
-              child: Text(
-                AppLocalizations.of(context).createNewAccount,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontFamily: 'Montserrat-Medium',
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: -0.01,
-                  height: 1.6,
-                ),
+          alignment: Alignment.center,
+          // padding: const EdgeInsets.all(20),
+          margin: EdgeInsets.only(top: 10, bottom: 40),
+          padding: EdgeInsets.only(top: 10, bottom: 10),
+          child: GestureDetector(
+            onTap: () {
+              HelperUtility.goPage(context: context, routeName: Routes.SIGN_UP);
+            },
+            child: Text(
+              AppLocalizations.of(context).createNewAccount,
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: 'Montserrat-Medium',
+                fontWeight: FontWeight.w400,
+                letterSpacing: -0.01,
+                height: 1.6,
               ),
-            ))
+            ),
+          ),
+        ),
       ]),
     ));
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-        ),
-        child: Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: const Color(0xffB5B5B5),
-                ),
-              ),
-              title: Container(
-                padding: EdgeInsets.only(left: 20),
-                child: Text(
-                  AppLocalizations.of(context).continueWithEmail,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: FontStyles.fSemiBold,
-                    fontWeight: FontWeight.w700,
-                    color: ColorConstants.cPrimaryTitleColor,
-                    height: 1.4,
-                  ),
-                ),
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: const Color(0xffB5B5B5),
+            ),
+          ),
+          title: Container(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              AppLocalizations.of(context).continueWithEmail,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: FontStyles.fSemiBold,
+                fontWeight: FontWeight.w700,
+                color: ColorConstants.cPrimaryTitleColor,
+                height: 1.4,
               ),
             ),
-            body: Column(
+          ),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+                child: ListView(
               children: [
-                Expanded(
-                    child: ListView(
-                  children: [
-                    titleSection,
-                  ],
-                )),
-                continueSection
+                titleSection,
               ],
-            )));
+            )),
+            continueSection
+          ],
+        ),
+      ),
+    );
   }
 }

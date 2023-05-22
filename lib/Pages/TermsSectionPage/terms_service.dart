@@ -46,11 +46,12 @@ class _TermsService extends State<TermsService> {
       alignment: Alignment.bottomCenter,
       child: Column(children: <Widget>[
         PrimaryButton(
-            context: context,
-            onTap: () {
-              return widget.onNext();
-            },
-            title: AppLocalizations.of(context).agree),
+          context: context,
+          onTap: () {
+            return widget.onNext();
+          },
+          title: AppLocalizations.of(context).agree,
+        ),
         Container(
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).size.height * 0.1,

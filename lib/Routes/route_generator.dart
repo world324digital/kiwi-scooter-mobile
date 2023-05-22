@@ -134,17 +134,22 @@ class RouteGenerator {
             ),
             type: transitionType);
       case Routes.RIDE_HOME:
-        return PageTransition(child: RideNow(), type: transitionType);
+        return PageTransition(
+            child: RideNow(
+              data: args!,
+            ),
+            type: transitionType);
       case Routes.PHOTO_SCOTTER:
         return MaterialPageRoute(builder: (_) => PhotoScooter(data: args));
       // case Routes.PHOTO_SCOTTER:
       //   return MaterialPageRoute(builder: (_) => PhotoScooter());
       case Routes.HOWRIDE:
         return PageTransition(
-            child: HowRide(
-              data: args,
-            ),
-            type: transitionType);
+          child: HowRide(
+            data: args,
+          ),
+          type: transitionType,
+        );
 // Terms Section
       // case Routes.TERMSSERVICE:
       //   return MaterialPageRoute(builder: (_) => TermsService());

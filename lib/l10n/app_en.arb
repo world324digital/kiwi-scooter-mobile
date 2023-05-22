@@ -85,6 +85,7 @@
     "ridingNote1": "before riding + ",
     "ridingNote2": "per minute after riding",
     "rideNow": "Ride Now",
+    "reservation": "Reservation",
     "trackingError": "App Tracking Permission is denined!\r\n\r\nNeed to access your location tracking to find eScooter near you and to track your location while riding the eScooter. \r\n\r\nWould you go to Settings and allow it?",
     "yes": "Yes",
     "warning": "Warning",

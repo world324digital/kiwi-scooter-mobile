@@ -72,9 +72,10 @@ class _PhotoScooterState extends State<PhotoScooter> {
       HelperUtility.closeProgressDialog(_keyLoader);
 
       HelperUtility.goPageReplace(
-          context: context,
-          routeName: Routes.HOWRIDE,
-          arg: {"scooterPhoto": url});
+        context: context,
+        routeName: Routes.HOWRIDE,
+        arg: {"scooterPhoto": url},
+      );
     } catch (e) {
       print(e);
       HelperUtility.closeProgressDialog(_keyLoader);

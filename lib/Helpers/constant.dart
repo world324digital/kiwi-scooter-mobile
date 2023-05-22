@@ -77,8 +77,7 @@ class AppConstants {
 }
 
 class URLS {
-  static const String BASE_URL = "http://185.96.163.118:443";
-  // static const String BASE_URL = "http://127.0.0.1:443";
+  static const String BASE_URL = "http://185.96.163.118:8443";
   static const String API_PREFIX = "/api";
   static const String MQTT_PREFIX = "/mqtt";
 

@@ -176,7 +176,8 @@ class _StartRiding extends State<StartRiding> {
                 Container(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Text(
-                    AppLocalizations.of(context).startRidingDescription(ridePrice),
+                    AppLocalizations.of(context)
+                        .startRidingDescription(ridePrice),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color(0xff666666),
@@ -240,6 +241,10 @@ class _StartRiding extends State<StartRiding> {
                 AppProvider.of(context).setPriceModel(selectedPrice);
                 UserModel currentUser = AppProvider.of(context).currentUser;
                 double balance = currentUser.balance;
+                
+                bool isReservation = widget.data['isReservation'] == null
+                    ? false
+                    : widget.data['isReservation'];
                 if (balance >= 1) {
                   currentUser.balance = balance - 1;
 
@@ -252,9 +257,13 @@ class _StartRiding extends State<StartRiding> {
                       });
                       AppProvider.of(context).setCurrentUser(currentUser);
                       HelperUtility.goPageReplace(
-                          context: context,
-                          routeName: Routes.TERMS_OF_SERVICE,
-                          arg: {"viaPayment": true});
+                        context: context,
+                        routeName: Routes.TERMS_OF_SERVICE,
+                        arg: {
+                          "viaPayment": true,
+                          "isReservation": isReservation
+                        },
+                      );
                     });
                     // HelperUtility.goPage(
                     //     context: context,
@@ -276,18 +285,21 @@ class _StartRiding extends State<StartRiding> {
                   });
 
                   HelperUtility.goPage(
-                      context: context,
-                      routeName: Routes.PAYMENT_METHODS,
-                      arg: {
-                        "isStart": true,
-                        "deposit": false,
-                        "isMore": false,
-                      });
+                    context: context,
+                    routeName: Routes.PAYMENT_METHODS,
+                    arg: {
+                      "isStart": true,
+                      "deposit": false,
+                      "isMore": false,
+                      "isReservation": isReservation
+                    },
+                  );
                   // Alert.showMessage(
                   //     type: TypeAlert.error,
                   //     title: AppLocalizations.of(context).error,
                   //     message: Messages.INSUFFICIENT_BALANCE);
                 }
+
                 // if (widget.data['isMore'] ?? false) {
                 //   final time = await Navigator.of(context).push(
                 //     MaterialPageRoute(

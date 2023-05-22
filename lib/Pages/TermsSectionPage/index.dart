@@ -94,8 +94,15 @@ class _TermsSectionPage extends State<TermsSectionPage> {
           onNext: () {
             if (i == lists.length - 1) {
               if (widget.data["viaPayment"] == true) {
-                HelperUtility.goPage(
-                    context: context, routeName: Routes.RIDE_HOME);
+                print(widget.data["isReservation"]);
+                HelperUtility.goPageReplace(
+                  context: context,
+                  routeName: Routes.RIDE_HOME,
+                  arg: {
+                    "viaPayment": true,
+                    "isReservation": widget.data["isReservation"],
+                  },
+                );
               } else {
                 print("here is false part");
                 // Alert.showMessage(
@@ -188,7 +195,8 @@ class _TermsSectionPage extends State<TermsSectionPage> {
         backgroundColor: Colors.white,
         body: isLoading
             ? Center(
-                child: CircularProgressIndicator(color: ColorConstants.cPrimaryBtnColor),
+                child: CircularProgressIndicator(
+                    color: ColorConstants.cPrimaryBtnColor),
               )
             : _buildBody(),
       ),

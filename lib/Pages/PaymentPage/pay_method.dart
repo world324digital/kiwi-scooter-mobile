@@ -169,7 +169,9 @@ class _PayMethod extends State<PayMethod> {
           isLoading = false;
         });
         Alert.showMessage(
-            type: TypeAlert.error, title: AppLocalizations.of(context).error, message: e.toString());
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: e.toString());
       }
     } else if (widget.data["isStart"]) {
       // setState(() {
@@ -179,8 +181,11 @@ class _PayMethod extends State<PayMethod> {
       try {
         UserModel currentUser = AppProvider.of(context).currentUser;
         double user_balance = currentUser.balance;
-        String rest_amount =
-            (double.parse(amount) - user_balance).toStringAsFixed(2);
+        String rest_amount = (double.parse(amount)).toStringAsFixed(2);
+        if (user_balance >= 0) {
+          rest_amount =
+              (double.parse(amount) - user_balance).toStringAsFixed(2);
+        }
         var res = await HttpService().cardPay(
             holderName: card.cardName,
             cardNumber: card.cardNumber,
@@ -206,7 +211,7 @@ class _PayMethod extends State<PayMethod> {
           // Card Informatin Save
 
           card.id = currentUser.id;
-          currentUser.balance = 0.0;
+          // currentUser.balance = 0.0;
           currentUser.card = card;
 
           FirebaseService service = FirebaseService();
@@ -215,7 +220,6 @@ class _PayMethod extends State<PayMethod> {
             // setState(() {
             //   isUnlocking = false;
             // });
-
             // ========== Calculate Ride Time ===========
             PriceModel _priceModel = AppProvider.of(context).selectedPrice!;
             // int _time = (_priceModel.totalCost / _priceModel.cost).toInt() * 60;
@@ -226,9 +230,13 @@ class _PayMethod extends State<PayMethod> {
               Future.delayed(const Duration(milliseconds: 200), () {
                 AppProvider.of(context).setCurrentUser(currentUser);
                 HelperUtility.goPageReplace(
-                    context: context,
-                    routeName: Routes.TERMS_OF_SERVICE,
-                    arg: {"viaPayment": true});
+                  context: context,
+                  routeName: Routes.TERMS_OF_SERVICE,
+                  arg: {
+                    "viaPayment": true,
+                    "isReservation": widget.data["isReservation"],
+                  },
+                );
               });
             }
           } else {
@@ -271,7 +279,9 @@ class _PayMethod extends State<PayMethod> {
             isUnlocking = false;
           });
         Alert.showMessage(
-            type: TypeAlert.error, title: AppLocalizations.of(context).error, message: e.toString());
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: e.toString());
       }
     }
   }
@@ -335,7 +345,9 @@ class _PayMethod extends State<PayMethod> {
         message = error.code == "Canceled" ? error.message.toString() : message;
       }
       Alert.showMessage(
-          type: TypeAlert.error, title: AppLocalizations.of(context).error, message: message);
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: message);
     }
   }
 
@@ -393,7 +405,9 @@ class _PayMethod extends State<PayMethod> {
         message = error.code == "Canceled" ? error.message.toString() : message;
       }
       Alert.showMessage(
-          type: TypeAlert.error, title: AppLocalizations.of(context).error, message: message);
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: message);
     }
   }
 

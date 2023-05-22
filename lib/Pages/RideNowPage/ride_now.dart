@@ -38,6 +38,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RideNow extends StatefulWidget {
+  // const RideNow({Key? key, required this.data}) : super(key: key);
   RideNow({Key? key, this.data}) : super(key: key);
   dynamic data;
   @override
@@ -106,13 +107,14 @@ class _RideNowState extends State<RideNow>
     super.initState();
     getGeofencing();
     WidgetsBinding.instance.addObserver(this);
-    debugPrint('asdsfsdf : $isLoading');
-    if (widget.data != null) {
-      recoveryData();
-    } else {
-      isLoading = false;
-      // _totalRidetime = getDuraion();
-    }
+    debugPrint('debug print : $isLoading');
+    // if (widget.data != null) {
+    //   recoveryData();
+    // } else {
+    //   isLoading = false;
+    //   // _totalRidetime = getDuraion();
+    // }
+    isLoading = false;
 
     _mapController = MapController();
     _toggleServiceStatusStream();
@@ -121,7 +123,7 @@ class _RideNowState extends State<RideNow>
     // notificationService = NotificationService();
     // listenToNotificationStream();
     // notificationService.initSetUp();
-    if (widget.data == null)
+    // if (widget.data == null)
       Future.delayed(const Duration(seconds: 0), () async {
         showRidingDialog();
       });
@@ -489,7 +491,7 @@ class _RideNowState extends State<RideNow>
       setState(() {
         inProgress = false;
       });
-      _timer?.cancel();
+      // _timer?.cancel();
 
       // Cancel All Notification
       // notificationService.cancelAllNotification();
@@ -502,7 +504,7 @@ class _RideNowState extends State<RideNow>
       setState(() {
         inProgress = true;
       });
-      startTimer();
+      // startTimer();
 
       // Cancel All Notification
       // notificationService.cancelAllNotification();
@@ -756,8 +758,10 @@ class _RideNowState extends State<RideNow>
                   (currentUser.balance - riding_price).toStringAsFixed(2));
               isPaidBalance = true;
             } else {
-              String rest_amount =
-                  (riding_price - user_balance).toStringAsFixed(2);
+              String rest_amount = (riding_price).toStringAsFixed(2);
+              if (user_balance >= 0) {
+                rest_amount = (riding_price - user_balance).toStringAsFixed(2);
+              }
               CardModel card = currentUser.card!;
               res = await HttpService().cardPay(
                   holderName: card.cardName,
@@ -1038,7 +1042,7 @@ class _RideNowState extends State<RideNow>
             onTap: () async {
               isNoRideDialogOpen = false;
 
-              _timer?.cancel();
+              // _timer?.cancel();
               await onPause();
               return Navigator.of(context).pop();
             });
@@ -1120,7 +1124,6 @@ class _RideNowState extends State<RideNow>
    * @Desc: Start Riding
    */
   Future<void> startRiding() async {
-    print(AppProvider.of(context).imei);
     bool result = await service.updateInUseStatus(
         imei: AppProvider.of(context).imei, useStatus: 'taken');
     if (result) {
@@ -1140,12 +1143,20 @@ class _RideNowState extends State<RideNow>
       //   value: DateTime.now().millisecondsSinceEpoch + _totalRidetime * 1000,
       //   type: StorableDataType.INT,
       // );
-      await changeLock(true, () {
-        _isLock = false;
-      });
+      bool isReservation = widget.data["isReservation"];
+      if (isReservation) {
+        setState(() {
+          inProgress = false;
+        });
+      } else {
+        await changeLock(true, () {
+          _isLock = false;
+        });
+      }
       await changeLightStatus(false);
       isLightOn = false;
       startTimer();
+
       // });
     } else {
       await unableAlert(

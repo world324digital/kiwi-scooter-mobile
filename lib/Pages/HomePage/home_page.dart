@@ -9,7 +9,6 @@ import 'package:KiwiCity/Pages/App/app_provider.dart';
 import 'package:KiwiCity/Pages/MenuPage/main_menu.dart';
 import 'package:KiwiCity/Routes/routes.dart';
 import 'package:KiwiCity/Widgets/CachedNetworkTileProvider.dart';
-import 'package:KiwiCity/Widgets/batteryBar.dart';
 import 'package:KiwiCity/Widgets/primaryButton.dart';
 import 'package:KiwiCity/Widgets/toast.dart';
 import 'package:KiwiCity/Widgets/unableAlert.dart';
@@ -336,13 +335,16 @@ class _HomePageState extends State<HomePage>
                 print("DISTANCE::::::::::\r\n");
                 print(distance);
 
+                AppProvider.of(context).setScooterID(scooter.scooterID);
+                AppProvider.of(context).setScooterImei(scooter.imei);
+
                 if (distance > 1000) {
                   reservePossibility = 0;
                   // await unableAlert(
                   //   context: context,
                   //   message: AppLocalizations.of(context).errorUnableFarAway,
                   // );
-                  // return;z
+                  // return;
                 } else {
                   reservePossibility = 1;
                   setState(() {
@@ -556,525 +558,384 @@ class _HomePageState extends State<HomePage>
    * @Date: 2023.04.03
    * @Desc: Show Bottom Sheet for Scooter Detail
    */
+
   void showScooterDetailModal() {
-    showModalBottomSheet(
+    showModalBottomSheet<dynamic>(
       context: context,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.05),
       elevation: 0,
-      constraints: BoxConstraints(
-          minHeight: HelperUtility.screenHeight(context),
-          maxHeight: HelperUtility.screenHeight(context)),
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              width: HelperUtility.screenWidth(context),
-              margin: EdgeInsets.only(left: 12, right: 10, bottom: 10),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: InkWell(
-                  onTap: () => moveToUserLocation(),
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/zoomimg.png',
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.64,
+          child: Center(
+            child: Column(
+              children: [
+                Container(
+                  width: HelperUtility.screenWidth(context),
+                  margin: EdgeInsets.only(left: 12, right: 10, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: () => moveToUserLocation(),
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/zoomimg.png',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-
-            // ========= SCOOTER DETAIL PART ===============
-            Container(
-              margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3), // changes position of shadow
+                // ========= SCOOTER DETAIL PART ===============
+                Container(
+                  margin:
+                      const EdgeInsets.only(bottom: 15, left: 15, right: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Gray Dot
-                  Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: const Color(0xffEEEEEE),
-                            borderRadius: BorderRadius.circular(5)),
-                        width: 40,
-                        height: 4,
-                      )
-                    ],
-                  ),
-
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // ======= SCOOTER IMAGE ==========
-                        Container(
-                          // height: 100,
-                          // width: 100,
-                          child: Image.asset(
-                            'assets/images/clearbike.png',
-                            // height: 100,
-                            // width: 100,
-                          ),
-                        ),
-
-                        // ========= SCOOTER INFORMATION ===========
-                        Container(
-                          margin: const EdgeInsets.only(left: 15),
-                          width: ScreenUtil().screenWidth * 0.55,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              MyFont.text(
-                                // _selectedScooter.g,
-                                AppLocalizations.of(context).kiwiScooterLabel,
-                                color: ColorConstants.cPrimaryTitleColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                lineHeight: 1.25,
-                                fontFamily: FontStyles.fBold,
-                              ),
-                              Container(
-                                width: ScreenUtil().screenWidth * 0.6,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                child: MyFont.text(
-                                  "#${_selectedScooter.scooterID}",
-                                  color: ColorConstants.cTxtColor2,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w300,
-                                  fontFamily: FontStyles.fLight,
-                                ),
-                              ),
-                              Row(children: [
-                                Image.asset(
-                                  ((_selectedScooter.soc > 65)
-                                      ? ImageConstants.HIGH_BATTERY
-                                      : (_selectedScooter.soc > 35)
-                                          ? ImageConstants.MIDDLE_BATTERY
-                                          : ImageConstants.LOW_BATTERY),
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                MyFont.text(
-                                  " ${_selectedScooter.soc.toString()}%",
-                                  color: ColorConstants.cPrimaryTitleColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: FontStyles.fLight,
-                                )
-                              ]),
-                              SizedBox(height: 20),
-                              Row(
-                                children: [
-                                  //======= RING BUTTON =========
-                                  GestureDetector(
-                                    onTap: () async {
-                                      await sendRing();
-                                    },
-                                    child: Container(
-                                      width: 120,
-                                      height: 40,
-                                      padding: const EdgeInsets.symmetric(
-                                        // horizontal: 10,
-                                        vertical: 8,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: Color(0xffB5B5B5),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Image.asset('assets/images/bell.png'),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              AppLocalizations.of(context)
-                                                  .ring,
-                                              style: TextStyle(
-                                                color:
-                                                    ColorConstants.cTxtColor2,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily:
-                                                    FontStyles.fSemiBold,
-                                                height: 1.42,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-
-                                  // ========== ALERT BUTTON ===========
-                                  // InkWell(
-                                  //   onTap: () {
-                                  //     showModalBottomSheet<String>(
-                                  //       backgroundColor: Colors.transparent,
-                                  //       context: context,
-                                  //       builder: (BuildContext context) =>
-                                  //           Dialog(
-                                  //         backgroundColor: Colors.transparent,
-                                  //         alignment: Alignment.bottomCenter,
-                                  //         elevation: 0,
-                                  //         insetPadding: EdgeInsets.zero,
-                                  //         child: Container(
-                                  //           width: ScreenUtil().screenWidth,
-                                  //           height:
-                                  //               ScreenUtil().screenHeight * 0.4,
-                                  //           child: Column(
-                                  //             mainAxisAlignment:
-                                  //                 MainAxisAlignment.end,
-                                  //             children: [
-                                  //               Container(
-                                  //                 margin: EdgeInsets.only(
-                                  //                     left: 15,
-                                  //                     right: 15,
-                                  //                     bottom: 20),
-                                  //                 padding: EdgeInsets.fromLTRB(
-                                  //                     20, 25, 20, 0),
-                                  //                 decoration: BoxDecoration(
-                                  //                   color: Colors.white,
-                                  //                   borderRadius:
-                                  //                       BorderRadius.circular(
-                                  //                     24,
-                                  //                   ),
-                                  //                 ),
-                                  //                 child: Column(
-                                  //                   children: [
-                                  //                     Container(
-                                  //                       width: ScreenUtil()
-                                  //                           .screenWidth,
-                                  //                       padding:
-                                  //                           const EdgeInsets
-                                  //                                   .only(
-                                  //                               bottom: 20),
-                                  //                       child: MyFont.text(
-                                  //                         'Report Scooter',
-                                  //                         fontSize: 20,
-                                  //                         fontWeight:
-                                  //                             FontWeight.w600,
-                                  //                       ),
-                                  //                     ),
-                                  //                     Form(
-                                  //                       key: formKey,
-                                  //                       child: Container(
-                                  //                         width:
-                                  //                             double.infinity,
-                                  //                         // height: 500,
-                                  //                         padding:
-                                  //                             const EdgeInsets
-                                  //                                     .only(
-                                  //                                 bottom: 10),
-                                  //                         child: TextFormField(
-                                  //                           validator: (value) {
-                                  //                             if (value ==
-                                  //                                     null ||
-                                  //                                 value
-                                  //                                     .isEmpty) {
-                                  //                               return 'Please enter some text';
-                                  //                             }
-                                  //                             return null;
-                                  //                           },
-                                  //                           controller:
-                                  //                               reportTxtCtl,
-                                  //                           decoration:
-                                  //                               InputDecoration(
-                                  //                             hintStyle: TextStyle(
-                                  //                                 color: ColorConstants
-                                  //                                     .cPrimaryTitleColor,
-                                  //                                 fontSize: 14,
-                                  //                                 fontWeight:
-                                  //                                     FontWeight
-                                  //                                         .w400,
-                                  //                                 height: 1.42,
-                                  //                                 fontFamily:
-                                  //                                     FontStyles
-                                  //                                         .fMedium),
-                                  //                             hintText:
-                                  //                                 'Please tell us what\'s wrong',
-                                  //                             border: OutlineInputBorder(
-                                  //                                 borderSide: BorderSide(
-                                  //                                     color: Colors
-                                  //                                         .black),
-                                  //                                 borderRadius:
-                                  //                                     BorderRadius
-                                  //                                         .circular(
-                                  //                                             15.0)),
-                                  //                           ),
-                                  //                           autocorrect: false,
-                                  //                           keyboardType:
-                                  //                               TextInputType
-                                  //                                   .name,
-                                  //                           textInputAction:
-                                  //                               TextInputAction
-                                  //                                   .next,
-                                  //                           onChanged: (text) {
-                                  //                             setState(() {
-                                  //                               _reportText =
-                                  //                                   text;
-                                  //                               isReportError = !formKey
-                                  //                                   .currentState!
-                                  //                                   .validate();
-                                  //                             });
-                                  //                           },
-                                  //                         ),
-                                  //                       ),
-                                  //                     ),
-                                  //                     PrimaryButton(
-                                  //                       margin: const EdgeInsets
-                                  //                               .only(
-                                  //                           left: 0,
-                                  //                           right: 0,
-                                  //                           bottom: 20),
-                                  //                       width: double.infinity,
-                                  //                       horizontalPadding: 0,
-                                  //                       context: context,
-                                  //                       onTap: () async {
-                                  //                         if (formKey
-                                  //                             .currentState!
-                                  //                             .validate()) {
-                                  //                           // If the form is valid, display a snackbar. In the real world,
-                                  //                           // you'd often call a server or save the information in a database.
-                                  //                           // ScaffoldMessenger.of(context)
-                                  //                           //     .showSnackBar(
-                                  //                           //   const SnackBar(
-                                  //                           //       content: Text(
-                                  //                           //           'Processing Data')),
-                                  //                           // );
-                                  //                           Navigator.pop(
-                                  //                               context, 'OK');
-                                  //                           await sendReportEmail(
-                                  //                               _selectedScooterID,
-                                  //                               // _selectedScooterImei,
-                                  //                               reportTxtCtl
-                                  //                                   .text);
-                                  //                         }
-                                  //                       },
-                                  //                       title: "Send Report",
-                                  //                     ),
-                                  //                   ],
-                                  //                 ),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //     );
-                                  //   },
-                                  //   child: Container(
-                                  //     width: 48,
-                                  //     height: 40,
-                                  //     margin: const EdgeInsets.only(left: 10),
-                                  //     padding: const EdgeInsets.only(
-                                  //         top: 8, right: 10, bottom: 8),
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(12),
-                                  //       border: Border.all(
-                                  //         color: Color(0xffFF7A75),
-                                  //       ),
-                                  //     ),
-                                  //     child: Row(
-                                  //       mainAxisAlignment:
-                                  //           MainAxisAlignment.center,
-                                  //       crossAxisAlignment:
-                                  //           CrossAxisAlignment.center,
-                                  //       children: [
-                                  //         Container(
-                                  //           margin:
-                                  //               const EdgeInsets.only(left: 10),
-                                  //           child: Image.asset(
-                                  //               'assets/images/warning.png'),
-                                  //         ),
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // ========= PAYMENT PART =============
-            Container(
-              padding: const EdgeInsets.only(
-                  // top: 15,
-                  bottom: 25,
-                  left: 15,
-                  right: 15),
-              color: Colors.white,
-              child: Column(
-                children: [
-                  // ------ Price Description Row ---------
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15,
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      decoration: BoxDecoration(
-                        color: ColorConstants.cPrimaryShadowColor,
-                        borderRadius: BorderRadius.circular(16.0),
-                        border: Border.all(
-                          color: ColorConstants.cPrimaryShadowColor,
-                        ),
-                      ),
-                      child: Row(
+                      // Gray Dot
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Container(
-                          //     child:
-                          //         Image.asset('assets/images/exclamation.png')),
-                          RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: '\€${startPrice} ',
-                                    style: TextStyle(
-                                      color: ColorConstants.cPrimaryTitleColor,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: FontStyles.fSemiBold,
-                                      height: 1.67,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: AppLocalizations.of(context)
-                                        .ridingNote1,
-                                    style: TextStyle(
-                                      color: ColorConstants.cTxtColor2,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: FontStyles.fLight,
-                                      letterSpacing: 0.16,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: '\€${ridePrice} ',
-                                    style: TextStyle(
-                                      color: ColorConstants.cPrimaryTitleColor,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: FontStyles.fSemiBold,
-                                      height: 1.67,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: AppLocalizations.of(context)
-                                        .ridingNote2,
-                                    style: TextStyle(
-                                      color: ColorConstants.cTxtColor2,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: FontStyles.fLight,
-                                      letterSpacing: 0.16,
-                                    ),
-                                  ),
-                                ],
-                              )),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: const Color(0xffEEEEEE),
+                                borderRadius: BorderRadius.circular(5)),
+                            width: 40,
+                            height: 4,
+                          )
                         ],
                       ),
-                    ),
-                  ),
-                  PrimaryButton(
-                    horizontalPadding: 0,
-                    context: context,
-                    // margin: EdgeInsets.only(bottom: 20),
-                    onTap: () async {
-                      if (reservePossibility == 1) {
-                        var user = FirebaseAuth.instance.currentUser;
-                        if (user != null) {
-                          // ====== If logined, go to payment page ====
-                          bool granted = await PM.Permission.camera.isGranted;
 
-                          print(granted);
-                          if (granted) {
-                            HelperUtility.goPage(
-                              context: context,
-                              routeName: Routes.QR_SCAN,
-                            );
-                          } else {
-                            HelperUtility.goPage(
-                                context: context,
-                                routeName: Routes.ALLOW_CAMERA);
-                          }
-                        } else {
-                          // ====== else go to login page
-                          HelperUtility.goPage(
-                              context: context, routeName: Routes.LOGIN);
-                        }
-                      } else {
-                        await unableAlert(
-                          context: context,
-                          message:
-                              AppLocalizations.of(context).errorUnableFarAway,
-                        );
-                      }
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const QRViewExample()),
-                      // );
-                    },
-                    title: AppLocalizations.of(context).rideNow,
-                    icon: Container(
-                      child: Image.asset(
-                        'assets/images/ridenowbike.png',
-                        width: 30,
-                        height: 30,
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: 20,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // ======= SCOOTER IMAGE ==========
+                            Container(
+                              // height: 100,
+                              // width: 100,
+                              child: Image.asset(
+                                'assets/images/clearbike.png',
+                                // height: 100,
+                                // width: 100,
+                              ),
+                            ),
+
+                            // ========= SCOOTER INFORMATION ===========
+                            Container(
+                              margin: const EdgeInsets.only(left: 15),
+                              width: ScreenUtil().screenWidth * 0.55,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MyFont.text(
+                                    // _selectedScooter.g,
+                                    AppLocalizations.of(context)
+                                        .kiwiScooterLabel,
+                                    color: ColorConstants.cPrimaryTitleColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    lineHeight: 1.25,
+                                    fontFamily: FontStyles.fBold,
+                                  ),
+                                  Container(
+                                    width: ScreenUtil().screenWidth * 0.6,
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: MyFont.text(
+                                      "#${_selectedScooter.scooterID}",
+                                      color: ColorConstants.cTxtColor2,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: FontStyles.fLight,
+                                    ),
+                                  ),
+                                  Row(children: [
+                                    Image.asset(
+                                      ((_selectedScooter.soc > 65)
+                                          ? ImageConstants.HIGH_BATTERY
+                                          : (_selectedScooter.soc > 35)
+                                              ? ImageConstants.MIDDLE_BATTERY
+                                              : ImageConstants.LOW_BATTERY),
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    MyFont.text(
+                                      " ${_selectedScooter.soc.toString()}%",
+                                      color: ColorConstants.cPrimaryTitleColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: FontStyles.fLight,
+                                    )
+                                  ]),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      //======= RING BUTTON =========
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await sendRing();
+                                        },
+                                        child: Container(
+                                          width: 120,
+                                          height: 40,
+                                          padding: const EdgeInsets.symmetric(
+                                            // horizontal: 10,
+                                            vertical: 8,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                              color: Color(0xffB5B5B5),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                  'assets/images/bell.png'),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    left: 10),
+                                                child: Text(
+                                                  AppLocalizations.of(context)
+                                                      .ring,
+                                                  style: TextStyle(
+                                                    color: ColorConstants
+                                                        .cTxtColor2,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily:
+                                                        FontStyles.fSemiBold,
+                                                    height: 1.42,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
+                    ],
+                  ),
+                ),
+
+                // ========= PAYMENT PART =============
+                Container(
+                  padding: const EdgeInsets.only(
+                    // top: 15,
+                    bottom: 25,
+                    left: 15,
+                    right: 15,
+                  ),
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      // ------ Price Description Row ---------
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 15,
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          decoration: BoxDecoration(
+                            color: ColorConstants.cPrimaryShadowColor,
+                            borderRadius: BorderRadius.circular(16.0),
+                            border: Border.all(
+                              color: ColorConstants.cPrimaryShadowColor,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // Container(
+                              //     child:
+                              //         Image.asset('assets/images/exclamation.png')),
+                              RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: '\€${startPrice} ',
+                                      style: TextStyle(
+                                        color:
+                                            ColorConstants.cPrimaryTitleColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: FontStyles.fSemiBold,
+                                        height: 1.67,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: AppLocalizations.of(context)
+                                          .ridingNote1,
+                                      style: TextStyle(
+                                        color: ColorConstants.cTxtColor2,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: FontStyles.fLight,
+                                        letterSpacing: 0.16,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '\€${ridePrice} ',
+                                      style: TextStyle(
+                                        color:
+                                            ColorConstants.cPrimaryTitleColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: FontStyles.fSemiBold,
+                                        height: 1.67,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: AppLocalizations.of(context)
+                                          .ridingNote2,
+                                      style: TextStyle(
+                                        color: ColorConstants.cTxtColor2,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: FontStyles.fLight,
+                                        letterSpacing: 0.16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      PrimaryButton(
+                        horizontalPadding: 0,
+                        context: context,
+                        // margin: EdgeInsets.only(bottom: 20),
+                        onTap: () async {
+                          if (reservePossibility == 1) {
+                            var user = FirebaseAuth.instance.currentUser;
+                            if (user != null) {
+                              // ====== If logined, go to payment page ====
+                              bool granted =
+                                  await PM.Permission.camera.isGranted;
+
+                              print(granted);
+                              if (granted) {
+                                HelperUtility.goPage(
+                                  context: context,
+                                  routeName: Routes.QR_SCAN,
+                                );
+                              } else {
+                                HelperUtility.goPage(
+                                    context: context,
+                                    routeName: Routes.ALLOW_CAMERA);
+                              }
+                            } else {
+                              // ====== else go to login page
+                              HelperUtility.goPage(
+                                  context: context, routeName: Routes.LOGIN);
+                            }
+                          } else {
+                            await unableAlert(
+                              context: context,
+                              message: AppLocalizations.of(context)
+                                  .errorUnableFarAway,
+                            );
+                          }
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => const QRViewExample()),
+                          // );
+                        },
+                        title: AppLocalizations.of(context).rideNow,
+                        icon: Container(
+                          child: Image.asset(
+                            'assets/images/ridenowbike.png',
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      ),
+                      PrimaryButton(
+                        horizontalPadding: 0,
+                        context: context,
+                        // margin: EdgeInsets.only(bottom: 20),
+                        onTap: () async {
+                          if (reservePossibility == 1) {
+                            var user = FirebaseAuth.instance.currentUser;
+                            if (user != null) {
+                              HelperUtility.goPage(
+                                context: context,
+                                routeName: Routes.START_RIDING,
+                                arg: {
+                                  "isReservation": true,
+                                },
+                              );
+                            } else {
+                              // ====== else go to login page
+                              HelperUtility.goPage(
+                                  context: context, routeName: Routes.LOGIN);
+                            }
+                          } else {
+                            await unableAlert(
+                              context: context,
+                              message: AppLocalizations.of(context)
+                                  .errorUnableFarAway,
+                            );
+                          }
+                        },
+                        title: AppLocalizations.of(context).reservation,
+                        icon: Icon(
+                          Icons.app_registration_rounded,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     ).whenComplete(() {
@@ -1936,16 +1797,6 @@ class _HomePageState extends State<HomePage>
           .difference(DateTime.now());
 
       final timerDuration = diff.inSeconds;
-
-      // Its 2:45 AM here. I am really sleepy...
-      // Okay, I will go to sleep.
-      // Hopefully you will be able to figure the rest
-      // Bye bye
-      //So  can 't you resolve it?
-      // I have implemented the logic to see if the ride is in progress
-      // Just set the variables,
-      // hello, tha main problem is not set in progress variable. The main proble is...
-      //Anyway,  I think you need to r that
     }
   }
 }

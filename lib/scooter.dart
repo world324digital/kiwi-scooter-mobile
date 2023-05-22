@@ -596,7 +596,7 @@ class _ScotterState extends State<Scotter> {
                       width: 30,
                       height: 30,
                     )),
-                    label: const Text('Ride Now dfds',
+                    label: const Text('Ride Now',
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.white,
