@@ -11,7 +11,7 @@
           "type": "PAYMENT_GATEWAY",
           "parameters": {
             "gateway": "example",
-            "gatewayMerchantId": "BCR2DN4TYTP6RZAC"
+            "gatewayMerchantId": "BCR2DN4TZLD733BD"
           }
         },
         "parameters": {
@@ -26,12 +26,12 @@
       }
     ],
     "merchantInfo": {
-      "merchantId": "BCR2DN4TYTP6RZAC",
-      "merchantName": "Ride Move"
+      "merchantId": "BCR2DN4TZLD733BD",
+      "merchantName": "Kiwi City"
     },
     "transactionInfo": {
-      "countryCode": "US",
-      "currencyCode": "USD"
+      "countryCode": "LV",
+      "currencyCode": "EUR"
     }
   }
 }

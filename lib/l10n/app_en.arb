@@ -192,5 +192,9 @@
     "updateAccount": "Update Account",
     "scanToRide": "Scan to ride",
     "language": "Language",
-    "okay": "Okay"
+    "okay": "Okay",
+    "googlePayError": "There was an error while trying to perform the payment",
+    "googlePayUnavailable": "Google Pay is not available in this device",
+    "applePaySuccess": "Apple pay Success!",
+    "googlePaySuccess": "Google Pay payment succesfully completed"
 }

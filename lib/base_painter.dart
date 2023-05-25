@@ -23,7 +23,6 @@ abstract class BasePainter extends CustomPainter {
     double distance = width + space;
     double radius = width / 2;
     for (int? i = 0, c = widget.count; i! < c!; ++i) {
-      print(page);
       if (i > page) {
         canvas.drawRRect(
             RRect.fromRectAndRadius(

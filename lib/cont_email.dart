@@ -229,23 +229,6 @@ class _ContEmail extends State<ContEmail> {
                 service
                     .signInWithEmail(email: _email, password: _password)
                     .then((result) {
-                  print(result);
-                  // if(val)
-                  // if (result == 'VERIFIED') {
-                  //   // ignore: use_build_context_synchronously
-                  //   // ignore: use_build_context_synchronously
-                  //       print('verified');
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(builder: (context) => QRViewExample()),
-                  //       );
-                  //   } else if (result == 'NOT_VERIFIED') {
-                  //     print('Not verified');
-                  //     // ignore: use_build_context_synchronously
-                  //     showMessage(context,
-                  //         'You are not verified yet. Please check your email.',
-                  //         title: 'Info');
-                  //   }
                   if (result == 'USER_NOT_FOUND') {
                     print('user_not_found');
                     // ignore: use_build_context_synchronously

@@ -192,5 +192,9 @@
     "updateAccount": "Atjaunināt kontu",
     "scanToRide": "Skenēt, lai brauktu",
     "language": "Valoda",
-    "okay": "Labi"
+    "okay": "Labi",
+    "googlePayError": "Mēģinot veikt maksājumu, radās kļūda",
+    "googlePayUnavailable": "Google Pay nav pieejams šajā ierīcē",
+    "applePaySuccess": "Apple maksā panākumus!",
+    "googlePaySuccess": "Google Pay maksājums veiksmīgi pabeigts"
 }

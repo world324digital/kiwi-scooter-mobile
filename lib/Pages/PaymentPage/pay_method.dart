@@ -187,12 +187,13 @@ class _PayMethod extends State<PayMethod> {
               (double.parse(amount) - user_balance).toStringAsFixed(2);
         }
         var res = await HttpService().cardPay(
-            holderName: card.cardName,
-            cardNumber: card.cardNumber,
-            expiredMonth: card.expMonth,
-            expiredYear: card.expYear,
-            cvv: card.cvv,
-            amount: rest_amount);
+          holderName: card.cardName,
+          cardNumber: card.cardNumber,
+          expiredMonth: card.expMonth,
+          expiredYear: card.expYear,
+          cvv: card.cvv,
+          amount: rest_amount,
+        );
         // amount: "0");
         print("Stripe Result :::::::::::::>");
         print(res);
@@ -307,11 +308,12 @@ class _PayMethod extends State<PayMethod> {
         params: FlutterStripe.ApplePayPresentParams(
           cartItems: [
             FlutterStripe.ApplePayCartSummaryItem.immediate(
-                label: 'Kiwi City',
-                amount:
-                    // AppProvider.of(context).selectedPrice!.totalCost.toString(),
-                    // "0",
-                    rest_amount),
+              label: 'Kiwi City',
+              amount:
+                  // AppProvider.of(context).selectedPrice!.totalCost.toString(),
+                  // "0",
+                  rest_amount,
+            ),
           ],
           requiredShippingAddressFields: [],
           shippingMethods: [],
@@ -333,13 +335,13 @@ class _PayMethod extends State<PayMethod> {
         Alert.showMessage(
           type: TypeAlert.success,
           title: AppLocalizations.of(context).success,
-          message: "Apple pay Success!",
+          message: AppLocalizations.of(context).applePaySuccess,
         );
         await payWithAppleGoogle();
       } else {}
     } catch (e) {
       print(e);
-      String message = "Something Went Wrong. Please retry!";
+      String message = AppLocalizations.of(context).errorMsg;
       if (e is PlatformException) {
         PlatformException error = e as PlatformException;
         message = error.code == "Canceled" ? error.message.toString() : message;
@@ -362,7 +364,7 @@ class _PayMethod extends State<PayMethod> {
       HelperUtility.showProgressDialog(
         context: context,
         key: _keyLoader,
-        title: " Please wait...",
+        title: AppLocalizations.of(context).wait,
         // title: inProgress ? "Pause..." : "Resume...",
       );
       if (response['result']) {
@@ -385,21 +387,23 @@ class _PayMethod extends State<PayMethod> {
         );
         HelperUtility.closeProgressDialog(_keyLoader);
         Alert.showMessage(
-            type: TypeAlert.success,
-            title: AppLocalizations.of(context).success,
-            message: 'Google Pay payment succesfully completed');
+          type: TypeAlert.success,
+          title: AppLocalizations.of(context).success,
+          message: AppLocalizations.of(context).googlePaySuccess,
+        );
         await payWithAppleGoogle();
       } else {
         HelperUtility.closeProgressDialog(_keyLoader);
         Alert.showMessage(
-            type: TypeAlert.error,
-            title: AppLocalizations.of(context).error,
-            message: 'Something went wrong. Please retry!');
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).errorMsg,
+        );
       }
     } catch (e) {
       HelperUtility.closeProgressDialog(_keyLoader);
 
-      String message = "Something Went Wrong. Please retry!";
+      String message = AppLocalizations.of(context).errorMsg;
       if (e is PlatformException) {
         PlatformException error = e as PlatformException;
         message = error.code == "Canceled" ? error.message.toString() : message;
@@ -448,22 +452,24 @@ class _PayMethod extends State<PayMethod> {
 
     if (Platform.isAndroid) {
       extracard = new CardModel(
-          id: AppProvider.of(context).currentUser.id,
-          cardName: "",
-          cardNumber: "",
-          expMonth: '',
-          expYear: '',
-          cvv: '',
-          cardType: "GooglePay");
+        id: AppProvider.of(context).currentUser.id,
+        cardName: "",
+        cardNumber: "",
+        expMonth: '',
+        expYear: '',
+        cvv: '',
+        cardType: "GooglePay",
+      );
     } else {
       extracard = new CardModel(
-          id: AppProvider.of(context).currentUser.id,
-          cardName: "",
-          cardNumber: "",
-          expMonth: '',
-          expYear: '',
-          cvv: '',
-          cardType: "ApplePay");
+        id: AppProvider.of(context).currentUser.id,
+        cardName: "",
+        cardNumber: "",
+        expMonth: '',
+        expYear: '',
+        cvv: '',
+        cardType: "ApplePay",
+      );
     }
 
     UserModel currentUser = AppProvider.of(context).currentUser;
@@ -545,6 +551,8 @@ class _PayMethod extends State<PayMethod> {
     if (cardType == 'ApplePay' || cardType == 'GooglePay') {
       isExistCard = false;
     }
+
+    // isExistCard = true;
 
     var platform = Theme.of(context).platform;
     var appProvider = AppProvider.of(context);
@@ -1033,65 +1041,104 @@ class _PayMethod extends State<PayMethod> {
       ),
     );
 
-    return isUnlocking
-        ? UnLock(isMore: widget.data['isMore'])
-        : isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                    color: ColorConstants.cPrimaryBtnColor),
-              )
-            : AnnotatedRegion<SystemUiOverlayStyle>(
-                value: SystemUiOverlayStyle(
-                  statusBarColor: Colors.transparent,
-                ),
-                child: Scaffold(
-                  drawer: Drawer(
-                    child: MainMenu(pageIndex: 2),
-                  ),
-                  backgroundColor: Colors.white,
-                  appBar: AppBar(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: const Color(0xffB5B5B5),
-                      ),
-                    ),
-                    title: Text(
-                      AppLocalizations.of(context).paymentMethod,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Montserrat-SemiBold',
-                        fontWeight: FontWeight.w600,
-                        color: ColorConstants.cPrimaryTitleColor,
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-                  body: Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                          children: [
-                            isExistCard ? paySection : Container(),
-                            (isExistCard && !isShowCardSection)
-                                ? Container()
-                                : cardSection,
-                          ],
-                        ),
-                      ),
-                      isExistCard ? plusSection : Container(),
-                      SizedBox(
-                        height: 30,
-                      )
-                    ],
+    // return isUnlocking
+    //     ? UnLock(isMore: widget.data['isMore']):
+    return isLoading
+        ? Center(
+            child: CircularProgressIndicator(
+                color: ColorConstants.cPrimaryBtnColor),
+          )
+        : AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+            ),
+            child: Scaffold(
+              drawer: Drawer(
+                child: MainMenu(pageIndex: 2),
+              ),
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: const Color(0xffB5B5B5),
                   ),
                 ),
-              );
+                title: Text(
+                  AppLocalizations.of(context).paymentMethod,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Montserrat-SemiBold',
+                    fontWeight: FontWeight.w600,
+                    color: ColorConstants.cPrimaryTitleColor,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+              body: Column(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        if (AppProvider.of(context).selectedPrice != null)
+                          // applePayWidget(),
+                          platform == TargetPlatform.iOS
+                              ? ApplePayButtonWidget(
+                                  padding: EdgeInsets.all(16),
+                                  children: [
+                                    FlutterStripe.ApplePayButton(
+                                      onPressed: _handlePayPress,
+                                    )
+                                  ],
+                                )
+                              : pay.GooglePayButton(
+                                  paymentConfigurationAsset:
+                                      'google_pay_live.json',
+                                  paymentItems: getPriceItem(),
+                                  margin: const EdgeInsets.only(
+                                      top: 15, right: 20, left: 20, bottom: 20),
+                                  onPaymentResult: onGooglePayResult,
+                                  loadingIndicator: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  onPressed: () async {
+                                    // 1. Add your stripe publishable key to assets/google_pay_payment_profile.json
+                                    // await debugChangedStripePublishableKey();
+                                  },
+                                  childOnError: Text(
+                                    AppLocalizations.of(context).googlePayError,
+                                  ),
+                                  onError: (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          AppLocalizations.of(context)
+                                              .googlePayUnavailable,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                        isExistCard ? paySection : Container(),
+                        (isExistCard && !isShowCardSection)
+                            ? Container()
+                            : cardSection,
+                      ],
+                    ),
+                  ),
+                  isExistCard ? plusSection : Container(),
+                  SizedBox(
+                    height: 30,
+                  )
+                ],
+              ),
+            ),
+          );
   }
 }

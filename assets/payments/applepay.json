@@ -1,9 +1,9 @@
 {
   "provider": "apple_pay",
   "data": {
-    "merchantIdentifier": "merchant.com.rideisland.move",
+    "merchantIdentifier": "merchant.com.kiwi-city.kiwicity",
 
-    "displayName": "RideMove",
+    "displayName": "KiwiCity",
     "merchantCapabilities": [
       "3DS",
       "debit",
@@ -15,8 +15,8 @@
       "discover",
       "masterCard"
     ],
-    "countryCode": "US",
-    "currencyCode": "USD",
+    "countryCode": "LV",
+    "currencyCode": "EUR",
     "requiredBillingContactFields": [
       "emailAddress",
       "name",
