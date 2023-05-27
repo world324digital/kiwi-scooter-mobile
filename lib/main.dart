@@ -92,7 +92,7 @@ Future<void> changeLightStatus(bool isOn) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // FlutterStripe.Stripe.publishableKey = AppConstants.publishKey;
-  // FlutterStripe.Stripe.merchantIdentifier = 'merchant.com.rideisland.move';
+  // FlutterStripe.Stripe.merchantIdentifier = 'merchant.com.kiwi-city.kiwicity';
   // await FlutterStripe.Stripe.instance.applySettings();
   await Firebase.initializeApp(
     name: "kiwi-city",

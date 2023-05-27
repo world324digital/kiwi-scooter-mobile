@@ -73,8 +73,7 @@ class _PayMethod extends State<PayMethod> {
 
   Future<void> stripeInitialize() async {
     FlutterStripe.Stripe.publishableKey = AppConstants.publishKey;
-    // FlutterStripe.Stripe.merchantIdentifier =
-    //     'merchant.com.ridemoveisland.stripe';
+    FlutterStripe.Stripe.merchantIdentifier = 'merchant.com.kiwi-city.kiwicity';
     await FlutterStripe.Stripe.instance.applySettings();
   }
 
@@ -297,12 +296,18 @@ class _PayMethod extends State<PayMethod> {
         amount = AppProvider.of(context).selectedPrice!.startCost.toString();
         print("For google pay option");
         print(amount);
+      } else if (widget.data["deposit"]) {
+        amount = widget.data["amount"];
       }
 
       UserModel currentUser = AppProvider.of(context).currentUser;
       double user_balance = currentUser.balance;
       String rest_amount =
           (double.parse(amount) - user_balance).toStringAsFixed(2);
+
+      if (widget.data["deposit"]) {
+        rest_amount = amount;
+      }
 
       await FlutterStripe.Stripe.instance.presentApplePay(
         params: FlutterStripe.ApplePayPresentParams(
@@ -331,13 +336,42 @@ class _PayMethod extends State<PayMethod> {
         // 2. Confirm apple pay payment
         await FlutterStripe.Stripe.instance
             .confirmApplePayPayment(clientSecret);
+        bool updateUserResult = false;
+        if (widget.data["deposit"]) {
+          currentUser.balance = double.parse(
+              (currentUser.balance + double.parse(amount)).toStringAsFixed(2));
+          FirebaseService service = FirebaseService();
+          String amount_fixed = double.parse(amount).toStringAsFixed(2);
+          TransactionModel transaction = new TransactionModel(
+            userId: currentUser.id,
+            userName: currentUser.firstName + " " + currentUser.lastName,
+            stripeId: clientSecret ?? "",
+            stripeTxId: "Apple Pay",
+            rideDistance: 0.0,
+            rideTime: 0,
+            amount: double.parse(amount_fixed),
+            txType: "Deposit",
+          );
+          await service.createTransaction(transaction);
+          updateUserResult = await service.updateUser(currentUser);
+        } else if (widget.data["isStart"]) {
+          updateUserResult = true;
+        }
 
-        Alert.showMessage(
-          type: TypeAlert.success,
-          title: AppLocalizations.of(context).success,
-          message: AppLocalizations.of(context).applePaySuccess,
-        );
-        await payWithAppleGoogle();
+        if (updateUserResult) {
+          Alert.showMessage(
+            type: TypeAlert.success,
+            title: AppLocalizations.of(context).success,
+            message: AppLocalizations.of(context).applePaySuccess,
+          );
+          await payWithAppleGoogle();
+        } else {
+          Alert.showMessage(
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).errorMsg,
+          );
+        }
       } else {}
     } catch (e) {
       print(e);
@@ -386,12 +420,51 @@ class _PayMethod extends State<PayMethod> {
           data: params,
         );
         HelperUtility.closeProgressDialog(_keyLoader);
-        Alert.showMessage(
-          type: TypeAlert.success,
-          title: AppLocalizations.of(context).success,
-          message: AppLocalizations.of(context).googlePaySuccess,
-        );
-        await payWithAppleGoogle();
+
+        bool updateUserResult = false;
+        if (widget.data["deposit"]) {
+          UserModel currentUser = AppProvider.of(context).currentUser;
+          String amount = "0";
+          if (widget.data["isStart"]) {
+            amount =
+                AppProvider.of(context).selectedPrice!.startCost.toString();
+          } else if (widget.data["deposit"]) {
+            amount = widget.data["amount"];
+          }
+          currentUser.balance = double.parse(
+              (currentUser.balance + double.parse(amount)).toStringAsFixed(2));
+          FirebaseService service = FirebaseService();
+          String amount_fixed = double.parse(amount).toStringAsFixed(2);
+          TransactionModel transaction = new TransactionModel(
+            userId: currentUser.id,
+            userName: currentUser.firstName + " " + currentUser.lastName,
+            stripeId: response['data']['id'] ?? "",
+            stripeTxId: "Google Pay",
+            rideDistance: 0.0,
+            rideTime: 0,
+            amount: double.parse(amount_fixed),
+            txType: "Deposit",
+          );
+          await service.createTransaction(transaction);
+
+          updateUserResult = await service.updateUser(currentUser);
+        } else if (widget.data["isStart"]) {
+          updateUserResult = true;
+        }
+        if (updateUserResult) {
+          Alert.showMessage(
+            type: TypeAlert.success,
+            title: AppLocalizations.of(context).success,
+            message: AppLocalizations.of(context).googlePaySuccess,
+          );
+          await payWithAppleGoogle();
+        } else {
+          Alert.showMessage(
+            type: TypeAlert.error,
+            title: AppLocalizations.of(context).error,
+            message: AppLocalizations.of(context).errorMsg,
+          );
+        }
       } else {
         HelperUtility.closeProgressDialog(_keyLoader);
         Alert.showMessage(
@@ -430,9 +503,15 @@ class _PayMethod extends State<PayMethod> {
   Future<Map<String, dynamic>> fetchPaymentIntentClientSecret({
     required String paymethod,
   }) async {
+    String amount = "0";
+    if (widget.data["isStart"]) {
+      amount = AppProvider.of(context).selectedPrice!.startCost.toString();
+    } else if (widget.data["deposit"]) {
+      amount = widget.data["amount"];
+    }
     return await HttpService().nativePay(
       // amount: AppProvider.of(context).selectedPrice!.totalCost.toString(),
-      amount: "0",
+      amount: amount,
       email: AppProvider.of(context).currentUser.email,
       paymethod: paymethod,
     );
@@ -476,9 +555,12 @@ class _PayMethod extends State<PayMethod> {
     currentUser.card = extracard;
     AppProvider.of(context).setCurrentUser(currentUser);
 
-    if (widget.data['isMore']) {
-      // Navigator.of(context).pop(_time);
-    } else {
+    if (widget.data['deposit']) {
+      HelperUtility.goPageReplace(
+        context: context,
+        routeName: Routes.WALLET,
+      );
+    } else if (widget.data['isStart']) {
       setState(() {
         isUnlocking = false;
       });
@@ -523,6 +605,8 @@ class _PayMethod extends State<PayMethod> {
       amount = AppProvider.of(context).selectedPrice!.startCost.toString();
       print("For google pay option");
       print(amount);
+    } else if (widget.data["deposit"]) {
+      amount = widget.data["amount"];
     }
 
     UserModel currentUser = AppProvider.of(context).currentUser;
@@ -1086,7 +1170,8 @@ class _PayMethod extends State<PayMethod> {
                   Expanded(
                     child: ListView(
                       children: [
-                        if (AppProvider.of(context).selectedPrice != null)
+                        if (AppProvider.of(context).selectedPrice != null ||
+                            widget.data["deposit"])
                           // applePayWidget(),
                           platform == TargetPlatform.iOS
                               ? ApplePayButtonWidget(
