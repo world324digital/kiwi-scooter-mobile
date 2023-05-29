@@ -77,7 +77,7 @@ class AppConstants {
 }
 
 class URLS {
-  static const String BASE_URL = "http://185.96.163.118:443";
+  static const String BASE_URL = "http://185.96.163.118:8443";
   static const String API_PREFIX = "/api";
   static const String MQTT_PREFIX = "/mqtt";
 
@@ -94,9 +94,9 @@ class URLS {
   static const String TURN_OFF_LIGHTS = "/turnofflights";
 
   static const String TERMS_CONDITION_URL =
-      "https://kiwi-city.com";
-  static const String PRIVACY_URL = "https://kiwi-city.com/privacy-policy.html";
-  static const String SUPPORTT_URL = "http://kiwi-city.com";
+      "https://www.kiwi-city.com/";
+  static const String PRIVACY_URL = "https://www.kiwi-city.com/privacy-policy.html";
+  static const String SUPPORTT_URL = "https://www.kiwi-city.com/";
 }
 
 class TextConstants {

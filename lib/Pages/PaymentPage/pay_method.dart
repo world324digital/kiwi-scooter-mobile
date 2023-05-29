@@ -128,6 +128,9 @@ class _PayMethod extends State<PayMethod> {
           );
           await service.createTransaction(transaction);
 
+          card.id = currentUser.id;
+          currentUser.card = card;
+
           bool updateUserResult = await service.updateUser(currentUser);
           if (updateUserResult) {
             Alert.showMessage(
@@ -332,7 +335,6 @@ class _PayMethod extends State<PayMethod> {
           paymethod: PayMethodStr.APPLE_PAY);
       if (response['result']) {
         final clientSecret = response['data'];
-
         // 2. Confirm apple pay payment
         await FlutterStripe.Stripe.instance
             .confirmApplePayPayment(clientSecret);
@@ -352,11 +354,18 @@ class _PayMethod extends State<PayMethod> {
             amount: double.parse(amount_fixed),
             txType: "Deposit",
           );
+          print("before create transaction");
           await service.createTransaction(transaction);
+          print("after create transaction");
           updateUserResult = await service.updateUser(currentUser);
+          print(updateUserResult);
         } else if (widget.data["isStart"]) {
           updateUserResult = true;
         }
+
+        
+        print("updateResult");
+        print(updateUserResult);
 
         if (updateUserResult) {
           Alert.showMessage(
@@ -1184,7 +1193,7 @@ class _PayMethod extends State<PayMethod> {
                                 )
                               : pay.GooglePayButton(
                                   paymentConfigurationAsset:
-                                      'google_pay_live.json',
+                                      'google_pay_test.json',
                                   paymentItems: getPriceItem(),
                                   margin: const EdgeInsets.only(
                                       top: 15, right: 20, left: 20, bottom: 20),
