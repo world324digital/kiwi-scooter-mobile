@@ -312,6 +312,7 @@ class _PayMethod extends State<PayMethod> {
         rest_amount = amount;
       }
 
+      print("before present apple pay");
       await FlutterStripe.Stripe.instance.presentApplePay(
         params: FlutterStripe.ApplePayPresentParams(
           cartItems: [
@@ -330,9 +331,13 @@ class _PayMethod extends State<PayMethod> {
         ),
       );
 
+      print("after present apple pay");
+
       // 2. fetch Intent Client Secret from backend
       final response = await fetchPaymentIntentClientSecret(
           paymethod: PayMethodStr.APPLE_PAY);
+      print("fetch payment intent");
+      print(response);
       if (response['result']) {
         final clientSecret = response['data'];
         // 2. Confirm apple pay payment
@@ -532,9 +537,9 @@ class _PayMethod extends State<PayMethod> {
    * @Desc: Power On Scooter
    */
   Future<void> payWithAppleGoogle() async {
-    print("----- Goole Apple Pay Functions");
+    print("----- Google Apple Pay Functions");
     // ========== Calculate Ride Time ===========
-    PriceModel _priceModel = AppProvider.of(context).selectedPrice!;
+    // PriceModel _priceModel = AppProvider.of(context).selectedPrice!;
     // int _time = _priceModel.totalCost ~/ _priceModel.cost * 60;
     CardModel extracard;
 
