@@ -8,7 +8,7 @@ import 'package:KiwiCity/Pages/AuthPages/login_input_page.dart';
 import 'package:KiwiCity/Pages/History/ride_detail.dart';
 import 'package:KiwiCity/Pages/History/ride_history.dart';
 import 'package:KiwiCity/Pages/HomePage/home_page.dart';
-import 'package:KiwiCity/Pages/PaymentPage/mangae_paymethod.dart';
+import 'package:KiwiCity/Pages/PaymentPage/manage_paymethod.dart';
 import 'package:KiwiCity/Pages/PaymentPage/wallet.dart';
 import 'package:KiwiCity/Pages/QRScanPage/allow_camera.dart';
 import 'package:KiwiCity/Pages/QRScanPage/enter_code.dart';

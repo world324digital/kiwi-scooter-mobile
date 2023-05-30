@@ -70,14 +70,14 @@ class AppConstants {
   //     'https://api.mapbox.com/styles/v1/rolandz/clg0n8s1o002101myonakrjgu/wmts?access_token=pk.eyJ1Ijoicm9sYW5keiIsImEiOiJjbGcwbXkyOXgxZGo1M2VxeW1nM2ttc2QxIn0.XhSysU0eukqhSWbAdgKmjg';
 
   static const String backServiceIdenitfier = "kiwiCityTask";
-  // static const String publishKey =
-  //     'pk_live_51MokUqEaT93AOXiCFJ8Ok2JDAcu5QoqM97C1hq9eNUpFAErI0VodhHNrtIMKL7eJrK8Hpc8liK6jKkn6tpGJNLj300l5JXN5VD';
   static const String publishKey =
-      'pk_test_51KT4AVK43K1Nk6N3I5JoEl9mmWe322CfezgHf3aiEkUr9tj4IN3iBZkVx9bL6fV7cVIMH2ukOWJYQLNux1WJilDq00yUjEPpxn';
+      'pk_live_51MokUqEaT93AOXiCFJ8Ok2JDAcu5QoqM97C1hq9eNUpFAErI0VodhHNrtIMKL7eJrK8Hpc8liK6jKkn6tpGJNLj300l5JXN5VD';
+  // static const String publishKey =
+  //     'pk_test_51KT4AVK43K1Nk6N3I5JoEl9mmWe322CfezgHf3aiEkUr9tj4IN3iBZkVx9bL6fV7cVIMH2ukOWJYQLNux1WJilDq00yUjEPpxn';
 }
 
 class URLS {
-  static const String BASE_URL = "http://185.96.163.118:443";
+  static const String BASE_URL = "http://185.96.163.118:8443";
   static const String API_PREFIX = "/api";
   static const String MQTT_PREFIX = "/mqtt";
 
@@ -94,9 +94,9 @@ class URLS {
   static const String TURN_OFF_LIGHTS = "/turnofflights";
 
   static const String TERMS_CONDITION_URL =
-      "https://kiwi-city.com";
-  static const String PRIVACY_URL = "https://kiwi-city.com/privacy-policy.html";
-  static const String SUPPORTT_URL = "http://kiwi-city.com";
+      "https://www.kiwi-city.com/";
+  static const String PRIVACY_URL = "https://www.kiwi-city.com/privacy-policy.html";
+  static const String SUPPORTT_URL = "https://www.kiwi-city.com/";
 }
 
 class TextConstants {
