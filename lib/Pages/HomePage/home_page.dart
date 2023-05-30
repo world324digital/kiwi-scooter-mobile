@@ -566,384 +566,754 @@ class _HomePageState extends State<HomePage>
       // elevation: 0,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            // height: MediaQuery.of(context).size.height * 0.64,
-            child: Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: HelperUtility.screenWidth(context),
-                    margin: EdgeInsets.only(left: 12, right: 10, bottom: 10),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: InkWell(
-                        onTap: () => moveToUserLocation(),
-                        child: Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/zoomimg.png',
-                              ),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
+        // return SingleChildScrollView(
+        //   child: Container(
+        //     padding: EdgeInsets.only(
+        //       bottom: MediaQuery.of(context).viewInsets.bottom,
+        //     ),
+        //     // height: MediaQuery.of(context).size.height * 0.64,
+        //     child: Expanded(
+        //       child: Column(
+        //         mainAxisSize: MainAxisSize.max,
+        //         children: [
+        //           Container(
+        //             width: HelperUtility.screenWidth(context),
+        //             margin: EdgeInsets.only(left: 12, right: 10, bottom: 10),
+        //             child: Align(
+        //               alignment: Alignment.centerRight,
+        //               child: InkWell(
+        //                 onTap: () => moveToUserLocation(),
+        //                 child: Container(
+        //                   width: 60,
+        //                   height: 60,
+        //                   decoration: BoxDecoration(
+        //                     image: DecorationImage(
+        //                       image: AssetImage(
+        //                         'assets/images/zoomimg.png',
+        //                       ),
+        //                       fit: BoxFit.fill,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //           // ========= SCOOTER DETAIL PART ===============
+        //           Container(
+        //             margin:
+        //                 const EdgeInsets.only(bottom: 15, left: 15, right: 15),
+        //             padding: const EdgeInsets.symmetric(vertical: 20),
+        //             decoration: BoxDecoration(
+        //               color: Colors.white,
+        //               borderRadius: BorderRadius.circular(20),
+        //               boxShadow: [
+        //                 BoxShadow(
+        //                   color: Colors.grey.withOpacity(0.2),
+        //                   spreadRadius: 2,
+        //                   blurRadius: 5,
+        //                   offset: Offset(0, 3), // changes position of shadow
+        //                 ),
+        //               ],
+        //             ),
+        //             child: Column(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               crossAxisAlignment: CrossAxisAlignment.center,
+        //               children: [
+        //                 // Gray Dot
+        //                 Row(
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   crossAxisAlignment: CrossAxisAlignment.center,
+        //                   children: [
+        //                     Container(
+        //                       decoration: BoxDecoration(
+        //                           color: const Color(0xffEEEEEE),
+        //                           borderRadius: BorderRadius.circular(5)),
+        //                       width: 40,
+        //                       height: 4,
+        //                     )
+        //                   ],
+        //                 ),
+
+        //                 Container(
+        //                   padding: EdgeInsets.only(
+        //                     top: 20,
+        //                   ),
+        //                   child: Row(
+        //                     mainAxisAlignment: MainAxisAlignment.center,
+        //                     crossAxisAlignment: CrossAxisAlignment.center,
+        //                     children: [
+        //                       // ======= SCOOTER IMAGE ==========
+        //                       Container(
+        //                         // height: 100,
+        //                         // width: 100,
+        //                         child: Image.asset(
+        //                           'assets/images/clearbike.png',
+        //                           // height: 100,
+        //                           // width: 100,
+        //                         ),
+        //                       ),
+
+        //                       // ========= SCOOTER INFORMATION ===========
+        //                       Container(
+        //                         margin: const EdgeInsets.only(left: 15),
+        //                         width: ScreenUtil().screenWidth * 0.55,
+        //                         child: Column(
+        //                           crossAxisAlignment: CrossAxisAlignment.start,
+        //                           children: [
+        //                             MyFont.text(
+        //                               // _selectedScooter.g,
+        //                               AppLocalizations.of(context)
+        //                                   .kiwiScooterLabel,
+        //                               color: ColorConstants.cPrimaryTitleColor,
+        //                               fontSize: 18,
+        //                               fontWeight: FontWeight.w600,
+        //                               lineHeight: 1.25,
+        //                               fontFamily: FontStyles.fBold,
+        //                             ),
+        //                             Container(
+        //                               width: ScreenUtil().screenWidth * 0.6,
+        //                               padding: const EdgeInsets.symmetric(
+        //                                   vertical: 8),
+        //                               child: MyFont.text(
+        //                                 "#${_selectedScooter.scooterID}",
+        //                                 color: ColorConstants.cTxtColor2,
+        //                                 fontSize: 17,
+        //                                 fontWeight: FontWeight.w300,
+        //                                 fontFamily: FontStyles.fLight,
+        //                               ),
+        //                             ),
+        //                             Row(children: [
+        //                               Image.asset(
+        //                                 ((_selectedScooter.soc > 65)
+        //                                     ? ImageConstants.HIGH_BATTERY
+        //                                     : (_selectedScooter.soc > 35)
+        //                                         ? ImageConstants.MIDDLE_BATTERY
+        //                                         : ImageConstants.LOW_BATTERY),
+        //                                 width: 25,
+        //                                 height: 25,
+        //                               ),
+        //                               MyFont.text(
+        //                                 " ${_selectedScooter.soc.toString()}%",
+        //                                 color:
+        //                                     ColorConstants.cPrimaryTitleColor,
+        //                                 fontSize: 18,
+        //                                 fontWeight: FontWeight.w400,
+        //                                 fontFamily: FontStyles.fLight,
+        //                               )
+        //                             ]),
+        //                             SizedBox(height: 20),
+        //                             Row(
+        //                               children: [
+        //                                 //======= RING BUTTON =========
+        //                                 GestureDetector(
+        //                                   onTap: () async {
+        //                                     await sendRing();
+        //                                   },
+        //                                   child: Container(
+        //                                     width: 120,
+        //                                     height: 40,
+        //                                     padding: const EdgeInsets.symmetric(
+        //                                       // horizontal: 10,
+        //                                       vertical: 8,
+        //                                     ),
+        //                                     decoration: BoxDecoration(
+        //                                       borderRadius:
+        //                                           BorderRadius.circular(12),
+        //                                       border: Border.all(
+        //                                         color: Color(0xffB5B5B5),
+        //                                       ),
+        //                                     ),
+        //                                     child: Row(
+        //                                       mainAxisAlignment:
+        //                                           MainAxisAlignment.center,
+        //                                       crossAxisAlignment:
+        //                                           CrossAxisAlignment.center,
+        //                                       children: [
+        //                                         Image.asset(
+        //                                             'assets/images/bell.png'),
+        //                                         Container(
+        //                                           margin: const EdgeInsets.only(
+        //                                               left: 10),
+        //                                           child: Text(
+        //                                             AppLocalizations.of(context)
+        //                                                 .ring,
+        //                                             style: TextStyle(
+        //                                               color: ColorConstants
+        //                                                   .cTxtColor2,
+        //                                               fontSize: 14,
+        //                                               fontWeight:
+        //                                                   FontWeight.w500,
+        //                                               fontFamily:
+        //                                                   FontStyles.fSemiBold,
+        //                                               height: 1.42,
+        //                                             ),
+        //                                           ),
+        //                                         )
+        //                                       ],
+        //                                     ),
+        //                                   ),
+        //                                 ),
+        //                               ],
+        //                             )
+        //                           ],
+        //                         ),
+        //                       )
+        //                     ],
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+
+        //           // ========= PAYMENT PART =============
+        //           Container(
+        //             padding: const EdgeInsets.only(
+        //               // top: 15,
+        //               bottom: 20,
+        //               left: 15,
+        //               right: 15,
+        //             ),
+        //             color: Colors.white,
+        //             child: Column(
+        //               children: [
+        //                 // ------ Price Description Row ---------
+        //                 Container(
+        //                   width: double.infinity,
+        //                   padding: const EdgeInsets.symmetric(
+        //                     vertical: 15,
+        //                   ),
+        //                   child: Container(
+        //                     padding: const EdgeInsets.symmetric(vertical: 6),
+        //                     decoration: BoxDecoration(
+        //                       color: ColorConstants.cPrimaryShadowColor,
+        //                       borderRadius: BorderRadius.circular(16.0),
+        //                       border: Border.all(
+        //                         color: ColorConstants.cPrimaryShadowColor,
+        //                       ),
+        //                     ),
+        //                     child: Row(
+        //                       mainAxisAlignment: MainAxisAlignment.center,
+        //                       crossAxisAlignment: CrossAxisAlignment.center,
+        //                       children: [
+        //                         // Container(
+        //                         //     child:
+        //                         //         Image.asset('assets/images/exclamation.png')),
+        //                         RichText(
+        //                           textAlign: TextAlign.center,
+        //                           text: TextSpan(
+        //                             children: <TextSpan>[
+        //                               TextSpan(
+        //                                 text: '\€${startPrice} ',
+        //                                 style: TextStyle(
+        //                                   color:
+        //                                       ColorConstants.cPrimaryTitleColor,
+        //                                   fontSize: 12,
+        //                                   fontWeight: FontWeight.w500,
+        //                                   fontFamily: FontStyles.fSemiBold,
+        //                                   height: 1.67,
+        //                                 ),
+        //                               ),
+        //                               TextSpan(
+        //                                 text: AppLocalizations.of(context)
+        //                                     .ridingNote1,
+        //                                 style: TextStyle(
+        //                                   color: ColorConstants.cTxtColor2,
+        //                                   fontSize: 13,
+        //                                   fontWeight: FontWeight.w500,
+        //                                   fontFamily: FontStyles.fLight,
+        //                                   letterSpacing: 0.16,
+        //                                 ),
+        //                               ),
+        //                               TextSpan(
+        //                                 text: '\€${ridePrice} ',
+        //                                 style: TextStyle(
+        //                                   color:
+        //                                       ColorConstants.cPrimaryTitleColor,
+        //                                   fontSize: 12,
+        //                                   fontWeight: FontWeight.w500,
+        //                                   fontFamily: FontStyles.fSemiBold,
+        //                                   height: 1.67,
+        //                                 ),
+        //                               ),
+        //                               TextSpan(
+        //                                 text: AppLocalizations.of(context)
+        //                                     .ridingNote2,
+        //                                 style: TextStyle(
+        //                                   color: ColorConstants.cTxtColor2,
+        //                                   fontSize: 13,
+        //                                   fontWeight: FontWeight.w500,
+        //                                   fontFamily: FontStyles.fLight,
+        //                                   letterSpacing: 0.16,
+        //                                 ),
+        //                               ),
+        //                             ],
+        //                           ),
+        //                         ),
+        //                       ],
+        //                     ),
+        //                   ),
+        //                 ),
+        //                 PrimaryButton(
+        //                   horizontalPadding: 0,
+        //                   context: context,
+        //                   // margin: EdgeInsets.only(bottom: 20),
+        //                   onTap: () async {
+        //                     if (reservePossibility == 1) {
+        //                       var user = FirebaseAuth.instance.currentUser;
+        //                       if (user != null) {
+        //                         // ====== If logined, go to payment page ====
+        //                         bool granted =
+        //                             await PM.Permission.camera.isGranted;
+
+        //                         print(granted);
+        //                         if (granted) {
+        //                           HelperUtility.goPage(
+        //                             context: context,
+        //                             routeName: Routes.QR_SCAN,
+        //                           );
+        //                         } else {
+        //                           HelperUtility.goPage(
+        //                               context: context,
+        //                               routeName: Routes.ALLOW_CAMERA);
+        //                         }
+        //                       } else {
+        //                         // ====== else go to login page
+        //                         HelperUtility.goPage(
+        //                             context: context, routeName: Routes.LOGIN);
+        //                       }
+        //                     } else {
+        //                       await unableAlert(
+        //                         context: context,
+        //                         message: AppLocalizations.of(context)
+        //                             .errorUnableFarAway,
+        //                       );
+        //                     }
+        //                     // Navigator.push(
+        //                     //   context,
+        //                     //   MaterialPageRoute(builder: (context) => const QRViewExample()),
+        //                     // );
+        //                   },
+        //                   title: AppLocalizations.of(context).rideNow,
+        //                   icon: Container(
+        //                     child: Image.asset(
+        //                       'assets/images/ridenowbike.png',
+        //                       width: 30,
+        //                       height: 30,
+        //                     ),
+        //                   ),
+        //                 ),
+        //                 PrimaryButton(
+        //                   horizontalPadding: 0,
+        //                   context: context,
+        //                   // margin: EdgeInsets.only(bottom: 20),
+        //                   onTap: () async {
+        //                     if (reservePossibility == 1) {
+        //                       var user = FirebaseAuth.instance.currentUser;
+        //                       if (user != null) {
+        //                         HelperUtility.goPage(
+        //                           context: context,
+        //                           routeName: Routes.START_RIDING,
+        //                           arg: {
+        //                             "isReservation": true,
+        //                           },
+        //                         );
+        //                       } else {
+        //                         // ====== else go to login page
+        //                         HelperUtility.goPage(
+        //                             context: context, routeName: Routes.LOGIN);
+        //                       }
+        //                     } else {
+        //                       await unableAlert(
+        //                         context: context,
+        //                         message: AppLocalizations.of(context)
+        //                             .errorUnableFarAway,
+        //                       );
+        //                     }
+        //                   },
+        //                   title: AppLocalizations.of(context).reservation,
+        //                   icon: Icon(
+        //                     Icons.app_registration_rounded,
+        //                     color: Colors.white,
+        //                     size: 30,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // );
+        return Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              width: HelperUtility.screenWidth(context),
+              margin: EdgeInsets.only(left: 12, right: 10, bottom: 10),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () => moveToUserLocation(),
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          'assets/images/zoomimg.png',
                         ),
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
-                  // ========= SCOOTER DETAIL PART ===============
+                ),
+              ),
+            ),
+            // ========= SCOOTER DETAIL PART ===============
+            Container(
+              margin:
+                  const EdgeInsets.only(bottom: 15, left: 15, right: 15),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Gray Dot
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: const Color(0xffEEEEEE),
+                            borderRadius: BorderRadius.circular(5)),
+                        width: 40,
+                        height: 4,
+                      )
+                    ],
+                  ),
+
                   Container(
-                    margin:
-                        const EdgeInsets.only(bottom: 15, left: 15, right: 15),
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
+                    padding: EdgeInsets.only(
+                      top: 20,
                     ),
-                    child: Column(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Gray Dot
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: const Color(0xffEEEEEE),
-                                  borderRadius: BorderRadius.circular(5)),
-                              width: 40,
-                              height: 4,
-                            )
-                          ],
+                        // ======= SCOOTER IMAGE ==========
+                        Container(
+                          // height: 100,
+                          // width: 100,
+                          child: Image.asset(
+                            'assets/images/clearbike.png',
+                            // height: 100,
+                            // width: 100,
+                          ),
                         ),
 
+                        // ========= SCOOTER INFORMATION ===========
                         Container(
-                          padding: EdgeInsets.only(
-                            top: 20,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          margin: const EdgeInsets.only(left: 15),
+                          width: ScreenUtil().screenWidth * 0.55,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // ======= SCOOTER IMAGE ==========
+                              MyFont.text(
+                                // _selectedScooter.g,
+                                AppLocalizations.of(context)
+                                    .kiwiScooterLabel,
+                                color: ColorConstants.cPrimaryTitleColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                lineHeight: 1.25,
+                                fontFamily: FontStyles.fBold,
+                              ),
                               Container(
-                                // height: 100,
-                                // width: 100,
-                                child: Image.asset(
-                                  'assets/images/clearbike.png',
-                                  // height: 100,
-                                  // width: 100,
+                                width: ScreenUtil().screenWidth * 0.6,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8),
+                                child: MyFont.text(
+                                  "#${_selectedScooter.scooterID}",
+                                  color: ColorConstants.cTxtColor2,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: FontStyles.fLight,
                                 ),
                               ),
-
-                              // ========= SCOOTER INFORMATION ===========
-                              Container(
-                                margin: const EdgeInsets.only(left: 15),
-                                width: ScreenUtil().screenWidth * 0.55,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    MyFont.text(
-                                      // _selectedScooter.g,
-                                      AppLocalizations.of(context)
-                                          .kiwiScooterLabel,
-                                      color: ColorConstants.cPrimaryTitleColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      lineHeight: 1.25,
-                                      fontFamily: FontStyles.fBold,
-                                    ),
-                                    Container(
-                                      width: ScreenUtil().screenWidth * 0.6,
+                              Row(children: [
+                                Image.asset(
+                                  ((_selectedScooter.soc > 65)
+                                      ? ImageConstants.HIGH_BATTERY
+                                      : (_selectedScooter.soc > 35)
+                                          ? ImageConstants.MIDDLE_BATTERY
+                                          : ImageConstants.LOW_BATTERY),
+                                  width: 25,
+                                  height: 25,
+                                ),
+                                MyFont.text(
+                                  " ${_selectedScooter.soc.toString()}%",
+                                  color:
+                                      ColorConstants.cPrimaryTitleColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FontStyles.fLight,
+                                )
+                              ]),
+                              SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  //======= RING BUTTON =========
+                                  GestureDetector(
+                                    onTap: () async {
+                                      await sendRing();
+                                    },
+                                    child: Container(
+                                      width: 120,
+                                      height: 40,
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
-                                      child: MyFont.text(
-                                        "#${_selectedScooter.scooterID}",
-                                        color: ColorConstants.cTxtColor2,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w300,
-                                        fontFamily: FontStyles.fLight,
+                                        // horizontal: 10,
+                                        vertical: 8,
                                       ),
-                                    ),
-                                    Row(children: [
-                                      Image.asset(
-                                        ((_selectedScooter.soc > 65)
-                                            ? ImageConstants.HIGH_BATTERY
-                                            : (_selectedScooter.soc > 35)
-                                                ? ImageConstants.MIDDLE_BATTERY
-                                                : ImageConstants.LOW_BATTERY),
-                                        width: 25,
-                                        height: 25,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: Color(0xffB5B5B5),
+                                        ),
                                       ),
-                                      MyFont.text(
-                                        " ${_selectedScooter.soc.toString()}%",
-                                        color:
-                                            ColorConstants.cPrimaryTitleColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: FontStyles.fLight,
-                                      )
-                                    ]),
-                                    SizedBox(height: 20),
-                                    Row(
-                                      children: [
-                                        //======= RING BUTTON =========
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await sendRing();
-                                          },
-                                          child: Container(
-                                            width: 120,
-                                            height: 40,
-                                            padding: const EdgeInsets.symmetric(
-                                              // horizontal: 10,
-                                              vertical: 8,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                color: Color(0xffB5B5B5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                              'assets/images/bell.png'),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 10),
+                                            child: Text(
+                                              AppLocalizations.of(context)
+                                                  .ring,
+                                              style: TextStyle(
+                                                color: ColorConstants
+                                                    .cTxtColor2,
+                                                fontSize: 14,
+                                                fontWeight:
+                                                    FontWeight.w500,
+                                                fontFamily:
+                                                    FontStyles.fSemiBold,
+                                                height: 1.42,
                                               ),
                                             ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                    'assets/images/bell.png'),
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                      left: 10),
-                                                  child: Text(
-                                                    AppLocalizations.of(context)
-                                                        .ring,
-                                                    style: TextStyle(
-                                                      color: ColorConstants
-                                                          .cTxtColor2,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontFamily:
-                                                          FontStyles.fSemiBold,
-                                                      height: 1.42,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               )
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // ========= PAYMENT PART =============
-                  Container(
-                    padding: const EdgeInsets.only(
-                      // top: 15,
-                      bottom: 20,
-                      left: 15,
-                      right: 15,
-                    ),
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        // ------ Price Description Row ---------
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 15,
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 6),
-                            decoration: BoxDecoration(
-                              color: ColorConstants.cPrimaryShadowColor,
-                              borderRadius: BorderRadius.circular(16.0),
-                              border: Border.all(
-                                color: ColorConstants.cPrimaryShadowColor,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                // Container(
-                                //     child:
-                                //         Image.asset('assets/images/exclamation.png')),
-                                RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: '\€${startPrice} ',
-                                        style: TextStyle(
-                                          color:
-                                              ColorConstants.cPrimaryTitleColor,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: FontStyles.fSemiBold,
-                                          height: 1.67,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: AppLocalizations.of(context)
-                                            .ridingNote1,
-                                        style: TextStyle(
-                                          color: ColorConstants.cTxtColor2,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: FontStyles.fLight,
-                                          letterSpacing: 0.16,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: '\€${ridePrice} ',
-                                        style: TextStyle(
-                                          color:
-                                              ColorConstants.cPrimaryTitleColor,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: FontStyles.fSemiBold,
-                                          height: 1.67,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: AppLocalizations.of(context)
-                                            .ridingNote2,
-                                        style: TextStyle(
-                                          color: ColorConstants.cTxtColor2,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: FontStyles.fLight,
-                                          letterSpacing: 0.16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        PrimaryButton(
-                          horizontalPadding: 0,
-                          context: context,
-                          // margin: EdgeInsets.only(bottom: 20),
-                          onTap: () async {
-                            if (reservePossibility == 1) {
-                              var user = FirebaseAuth.instance.currentUser;
-                              if (user != null) {
-                                // ====== If logined, go to payment page ====
-                                bool granted =
-                                    await PM.Permission.camera.isGranted;
-
-                                print(granted);
-                                if (granted) {
-                                  HelperUtility.goPage(
-                                    context: context,
-                                    routeName: Routes.QR_SCAN,
-                                  );
-                                } else {
-                                  HelperUtility.goPage(
-                                      context: context,
-                                      routeName: Routes.ALLOW_CAMERA);
-                                }
-                              } else {
-                                // ====== else go to login page
-                                HelperUtility.goPage(
-                                    context: context, routeName: Routes.LOGIN);
-                              }
-                            } else {
-                              await unableAlert(
-                                context: context,
-                                message: AppLocalizations.of(context)
-                                    .errorUnableFarAway,
-                              );
-                            }
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => const QRViewExample()),
-                            // );
-                          },
-                          title: AppLocalizations.of(context).rideNow,
-                          icon: Container(
-                            child: Image.asset(
-                              'assets/images/ridenowbike.png',
-                              width: 30,
-                              height: 30,
-                            ),
-                          ),
-                        ),
-                        PrimaryButton(
-                          horizontalPadding: 0,
-                          context: context,
-                          // margin: EdgeInsets.only(bottom: 20),
-                          onTap: () async {
-                            if (reservePossibility == 1) {
-                              var user = FirebaseAuth.instance.currentUser;
-                              if (user != null) {
-                                HelperUtility.goPage(
-                                  context: context,
-                                  routeName: Routes.START_RIDING,
-                                  arg: {
-                                    "isReservation": true,
-                                  },
-                                );
-                              } else {
-                                // ====== else go to login page
-                                HelperUtility.goPage(
-                                    context: context, routeName: Routes.LOGIN);
-                              }
-                            } else {
-                              await unableAlert(
-                                context: context,
-                                message: AppLocalizations.of(context)
-                                    .errorUnableFarAway,
-                              );
-                            }
-                          },
-                          title: AppLocalizations.of(context).reservation,
-                          icon: Icon(
-                            Icons.app_registration_rounded,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-          ),
+
+            // ========= PAYMENT PART =============
+            Container(
+              padding: const EdgeInsets.only(
+                // top: 15,
+                bottom: 20,
+                left: 15,
+                right: 15,
+              ),
+              color: Colors.white,
+              child: Column(
+                children: [
+                  // ------ Price Description Row ---------
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 15,
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      decoration: BoxDecoration(
+                        color: ColorConstants.cPrimaryShadowColor,
+                        borderRadius: BorderRadius.circular(16.0),
+                        border: Border.all(
+                          color: ColorConstants.cPrimaryShadowColor,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Container(
+                          //     child:
+                          //         Image.asset('assets/images/exclamation.png')),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: '\€${startPrice} ',
+                                  style: TextStyle(
+                                    color:
+                                        ColorConstants.cPrimaryTitleColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: FontStyles.fSemiBold,
+                                    height: 1.67,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: AppLocalizations.of(context)
+                                      .ridingNote1,
+                                  style: TextStyle(
+                                    color: ColorConstants.cTxtColor2,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: FontStyles.fLight,
+                                    letterSpacing: 0.16,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '\€${ridePrice} ',
+                                  style: TextStyle(
+                                    color:
+                                        ColorConstants.cPrimaryTitleColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: FontStyles.fSemiBold,
+                                    height: 1.67,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: AppLocalizations.of(context)
+                                      .ridingNote2,
+                                  style: TextStyle(
+                                    color: ColorConstants.cTxtColor2,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: FontStyles.fLight,
+                                    letterSpacing: 0.16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  PrimaryButton(
+                    horizontalPadding: 0,
+                    context: context,
+                    // margin: EdgeInsets.only(bottom: 20),
+                    onTap: () async {
+                      if (reservePossibility == 1) {
+                        var user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          // ====== If logined, go to payment page ====
+                          bool granted =
+                              await PM.Permission.camera.isGranted;
+
+                          print(granted);
+                          if (granted) {
+                            HelperUtility.goPage(
+                              context: context,
+                              routeName: Routes.QR_SCAN,
+                            );
+                          } else {
+                            HelperUtility.goPage(
+                                context: context,
+                                routeName: Routes.ALLOW_CAMERA);
+                          }
+                        } else {
+                          // ====== else go to login page
+                          HelperUtility.goPage(
+                              context: context, routeName: Routes.LOGIN);
+                        }
+                      } else {
+                        await unableAlert(
+                          context: context,
+                          message: AppLocalizations.of(context)
+                              .errorUnableFarAway,
+                        );
+                      }
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const QRViewExample()),
+                      // );
+                    },
+                    title: AppLocalizations.of(context).rideNow,
+                    icon: Container(
+                      child: Image.asset(
+                        'assets/images/ridenowbike.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                    ),
+                  ),
+                  PrimaryButton(
+                    horizontalPadding: 0,
+                    context: context,
+                    // margin: EdgeInsets.only(bottom: 20),
+                    onTap: () async {
+                      if (reservePossibility == 1) {
+                        var user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          HelperUtility.goPage(
+                            context: context,
+                            routeName: Routes.START_RIDING,
+                            arg: {
+                              "isReservation": true,
+                            },
+                          );
+                        } else {
+                          // ====== else go to login page
+                          HelperUtility.goPage(
+                              context: context, routeName: Routes.LOGIN);
+                        }
+                      } else {
+                        await unableAlert(
+                          context: context,
+                          message: AppLocalizations.of(context)
+                              .errorUnableFarAway,
+                        );
+                      }
+                    },
+                    title: AppLocalizations.of(context).reservation,
+                    icon: Icon(
+                      Icons.app_registration_rounded,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         );
       },
     ).whenComplete(() {

@@ -1193,7 +1193,7 @@ class _PayMethod extends State<PayMethod> {
                                 )
                               : pay.GooglePayButton(
                                   paymentConfigurationAsset:
-                                      'google_pay_test.json',
+                                      'google_pay_live.json',
                                   paymentItems: getPriceItem(),
                                   margin: const EdgeInsets.only(
                                       top: 15, right: 20, left: 20, bottom: 20),
