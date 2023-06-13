@@ -6,10 +6,9 @@
 	<array>
 		<string>Default</string>
 	</array>
-	<!-- <key>com.apple.developer.in-app-payments</key>
+	<key>com.apple.developer.in-app-payments</key>
 	<array>
-		<string>merchant.com.rideisland.move</string>
-		<string>merchant.com.ridemoveisland.stripe</string>
-	</array> -->
+		<string>merchant.com.kiwi-city.kiwicity</string>
+	</array>
 </dict>
 </plist>

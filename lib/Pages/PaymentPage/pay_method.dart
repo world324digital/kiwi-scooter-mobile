@@ -297,8 +297,6 @@ class _PayMethod extends State<PayMethod> {
 
       if (widget.data["isStart"]) {
         amount = AppProvider.of(context).selectedPrice!.startCost.toString();
-        print("For google pay option");
-        print(amount);
       } else if (widget.data["deposit"]) {
         amount = widget.data["amount"];
       }
@@ -311,7 +309,8 @@ class _PayMethod extends State<PayMethod> {
       if (widget.data["deposit"]) {
         rest_amount = amount;
       }
-
+      print(rest_amount);
+      print(double.parse(rest_amount));
       print("before present apple pay");
       await FlutterStripe.Stripe.instance.presentApplePay(
         params: FlutterStripe.ApplePayPresentParams(
@@ -383,10 +382,16 @@ class _PayMethod extends State<PayMethod> {
           Alert.showMessage(
             type: TypeAlert.error,
             title: AppLocalizations.of(context).error,
-            message: AppLocalizations.of(context).errorMsg,
+            message: AppLocalizations.of(context).errorMsg + " update error",
           );
         }
-      } else {}
+      } else {
+        Alert.showMessage(
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).errorMsg + " fetch payment intent error",
+        );
+      }
     } catch (e) {
       print(e);
       String message = AppLocalizations.of(context).errorMsg;
@@ -397,7 +402,7 @@ class _PayMethod extends State<PayMethod> {
       Alert.showMessage(
           type: TypeAlert.error,
           title: AppLocalizations.of(context).error,
-          message: message);
+          message: message + " catch statement error");
     }
   }
 
@@ -627,6 +632,10 @@ class _PayMethod extends State<PayMethod> {
     double user_balance = currentUser.balance;
     String rest_amount =
         (double.parse(amount) - user_balance).toStringAsFixed(2);
+
+    if (widget.data["deposit"]) {
+      rest_amount = amount;
+    }
 
     return [
       PaymentItem(
@@ -1211,14 +1220,14 @@ class _PayMethod extends State<PayMethod> {
                                     // await debugChangedStripePublishableKey();
                                   },
                                   childOnError: Text(
-                                    AppLocalizations.of(context).googlePayError,
+                                    AppLocalizations.of(context).googlePayUnavailable,
                                   ),
                                   onError: (e) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
                                           AppLocalizations.of(context)
-                                              .googlePayUnavailable,
+                                              .googlePayError,
                                         ),
                                       ),
                                     );
