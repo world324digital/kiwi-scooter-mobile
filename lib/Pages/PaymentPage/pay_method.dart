@@ -306,12 +306,17 @@ class _PayMethod extends State<PayMethod> {
       String rest_amount =
           (double.parse(amount) - user_balance).toStringAsFixed(2);
 
+      if (user_balance < 0) {
+        rest_amount = amount;
+      }
+
       if (widget.data["deposit"]) {
         rest_amount = amount;
       }
       print(rest_amount);
       print(double.parse(rest_amount));
       print("before present apple pay");
+
       await FlutterStripe.Stripe.instance.presentApplePay(
         params: FlutterStripe.ApplePayPresentParams(
           cartItems: [
@@ -382,14 +387,14 @@ class _PayMethod extends State<PayMethod> {
           Alert.showMessage(
             type: TypeAlert.error,
             title: AppLocalizations.of(context).error,
-            message: AppLocalizations.of(context).errorMsg + " update error",
+            message: AppLocalizations.of(context).errorMsg,
           );
         }
       } else {
         Alert.showMessage(
           type: TypeAlert.error,
           title: AppLocalizations.of(context).error,
-          message: AppLocalizations.of(context).errorMsg + " fetch payment intent error",
+          message: AppLocalizations.of(context).errorMsg,
         );
       }
     } catch (e) {
@@ -402,7 +407,7 @@ class _PayMethod extends State<PayMethod> {
       Alert.showMessage(
           type: TypeAlert.error,
           title: AppLocalizations.of(context).error,
-          message: message + " catch statement error");
+          message: message);
     }
   }
 
@@ -640,8 +645,6 @@ class _PayMethod extends State<PayMethod> {
     return [
       PaymentItem(
         label: 'Kiwi City',
-        // amount: AppProvider.of(context).selectedPrice!.totalCost.toString(),
-        // amount: "0",
         amount: rest_amount,
         status: PaymentItemStatus.final_price,
       )
