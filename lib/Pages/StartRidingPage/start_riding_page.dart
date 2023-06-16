@@ -245,8 +245,8 @@ class _StartRiding extends State<StartRiding> {
                 bool isReservation = widget.data['isReservation'] == null
                     ? false
                     : widget.data['isReservation'];
-                if (balance >= 1) {
-                  currentUser.balance = balance - 1;
+                if (balance >= selectedPrice.startCost || balance >= 0 && selectedPrice.startCost - balance < 0.5) {
+                  currentUser.balance = double.parse((balance - selectedPrice.startCost).toStringAsFixed(2));
 
                   FirebaseService service = FirebaseService();
                   bool updateUserResult = await service.updateUser(currentUser);

@@ -36,6 +36,9 @@ import 'package:mapbox_api/mapbox_api.dart';
 import 'package:intl/intl.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_stripe/flutter_stripe.dart' as FlutterStripe;
+import 'package:pay/pay.dart';
+import 'package:pay/pay.dart' as pay;
 
 class RideNow extends StatefulWidget {
   // const RideNow({Key? key, required this.data}) : super(key: key);
@@ -106,6 +109,7 @@ class _RideNowState extends State<RideNow>
   void initState() {
     super.initState();
     getGeofencing();
+    stripeInitialize();
     WidgetsBinding.instance.addObserver(this);
     debugPrint('debug print : $isLoading');
     // if (widget.data != null) {
@@ -127,6 +131,12 @@ class _RideNowState extends State<RideNow>
       Future.delayed(const Duration(seconds: 0), () async {
         showRidingDialog();
       });
+  }
+
+  Future<void> stripeInitialize() async {
+    FlutterStripe.Stripe.publishableKey = AppConstants.publishKey;
+    FlutterStripe.Stripe.merchantIdentifier = 'merchant.com.kiwi-city.kiwicity';
+    await FlutterStripe.Stripe.instance.applySettings();
   }
 
   /************* Geofencing   ** */
@@ -698,6 +708,149 @@ class _RideNowState extends State<RideNow>
     );
   }
 
+  Future<Map<String, dynamic>> fetchPaymentIntentClientSecret({
+    required String paymethod,
+    required String amount,
+  }) async {
+    return await HttpService().nativePay(
+      amount: amount,
+      email: AppProvider.of(context).currentUser.email,
+      paymethod: paymethod,
+    );
+  }
+
+  Future<void> _handleApplePay(String amount, double balance) async {
+    try {
+      await FlutterStripe.Stripe.instance.presentApplePay(
+        params: FlutterStripe.ApplePayPresentParams(
+          cartItems: [
+            FlutterStripe.ApplePayCartSummaryItem.immediate(
+              label: 'Kiwi City',
+              amount: amount,
+            ),
+          ],
+          requiredShippingAddressFields: [],
+          shippingMethods: [],
+          country: 'LV',
+          currency: 'EUR',
+        ),
+      );
+
+      // 2. fetch Intent Client Secret from backend
+      final response = await fetchPaymentIntentClientSecret(
+          paymethod: PayMethodStr.APPLE_PAY, amount: amount);
+
+      print("apple pay result");
+      print(response);
+      if (response['result']) {
+        final clientSecret = response['data'];
+        // 2. Confirm apple pay payment
+        await FlutterStripe.Stripe.instance
+            .confirmApplePayPayment(clientSecret);
+      } else {
+        UserModel currentUser = AppProvider.of(context).currentUser;
+        currentUser.balance = balance;
+        AppProvider.of(context).setCurrentUser(currentUser);
+        Alert.showMessage(
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).errorMsg,
+        );
+      }
+    } catch (e) {
+      UserModel currentUser = AppProvider.of(context).currentUser;
+      currentUser.balance = balance;
+      AppProvider.of(context).setCurrentUser(currentUser);
+      print(e);
+      String message = AppLocalizations.of(context).errorMsg;
+      if (e is PlatformException) {
+        PlatformException error = e as PlatformException;
+        message = error.code == "Canceled" ? error.message.toString() : message;
+      }
+      Alert.showMessage(
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: message);
+    }
+  }
+
+  Future<void> _handleGooglePay(String amount) async {
+    try {
+      // return true;
+      // bool available = await pay.GooglePay.isAvailable();
+      // if (available) {
+      //   pay.PaymentDataRequest request = pay.PaymentDataRequest(
+      //     merchantName: AppConstants.googlePayMerchantName,
+      //     merchantId: AppConstants.googlePayMerchantId,
+      //     currencyCode: 'EUR',
+      //     totalPrice: amount,
+      //     paymentItems: PaymentItems(
+      //       items: [
+      //         PaymentItem(
+      //           label: 'Kiwi City',
+      //           amount: amount,
+      //           status: PaymentItemStatus.final_price,
+      //         )
+      //       ],
+      //     )
+      //   );
+
+      //   PaymentData response = await pay.GooglePay.showGooglePaySheet(
+      //     paymentConfigurationAsset: 'google_pay_live.json',
+      //     paymentDataRequest: request,
+      //   );
+      //   final response = await fetchPaymentIntentClientSecret(
+      //     paymethod: PayMethodStr.GOOGLE_PAY, amount: amount);
+      //   HelperUtility.showProgressDialog(
+      //     context: context,
+      //     key: _keyLoader,
+      //     title: AppLocalizations.of(context).wait,
+      //   );
+      //   if (response['result']) {
+      //     final clientSecret = response['data'];
+      //     final token =
+      //         paymentResult['paymentMethodData']['tokenizationData']['token'];
+      //     final tokenJson = Map.castFrom(json.decode(token));
+      //     print(tokenJson);
+
+      //     final params = PaymentMethodParams.cardFromToken(
+      //       paymentMethodData: PaymentMethodDataCardFromToken(
+      //         token: tokenJson['id'],
+      //       ),
+      //     );
+
+      //     await Stripe.instance.confirmPayment(
+      //       paymentIntentClientSecret: clientSecret,
+      //       data: params,
+      //     );
+      //     HelperUtility.closeProgressDialog(_keyLoader);
+
+      //     return true;
+      //   } else {
+      //     HelperUtility.closeProgressDialog(_keyLoader);
+      //     Alert.showMessage(
+      //       type: TypeAlert.error,
+      //       title: AppLocalizations.of(context).error,
+      //       message: AppLocalizations.of(context).errorMsg,
+      //     );
+      //     return false;
+      //   }
+      // } else {
+      //   Alert.showMessage(
+      //     type: TypeAlert.error,
+      //     title: AppLocalizations.of(context).error,
+      //     message: AppLocalizations.of(context).googlePayUnavailable);
+      //   return false;
+      // }
+    } catch (e) {
+      Alert.showMessage(
+        type: TypeAlert.error,
+        title: AppLocalizations.of(context).error,
+        message: AppLocalizations.of(context).googlePayError);
+      // return false;
+    }
+  }
+
 // If user have still time, this runs
   Future<void> onEndRide() async {
     isStarted = false;
@@ -751,11 +904,11 @@ class _RideNowState extends State<RideNow>
           var res;
           var errorMsg = AppLocalizations.of(context).errorMsg;
           bool isPaidBalance = false;
-
           if (riding_price >= 0.5) {
             if (user_balance >= riding_price) {
               currentUser.balance = double.parse(
                   (currentUser.balance - riding_price).toStringAsFixed(2));
+              AppProvider.of(context).setCurrentUser(currentUser);
               isPaidBalance = true;
             } else {
               String rest_amount = (riding_price).toStringAsFixed(2);
@@ -763,23 +916,58 @@ class _RideNowState extends State<RideNow>
                 rest_amount = (riding_price - user_balance).toStringAsFixed(2);
               }
               CardModel card = currentUser.card!;
-              res = await HttpService().cardPay(
-                  holderName: card.cardName,
-                  cardNumber: card.cardNumber,
-                  expiredMonth: card.expMonth,
-                  expiredYear: card.expYear,
-                  cvv: card.cvv,
-                  amount: rest_amount);
-              // amount: "0");
-              print("Final Riding Stripe Result :::::::::::::>");
-              print(res);
-              if (!res['result']) {
-                errorMsg = res['msg'];
+
+              if (card.cardType != 'ApplePay' && card.cardType != 'GooglePay') {
+                res = await HttpService().cardPay(
+                    holderName: card.cardName,
+                    cardNumber: card.cardNumber,
+                    expiredMonth: card.expMonth,
+                    expiredYear: card.expYear,
+                    cvv: card.cvv,
+                    amount: rest_amount);
+                print("Final Riding Stripe Result :::::::::::::>");
+                print(res);
+                if (!res['result']) {
+                  errorMsg = res['msg'];
+                  currentUser.balance = double.parse(
+                      (currentUser.balance - riding_price).toStringAsFixed(2));
+                  AppProvider.of(context).setCurrentUser(currentUser);
+                  isPaidBalance = true;
+                }
+              } else if (card.cardType == 'ApplePay') {
+                if (Platform.isIOS) {
+                  await _handleApplePay(rest_amount, double.parse(
+                        (currentUser.balance - riding_price).toStringAsFixed(2)));
+                  isPaidBalance = true;
+                } else {
+                  currentUser.balance = double.parse(
+                      (currentUser.balance - riding_price).toStringAsFixed(2));
+                  AppProvider.of(context).setCurrentUser(currentUser);
+                  isPaidBalance = true;
+                }
+              } else if (card.cardType == 'GooglePay') {
+                if (Platform.isAndroid) {
+
+                } else {
+                  currentUser.balance = double.parse(
+                      (currentUser.balance - riding_price).toStringAsFixed(2));
+                  AppProvider.of(context).setCurrentUser(currentUser);
+                  isPaidBalance = true;
+                }
+                // var googlePayResult = _handleGooglePay(rest_amount);
+                // if (googlePayResult) {
+                //   isPaidBalance = googlePayResult;
+                // } else {
+                //   currentUser.balance = double.parse(
+                //       (currentUser.balance - riding_price).toStringAsFixed(2));
+                //   isPaidBalance = true;
+                // }
               }
             }
           } else {
             currentUser.balance = double.parse(
                 (currentUser.balance - riding_price).toStringAsFixed(2));
+            AppProvider.of(context).setCurrentUser(currentUser);
             isPaidBalance = true;
           }
 
@@ -788,6 +976,7 @@ class _RideNowState extends State<RideNow>
             print(distance);
             distance = double.parse(distance.toStringAsFixed(2));
 
+            UserModel currentUser = AppProvider.of(context).currentUser;
             AppProvider.of(context).setDistance(distance);
 
             double amount_fixed =

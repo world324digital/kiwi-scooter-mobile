@@ -74,6 +74,9 @@ class AppConstants {
       'pk_live_51MokUqEaT93AOXiCFJ8Ok2JDAcu5QoqM97C1hq9eNUpFAErI0VodhHNrtIMKL7eJrK8Hpc8liK6jKkn6tpGJNLj300l5JXN5VD';
   // static const String publishKey =
   //     'pk_test_51MokUqEaT93AOXiCQMSJpNLJmuaRx6T8iSY8CKz0YTrXC02zgA8ONQ8svjLhElqUNeq2DNjRqj3HexbwDUVEyhdh009ZyJCNe3';
+
+  static const String googlePayMerchantName = "Kiwi City";
+  static const String googlePayMerchantId = "474621956329929879";
 }
 
 class URLS {
