@@ -372,7 +372,6 @@ class _PayMethod extends State<PayMethod> {
           updateUserResult = true;
         }
 
-        
         print("updateResult");
         print(updateUserResult);
 
@@ -591,7 +590,10 @@ class _PayMethod extends State<PayMethod> {
       HelperUtility.goPageReplace(
           context: context,
           routeName: Routes.TERMS_OF_SERVICE,
-          arg: {"viaPayment": true});
+          arg: {
+            "viaPayment": true,
+            "isReservation": widget.data['isReservation']
+          });
 
       // String scooterID = AppProvider.of(context).scooterID;
 

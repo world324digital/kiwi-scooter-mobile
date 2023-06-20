@@ -1233,7 +1233,8 @@ class _HomePageState extends State<HomePage>
                     onTap: () async {
                       if (reservePossibility == 1) {
                         var user = FirebaseAuth.instance.currentUser;
-                        if (user != null) {
+                        bool isLogin = AppProvider.of(context).isLogin;
+                        if (isLogin) {
                           // ====== If logined, go to payment page ====
                           bool granted =
                               await PM.Permission.camera.isGranted;
