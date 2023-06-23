@@ -194,6 +194,8 @@ class _LoginInputPage extends State<LoginInputPage> {
             type: TypeAlert.error,
             title: AppLocalizations.of(context).error,
             message: e.toString());
+            
+        HelperUtility.closeProgressDialog(_keyLoader);
       }
       // HelperUtility.closeProgressDialog(_keyLoader);
     }

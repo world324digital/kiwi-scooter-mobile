@@ -11,6 +11,7 @@ import 'package:KiwiCity/Models/price_model.dart';
 import 'package:KiwiCity/Models/card_model.dart';
 import 'package:KiwiCity/Models/transaction_model.dart';
 import 'package:KiwiCity/Models/user_model.dart';
+import 'package:KiwiCity/Models/review_model.dart';
 import 'package:KiwiCity/Pages/App/app_provider.dart';
 import 'package:KiwiCity/Pages/MenuPage/main_menu.dart';
 import 'package:KiwiCity/Pages/PaymentPage/payment_helper.dart';
@@ -198,38 +199,105 @@ class _RideNowState extends State<RideNow>
     });
   }
 
+  // Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+  //   switch (state) {
+  //     /****************** When User close app forcely ***************/
+  //     case AppLifecycleState.inactive:
+  //       print("Inactive");
+  //       if (isFlag) {
+  //         _timer?.cancel();
+  //         await storeDataToLocal(
+  //             key: AppLocalKeys.PAUSE_TIME,
+  //             value: DateTime.now().millisecondsSinceEpoch,
+  //             type: StorableDataType.INT);
+  //         // await storeDataToLocal(
+  //         //     key: AppLocalKeys.TOTAL_RIDE_TIME,
+  //         //     value: _totalRidetime,
+  //         //     type: StorableDataType.INT);
+  //         if (!isDone) await saveTempReview();
+  //       }
+
+  //       break;
+  //     case AppLifecycleState.paused:
+  //       print("PAUSED");
+
+  //       _timer?.cancel();
+  //       await storeDataToLocal(
+  //           key: AppLocalKeys.PAUSE_TIME,
+  //           value: DateTime.now().millisecondsSinceEpoch,
+  //           type: StorableDataType.INT);
+  //       // await storeDataToLocal(
+  //       //     key: AppLocalKeys.TOTAL_RIDE_TIME,
+  //       //     value: _totalRidetime,
+  //       //     type: StorableDataType.INT);
+  //       await saveTempReview();
+  //       setState(() {
+  //         isFlag = false;
+  //       });
+
+  //       break;
+  //     case AppLifecycleState.detached:
+  //       print("Detached");
+  //       break;
+
+  //     case AppLifecycleState.resumed:
+  //       print("Resumed");
+
+  //       int pausedTime = await getDataInLocal(
+  //           key: AppLocalKeys.PAUSE_TIME, type: StorableDataType.INT);
+  //       int now = DateTime.now().millisecondsSinceEpoch;
+  //       int gap_time = ((now - pausedTime) ~/ 1000).toInt();
+  //       _usedTime = _usedTime + gap_time;
+  //       startTimer();
+  //       // Before showing "Add more time" Dialog
+  //       // if (_totalRidetime - gap_time > 5 * 60) {
+  //       //   _totalRidetime = _totalRidetime - gap_time;
+  //       //   setState(() {
+  //       //     _totalRidetime = _totalRidetime;
+  //       //     isFlag = true;
+  //       //   });
+  //       //   startTimer();
+  //       // } else if (_totalRidetime - gap_time > 0) {
+  //       //   // During showing "Add more time" Dialog
+  //       //   // if (_isShowingAddMoreDialog) {
+  //       //   //   return;
+  //       //   // }
+  //       //   await addMoreTime();
+  //       //   _totalRidetime = _totalRidetime - gap_time;
+  //       //   setState(() {
+  //       //     _totalRidetime = _totalRidetime;
+  //       //     isFlag = true;
+  //       //   });
+  //       //   startTimer();
+  //       // } else {
+  //       //   _timer!.cancel();
+  //       //   _totalRidetime = 0;
+  //       //   setState(() {
+  //       //     _totalRidetime = _totalRidetime;
+  //       //     isFlag = true;
+  //       //   });
+  //       //   onDone();
+  //       // }
+
+  //       break;
+  //   }
+  // }
+
+
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
       /****************** When User close app forcely ***************/
       case AppLifecycleState.inactive:
         print("Inactive");
         if (isFlag) {
-          _timer?.cancel();
-          await storeDataToLocal(
-              key: AppLocalKeys.PAUSE_TIME,
-              value: DateTime.now().millisecondsSinceEpoch,
-              type: StorableDataType.INT);
-          // await storeDataToLocal(
-          //     key: AppLocalKeys.TOTAL_RIDE_TIME,
-          //     value: _totalRidetime,
-          //     type: StorableDataType.INT);
-          if (!isDone) await saveTempReview();
+          await forceEndRide();
         }
 
         break;
       case AppLifecycleState.paused:
         print("PAUSED");
 
-        _timer?.cancel();
-        await storeDataToLocal(
-            key: AppLocalKeys.PAUSE_TIME,
-            value: DateTime.now().millisecondsSinceEpoch,
-            type: StorableDataType.INT);
-        // await storeDataToLocal(
-        //     key: AppLocalKeys.TOTAL_RIDE_TIME,
-        //     value: _totalRidetime,
-        //     type: StorableDataType.INT);
-        await saveTempReview();
+        await onPause();
         setState(() {
           isFlag = false;
         });
@@ -240,43 +308,9 @@ class _RideNowState extends State<RideNow>
         break;
 
       case AppLifecycleState.resumed:
-        print("Resuemd");
+        print("Resumed");
 
-        int pausedTime = await getDataInLocal(
-            key: AppLocalKeys.PAUSE_TIME, type: StorableDataType.INT);
-        int now = DateTime.now().millisecondsSinceEpoch;
-        int gap_time = ((now - pausedTime) ~/ 1000).toInt();
-        _usedTime = _usedTime + gap_time;
-        startTimer();
-        // Before showing "Add more time" Dialog
-        // if (_totalRidetime - gap_time > 5 * 60) {
-        //   _totalRidetime = _totalRidetime - gap_time;
-        //   setState(() {
-        //     _totalRidetime = _totalRidetime;
-        //     isFlag = true;
-        //   });
-        //   startTimer();
-        // } else if (_totalRidetime - gap_time > 0) {
-        //   // During showing "Add more time" Dialog
-        //   // if (_isShowingAddMoreDialog) {
-        //   //   return;
-        //   // }
-        //   await addMoreTime();
-        //   _totalRidetime = _totalRidetime - gap_time;
-        //   setState(() {
-        //     _totalRidetime = _totalRidetime;
-        //     isFlag = true;
-        //   });
-        //   startTimer();
-        // } else {
-        //   _timer!.cancel();
-        //   _totalRidetime = 0;
-        //   setState(() {
-        //     _totalRidetime = _totalRidetime;
-        //     isFlag = true;
-        //   });
-        //   onDone();
-        // }
+        await onResume();
 
         break;
     }
@@ -1021,6 +1055,243 @@ class _RideNowState extends State<RideNow>
         });
   }
 
+  Future<void> saveReview(
+    ReviewModel review, List<Map<String, dynamic>> _points) async {
+    try {
+      HelperUtility.showProgressDialog(context: context, key: _keyLoader);
+      // String docId = await service.createReview(review);
+      await service.updateReview(review);
+      await service.saveRidePoints(review.id, _points);
+      HelperUtility.closeProgressDialog(_keyLoader);
+      print('Save Review by force closing success');
+    } catch (e) {
+      print(e);
+      HelperUtility.closeProgressDialog(_keyLoader);
+      print('Saving Review by force closing failed');
+    }
+  }
+
+  Future<void> forceEndRide() async {
+    isStarted = false;
+    double price_per_minute =
+        AppProvider.of(context).selectedPrice?.costPerMinute ?? 0.0;
+    double riding_price =
+        double.parse((price_per_minute * _usedTime / 60.0).toStringAsFixed(2));
+    _timer?.cancel();
+
+    await changeLock(false, () {});
+    await changeLightStatus(false);
+
+    await service.updateInUseStatus(
+        imei: AppProvider.of(context).imei, useStatus: 'available');
+
+    // Set User End Ride Time
+    AppProvider.of(context).setEndRideTime(DateTime.now());
+    AppProvider.of(context).setProgress(false);
+    setState(() {
+      showProgressBar = false;
+      isAllowDismiss = false;
+    });
+    if (userLocation == null) return;
+    LocationModel _end = new LocationModel(
+        lat: userLocation!.latitude, long: userLocation!.longitude);
+
+    AppProvider.of(context).setEndPoint(_end);
+    AppProvider.of(context).setUsedTime(_usedTime);
+    AppProvider.of(context).setPoints(points);
+    removeDataInLocal(AppLocalKeys.TEMP_REVIEW);
+
+    HelperUtility.showProgressDialog(
+      context: context,
+      key: _keyLoader,
+      title: AppLocalizations.of(context).wait,
+    );
+
+    UserModel currentUser = AppProvider.of(context).currentUser;
+
+    double user_balance = currentUser.balance;
+    var res;
+    var errorMsg = AppLocalizations.of(context).errorMsg;
+    bool isPaidBalance = false;
+    if (riding_price >= 0.5) {
+      if (user_balance >= riding_price) {
+        currentUser.balance = double.parse(
+            (currentUser.balance - riding_price).toStringAsFixed(2));
+        AppProvider.of(context).setCurrentUser(currentUser);
+        isPaidBalance = true;
+      } else {
+        String rest_amount = (riding_price).toStringAsFixed(2);
+        if (user_balance >= 0) {
+          rest_amount = (riding_price - user_balance).toStringAsFixed(2);
+        }
+        CardModel card = currentUser.card!;
+
+        if (card.cardType != 'ApplePay' && card.cardType != 'GooglePay') {
+          res = await HttpService().cardPay(
+              holderName: card.cardName,
+              cardNumber: card.cardNumber,
+              expiredMonth: card.expMonth,
+              expiredYear: card.expYear,
+              cvv: card.cvv,
+              amount: rest_amount);
+          if (!res['result']) {
+            errorMsg = res['msg'];
+            currentUser.balance = double.parse(
+                (currentUser.balance - riding_price).toStringAsFixed(2));
+            AppProvider.of(context).setCurrentUser(currentUser);
+            isPaidBalance = true;
+          }
+        } else if (card.cardType == 'ApplePay') {
+          if (Platform.isIOS) {
+            await _handleApplePay(rest_amount, double.parse(
+                  (currentUser.balance - riding_price).toStringAsFixed(2)));
+            isPaidBalance = true;
+          } else {
+            currentUser.balance = double.parse(
+                (currentUser.balance - riding_price).toStringAsFixed(2));
+            AppProvider.of(context).setCurrentUser(currentUser);
+            isPaidBalance = true;
+          }
+        } else if (card.cardType == 'GooglePay') {
+          if (Platform.isAndroid) {
+
+          } else {
+            currentUser.balance = double.parse(
+                (currentUser.balance - riding_price).toStringAsFixed(2));
+            AppProvider.of(context).setCurrentUser(currentUser);
+            isPaidBalance = true;
+          }
+        }
+      }
+    } else {
+      currentUser.balance = double.parse(
+          (currentUser.balance - riding_price).toStringAsFixed(2));
+      AppProvider.of(context).setCurrentUser(currentUser);
+      isPaidBalance = true;
+    }
+
+    if (isPaidBalance || !isPaidBalance && res['result']) {
+      await calculateDistanceFromPoints(points);
+      print(distance);
+      distance = double.parse(distance.toStringAsFixed(2));
+
+      UserModel currentUser = AppProvider.of(context).currentUser;
+      AppProvider.of(context).setDistance(distance);
+
+      double amount_fixed =
+          double.parse((riding_price + 1).toStringAsFixed(2));
+
+      TransactionModel transaction = new TransactionModel(
+        userId: currentUser.id,
+        userName: currentUser.firstName + " " + currentUser.lastName,
+        stripeId: "",
+        stripeTxId: "",
+        rideDistance: distance,
+        rideTime: _usedTime,
+        amount: amount_fixed,
+        txType: "Ride",
+      );
+      await service.createTransaction(transaction);
+
+      bool updateUserResult = await service.updateUser(currentUser);
+
+      if (updateUserResult) {
+        HelperUtility.closeProgressDialog(_keyLoader);
+        String reviewId = await service.createReview();
+        var appProvider = AppProvider.of(context);
+        var card = appProvider.currentUser.card;
+
+        String scooter_id = appProvider.scooterID;
+        String user_id = appProvider.currentUser.id;
+        String scooter_type = "Kiwi eScooter";
+        DateTime start_time = appProvider.startRideTime;
+        DateTime end_time = appProvider.endRideTime;
+        int duration = appProvider.usedTime;
+        double price_per_minute = appProvider.selectedPrice?.costPerMinute ?? 0.0;
+        double riding_price =
+            double.parse((price_per_minute * duration / 60).toStringAsFixed(2));
+        double start_price = appProvider.selectedPrice?.startCost ?? 0.0;
+
+        double start_vat_price =
+            double.parse((start_price * 0.21).toStringAsFixed(2));
+        double start_normal_price =
+            double.parse((start_price - start_vat_price).toStringAsFixed(2));
+
+        double riding_vat_price =
+            double.parse((riding_price * 0.21).toStringAsFixed(2));
+        double riding_normal_price =
+            double.parse((riding_price - riding_vat_price).toStringAsFixed(2));
+
+        double vat_price =
+            double.parse(((start_price + riding_price) * 0.21).toStringAsFixed(2));
+        double total_price =
+            double.parse((riding_price + start_price).toStringAsFixed(2));
+        ;
+        String card_type = card?.cardType ?? "";
+        String card_number = card?.cardNumber ?? "";
+        double _rating = 5.0;
+        LocationModel _startPoint = appProvider.startPoint;
+        LocationModel _endPoint = appProvider.endPoint;
+        List<Map<String, dynamic>> _points = appProvider.points;
+        double _distance = appProvider.distance;
+
+        ReviewModel review = new ReviewModel(
+          id: reviewId,
+          scooterId: scooter_id,
+          userId: user_id,
+          scooter_type: scooter_type,
+          startTime: start_time.millisecondsSinceEpoch,
+          endTime: end_time.millisecondsSinceEpoch,
+          duration: duration,
+          riding_price: riding_price,
+          start_price: start_price,
+          vat_price: vat_price,
+          total_price: total_price,
+          card_type: card_type,
+          card_number: card_number,
+          rating: _rating,
+          scooterImg: "",
+          startPoint: _startPoint,
+          endPoint: _endPoint,
+          distance: _distance,
+        );
+
+        String distanceForDisplay = "";
+
+        if (_distance > 1000) {
+          _distance = _distance / 1000;
+          distanceForDisplay = _distance.toString() + " km";
+        } else {
+          distanceForDisplay = _distance.toString() + " m";
+        }
+
+        await saveReview(review, _points);
+        await HttpService().sendInvoiceEmail(
+          total: total_price.toString(),
+          start_normal: start_normal_price.toString(),
+          start_vat: start_vat_price.toString(),
+          start_subtotal: start_price.toString(),
+          riding_normal: riding_normal_price.toString(),
+          riding_vat: riding_vat_price.toString(),
+          riding_subtotal: riding_price.toString(),
+          invoice_date: HelperUtility.getFormattedTime(
+                  DateTime.fromMillisecondsSinceEpoch(
+                      review.startTime),
+                  "dd MMMM yyyy")
+              .toString(),
+          ride_distance: distanceForDisplay,
+          user_email: AppProvider.of(context).currentUser.email,
+        );
+      }
+    } else {
+      HelperUtility.closeProgressDialog(_keyLoader);
+      Alert.showMessage(
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: errorMsg);
+    }
+  }
+
   Future<void> sendRing() async {
     try {
       var res = await HttpService()
@@ -1235,9 +1506,7 @@ class _RideNowState extends State<RideNow>
               await onPause();
               return Navigator.of(context).pop();
             });
-        print("aaaaaaaaaaaaaaaaaa");
       } else {
-        print("bbbbbbbbbbbbbbbbbb");
       }
     }
   }
