@@ -38,6 +38,7 @@ import 'package:intl/intl.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as FlutterStripe;
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:pay/pay.dart';
 import 'package:pay/pay.dart' as pay;
 
@@ -810,78 +811,62 @@ class _RideNowState extends State<RideNow>
 
   Future<void> _handleGooglePay(String amount) async {
     try {
-      // return true;
-      // bool available = await pay.GooglePay.isAvailable();
-      // if (available) {
-      //   pay.PaymentDataRequest request = pay.PaymentDataRequest(
-      //     merchantName: AppConstants.googlePayMerchantName,
-      //     merchantId: AppConstants.googlePayMerchantId,
-      //     currencyCode: 'EUR',
-      //     totalPrice: amount,
-      //     paymentItems: PaymentItems(
-      //       items: [
-      //         PaymentItem(
-      //           label: 'Kiwi City',
-      //           amount: amount,
-      //           status: PaymentItemStatus.final_price,
-      //         )
-      //       ],
-      //     )
-      //   );
 
-      //   PaymentData response = await pay.GooglePay.showGooglePaySheet(
-      //     paymentConfigurationAsset: 'google_pay_live.json',
-      //     paymentDataRequest: request,
-      //   );
+      // final paymentMethod = await FlutterStripe.Stripe.instance.presentGooglePay(
+      //   price: amount,
+      //   currencyCode: 'EUR',
+      //   billingAddressRequired: false,
+      // );
+
+      // print(paymentMethod);
+
+      // if (googlePayResult.status == FlutterStripe.GooglePayStatus.success) {
+      //   // 2. fetch Intent Client Secret from backend
       //   final response = await fetchPaymentIntentClientSecret(
-      //     paymethod: PayMethodStr.GOOGLE_PAY, amount: amount);
-      //   HelperUtility.showProgressDialog(
-      //     context: context,
-      //     key: _keyLoader,
-      //     title: AppLocalizations.of(context).wait,
-      //   );
+      //       paymethod: PayMethodStr.GOOGLE_PAY, amount: amount);
+
+      //   print("Google pay result");
+      //   print(response);
       //   if (response['result']) {
       //     final clientSecret = response['data'];
+      //     // 2. Confirm google pay payment
+      //     print(googlePayResult);
       //     final token =
-      //         paymentResult['paymentMethodData']['tokenizationData']['token'];
+      //       googlePayResult['paymentMethodData']['tokenizationData']['token'];
       //     final tokenJson = Map.castFrom(json.decode(token));
-      //     print(tokenJson);
 
       //     final params = PaymentMethodParams.cardFromToken(
       //       paymentMethodData: PaymentMethodDataCardFromToken(
-      //         token: tokenJson['id'],
+      //         token: tokenJson['id'], // TODO extract the actual token
       //       ),
       //     );
 
-      //     await Stripe.instance.confirmPayment(
+      //     // 3. Confirm Google pay payment method
+      //     await FlutterStripe.Stripe.instance.confirmPayment(
       //       paymentIntentClientSecret: clientSecret,
       //       data: params,
       //     );
-      //     HelperUtility.closeProgressDialog(_keyLoader);
-
-      //     return true;
       //   } else {
-      //     HelperUtility.closeProgressDialog(_keyLoader);
+      //     UserModel currentUser = AppProvider.of(context).currentUser;
+      //     currentUser.balance = balance;
+      //     AppProvider.of(context).setCurrentUser(currentUser);
       //     Alert.showMessage(
       //       type: TypeAlert.error,
       //       title: AppLocalizations.of(context).error,
       //       message: AppLocalizations.of(context).errorMsg,
       //     );
-      //     return false;
       //   }
       // } else {
       //   Alert.showMessage(
       //     type: TypeAlert.error,
       //     title: AppLocalizations.of(context).error,
-      //     message: AppLocalizations.of(context).googlePayUnavailable);
-      //   return false;
+      //     message: AppLocalizations.of(context).googlePayError);
       // }
     } catch (e) {
       Alert.showMessage(
         type: TypeAlert.error,
         title: AppLocalizations.of(context).error,
         message: AppLocalizations.of(context).googlePayError);
-      // return false;
     }
   }
 
@@ -981,7 +966,8 @@ class _RideNowState extends State<RideNow>
                 }
               } else if (card.cardType == 'GooglePay') {
                 if (Platform.isAndroid) {
-
+                  await _handleApplePay(rest_amount, double.parse(
+                        (currentUser.balance - riding_price).toStringAsFixed(2)));
                 } else {
                   currentUser.balance = double.parse(
                       (currentUser.balance - riding_price).toStringAsFixed(2));

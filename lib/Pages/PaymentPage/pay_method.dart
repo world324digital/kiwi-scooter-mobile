@@ -458,22 +458,27 @@ class _PayMethod extends State<PayMethod> {
               (currentUser.balance + double.parse(amount)).toStringAsFixed(2));
           FirebaseService service = FirebaseService();
           String amount_fixed = double.parse(amount).toStringAsFixed(2);
+          print('before saving transaction');
+          print(amount_fixed);
+          print(response['data']);
           TransactionModel transaction = new TransactionModel(
             userId: currentUser.id,
             userName: currentUser.firstName + " " + currentUser.lastName,
-            stripeId: response['data']['id'] ?? "",
+            stripeId: response['data'] ?? "",
             stripeTxId: "Google Pay",
             rideDistance: 0.0,
             rideTime: 0,
             amount: double.parse(amount_fixed),
             txType: "Deposit",
           );
+          print('after saving transaction');
           await service.createTransaction(transaction);
 
           updateUserResult = await service.updateUser(currentUser);
         } else if (widget.data["isStart"]) {
           updateUserResult = true;
         }
+        print(updateUserResult);
         if (updateUserResult) {
           Alert.showMessage(
             type: TypeAlert.success,
@@ -504,6 +509,7 @@ class _PayMethod extends State<PayMethod> {
         PlatformException error = e as PlatformException;
         message = error.code == "Canceled" ? error.message.toString() : message;
       }
+      print(e);
       Alert.showMessage(
           type: TypeAlert.error,
           title: AppLocalizations.of(context).error,
@@ -1212,7 +1218,7 @@ class _PayMethod extends State<PayMethod> {
                                 )
                               : pay.GooglePayButton(
                                   paymentConfigurationAsset:
-                                      'google_pay_live.json',
+                                      'google_pay_test.json',
                                   paymentItems: getPriceItem(),
                                   margin: const EdgeInsets.only(
                                       top: 15, right: 20, left: 20, bottom: 20),
