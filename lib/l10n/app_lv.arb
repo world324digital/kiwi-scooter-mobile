@@ -196,5 +196,6 @@
     "googlePayError": "Mēģinot veikt maksājumu, radās kļūda",
     "googlePayUnavailable": "Google Pay nav pieejams šajā ierīcē",
     "applePaySuccess": "Apple maksā panākumus!",
-    "googlePaySuccess": "Google Pay maksājums veiksmīgi pabeigts"
+    "googlePaySuccess": "Google Pay maksājums veiksmīgi pabeigts",
+    "depositRequired": "Jūsu atlikums ir pārāk mazs, minimālais atlikums ir -0,5 EUR.\n Vispirms jums jāiemaksā depozīts savā makā"
 }

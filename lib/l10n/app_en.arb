@@ -196,5 +196,6 @@
     "googlePayError": "There was an error while trying to perform the payment",
     "googlePayUnavailable": "Google Pay is not available in this device",
     "applePaySuccess": "Apple pay Success!",
-    "googlePaySuccess": "Google Pay payment succesfully completed"
+    "googlePaySuccess": "Google Pay payment succesfully completed",
+    "depositRequired": "Your balance is too low, minimum balance is -0.5 EUR.\n You need to deposit first into your wallet"
 }

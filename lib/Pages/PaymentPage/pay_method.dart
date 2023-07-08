@@ -443,7 +443,6 @@ class _PayMethod extends State<PayMethod> {
           data: params,
         );
         HelperUtility.closeProgressDialog(_keyLoader);
-
         bool updateUserResult = false;
         if (widget.data["deposit"]) {
           UserModel currentUser = AppProvider.of(context).currentUser;
@@ -643,8 +642,12 @@ class _PayMethod extends State<PayMethod> {
 
     UserModel currentUser = AppProvider.of(context).currentUser;
     double user_balance = currentUser.balance;
+
     String rest_amount =
         (double.parse(amount) - user_balance).toStringAsFixed(2);
+    if (user_balance < 0) {
+      rest_amount = amount;
+    }
 
     if (widget.data["deposit"]) {
       rest_amount = amount;
@@ -1218,7 +1221,7 @@ class _PayMethod extends State<PayMethod> {
                                 )
                               : pay.GooglePayButton(
                                   paymentConfigurationAsset:
-                                      'google_pay_test.json',
+                                      'google_pay_live.json',
                                   paymentItems: getPriceItem(),
                                   margin: const EdgeInsets.only(
                                       top: 15, right: 20, left: 20, bottom: 20),

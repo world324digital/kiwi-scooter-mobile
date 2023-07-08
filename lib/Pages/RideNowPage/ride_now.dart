@@ -52,6 +52,7 @@ class RideNow extends StatefulWidget {
 
 class _RideNowState extends State<RideNow>
     with TickerProviderStateMixin, WidgetsBindingObserver {
+  Completer<void>? completer;
   StreamSubscription<Position>? _positionStreamSubscription;
   StreamSubscription<ServiceStatus>? _serviceStatusStreamSubscription;
   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
@@ -70,6 +71,12 @@ class _RideNowState extends State<RideNow>
   int currentHour = 0;
   bool isNoRideDialogOpen = false;
   bool isStarted = false;
+  String ridingAmount = "0";
+  var _payClient = Pay.withAssets(
+      [
+        'google_pay_live.json'
+      ],
+  );
 
   bool inProgress = true; // Ride in progress
   FirebaseService service = FirebaseService();
@@ -292,16 +299,20 @@ class _RideNowState extends State<RideNow>
         print("Inactive");
         if (isFlag) {
           await forceEndRide();
+          setState(() {
+            isFlag = true;
+          });
+          Navigator.of(context).pop();
         }
 
         break;
       case AppLifecycleState.paused:
         print("PAUSED");
 
-        await onPause();
-        setState(() {
-          isFlag = false;
-        });
+        // await onPause();
+        // setState(() {
+        //   isFlag = true;
+        // });
 
         break;
       case AppLifecycleState.detached:
@@ -311,7 +322,13 @@ class _RideNowState extends State<RideNow>
       case AppLifecycleState.resumed:
         print("Resumed");
 
-        await onResume();
+        // if (isFlag) {
+        //   await onResume();
+        //   setState(() {
+        //     isFlag = true;
+        //   });
+        // }
+
 
         break;
     }
@@ -443,6 +460,7 @@ class _RideNowState extends State<RideNow>
 
   @override
   void dispose() {
+    print('dispose function');
     _mapController.dispose();
     _positionStreamSubscription?.pause();
     _positionStreamSubscription?.cancel();
@@ -809,64 +827,58 @@ class _RideNowState extends State<RideNow>
     }
   }
 
-  Future<void> _handleGooglePay(String amount) async {
+  Future<void> onGooglePayResult(paymentResult) async {
     try {
+      debugPrint(paymentResult.toString());
+      // 2. fetch Intent Client Secret from backend
+      final response = await fetchPaymentIntentClientSecret(
+          paymethod: PayMethodStr.GOOGLE_PAY, amount: ridingAmount);
+      HelperUtility.showProgressDialog(
+        context: context,
+        key: _keyLoader,
+        title: AppLocalizations.of(context).wait,
+        // title: inProgress ? "Pause..." : "Resume...",
+      );
+      if (response['result']) {
+        final clientSecret = response['data'];
+        final token =
+            paymentResult['paymentMethodData']['tokenizationData']['token'];
+        final tokenJson = Map.castFrom(json.decode(token));
+        print(tokenJson);
 
-      // final paymentMethod = await FlutterStripe.Stripe.instance.presentGooglePay(
-      //   price: amount,
-      //   currencyCode: 'EUR',
-      //   billingAddressRequired: false,
-      // );
+        final params = PaymentMethodParams.cardFromToken(
+          paymentMethodData: PaymentMethodDataCardFromToken(
+            token: tokenJson['id'], // TODO extract the actual token
+          ),
+        );
 
-      // print(paymentMethod);
-
-      // if (googlePayResult.status == FlutterStripe.GooglePayStatus.success) {
-      //   // 2. fetch Intent Client Secret from backend
-      //   final response = await fetchPaymentIntentClientSecret(
-      //       paymethod: PayMethodStr.GOOGLE_PAY, amount: amount);
-
-      //   print("Google pay result");
-      //   print(response);
-      //   if (response['result']) {
-      //     final clientSecret = response['data'];
-      //     // 2. Confirm google pay payment
-      //     print(googlePayResult);
-      //     final token =
-      //       googlePayResult['paymentMethodData']['tokenizationData']['token'];
-      //     final tokenJson = Map.castFrom(json.decode(token));
-
-      //     final params = PaymentMethodParams.cardFromToken(
-      //       paymentMethodData: PaymentMethodDataCardFromToken(
-      //         token: tokenJson['id'], // TODO extract the actual token
-      //       ),
-      //     );
-
-      //     // 3. Confirm Google pay payment method
-      //     await FlutterStripe.Stripe.instance.confirmPayment(
-      //       paymentIntentClientSecret: clientSecret,
-      //       data: params,
-      //     );
-      //   } else {
-      //     UserModel currentUser = AppProvider.of(context).currentUser;
-      //     currentUser.balance = balance;
-      //     AppProvider.of(context).setCurrentUser(currentUser);
-      //     Alert.showMessage(
-      //       type: TypeAlert.error,
-      //       title: AppLocalizations.of(context).error,
-      //       message: AppLocalizations.of(context).errorMsg,
-      //     );
-      //   }
-      // } else {
-      //   Alert.showMessage(
-      //     type: TypeAlert.error,
-      //     title: AppLocalizations.of(context).error,
-      //     message: AppLocalizations.of(context).googlePayError);
-      // }
+        // 3. Confirm Google pay payment method
+        await Stripe.instance.confirmPayment(
+          paymentIntentClientSecret: clientSecret,
+          data: params,
+        );
+        HelperUtility.closeProgressDialog(_keyLoader);
+      } else {
+        HelperUtility.closeProgressDialog(_keyLoader);
+        Alert.showMessage(
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).errorMsg,
+        );
+      }
     } catch (e) {
+      HelperUtility.closeProgressDialog(_keyLoader);
+
+      String message = AppLocalizations.of(context).errorMsg;
+      if (e is PlatformException) {
+        PlatformException error = e as PlatformException;
+        message = error.code == "Canceled" ? error.message.toString() : message;
+      }
+      print(e);
       Alert.showMessage(
-        type: TypeAlert.error,
-        title: AppLocalizations.of(context).error,
-        message: AppLocalizations.of(context).googlePayError);
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: message);
     }
   }
 
@@ -875,8 +887,11 @@ class _RideNowState extends State<RideNow>
     isStarted = false;
     double price_per_minute =
         AppProvider.of(context).selectedPrice?.costPerMinute ?? 0.0;
+    
+    var _usedDuration = _usedTime;
+    AppProvider.of(context).setUsedTime(_usedDuration);
     double riding_price =
-        double.parse((price_per_minute * _usedTime / 60.0).toStringAsFixed(2));
+        double.parse((price_per_minute * _usedDuration / 60.0).toStringAsFixed(2));
 
     showBottomDialog(
         img1: '',
@@ -907,7 +922,6 @@ class _RideNowState extends State<RideNow>
               lat: userLocation!.latitude, long: userLocation!.longitude);
 
           AppProvider.of(context).setEndPoint(_end);
-          AppProvider.of(context).setUsedTime(_usedTime);
           AppProvider.of(context).setPoints(points);
           removeDataInLocal(AppLocalKeys.TEMP_REVIEW);
 
@@ -923,6 +937,11 @@ class _RideNowState extends State<RideNow>
           var res;
           var errorMsg = AppLocalizations.of(context).errorMsg;
           bool isPaidBalance = false;
+          
+          setState(() {
+            isFlag = false;
+          });
+
           if (riding_price >= 0.5) {
             if (user_balance >= riding_price) {
               currentUser.balance = double.parse(
@@ -931,6 +950,8 @@ class _RideNowState extends State<RideNow>
               isPaidBalance = true;
             } else {
               String rest_amount = (riding_price).toStringAsFixed(2);
+              print('rrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
+              print(rest_amount);
               if (user_balance >= 0) {
                 rest_amount = (riding_price - user_balance).toStringAsFixed(2);
               }
@@ -955,9 +976,62 @@ class _RideNowState extends State<RideNow>
                 }
               } else if (card.cardType == 'ApplePay') {
                 if (Platform.isIOS) {
-                  await _handleApplePay(rest_amount, double.parse(
-                        (currentUser.balance - riding_price).toStringAsFixed(2)));
-                  isPaidBalance = true;
+                  // await _handleApplePay(rest_amount, double.parse(
+                  //       (currentUser.balance - riding_price).toStringAsFixed(2)));
+                  try {
+                    await FlutterStripe.Stripe.instance.presentApplePay(
+                      params: FlutterStripe.ApplePayPresentParams(
+                        cartItems: [
+                          FlutterStripe.ApplePayCartSummaryItem.immediate(
+                            label: 'Kiwi City',
+                            amount: double.parse(rest_amount).toStringAsFixed(2),
+                          ),
+                        ],
+                        requiredShippingAddressFields: [],
+                        shippingMethods: [],
+                        country: 'LV',
+                        currency: 'EUR',
+                      ),
+                    );
+
+                    // 2. fetch Intent Client Secret from backend
+                    final response = await fetchPaymentIntentClientSecret(
+                        paymethod: PayMethodStr.APPLE_PAY, amount: rest_amount);
+
+                    print("apple pay result");
+                    res = response;
+                    if (response['result']) {
+                      final clientSecret = response['data'];
+                      // 2. Confirm apple pay payment
+                      await FlutterStripe.Stripe.instance
+                          .confirmApplePayPayment(clientSecret);
+                    } else {
+                      currentUser.balance = double.parse(
+                          (currentUser.balance - riding_price).toStringAsFixed(2));
+                      AppProvider.of(context).setCurrentUser(currentUser);
+                      isPaidBalance = true;
+                      Alert.showMessage(
+                        type: TypeAlert.error,
+                        title: AppLocalizations.of(context).error,
+                        message: AppLocalizations.of(context).errorMsg,
+                      );
+                    }
+                  } catch (e) {
+                    currentUser.balance = double.parse(
+                        (currentUser.balance - riding_price).toStringAsFixed(2));
+                    AppProvider.of(context).setCurrentUser(currentUser);
+                    isPaidBalance = true;
+                    print(e);
+                    String message = AppLocalizations.of(context).errorMsg;
+                    if (e is PlatformException) {
+                      PlatformException error = e as PlatformException;
+                      message = error.code == "Canceled" ? error.message.toString() : message;
+                    }
+                    Alert.showMessage(
+                        type: TypeAlert.error,
+                        title: AppLocalizations.of(context).error,
+                        message: message);
+                  }
                 } else {
                   currentUser.balance = double.parse(
                       (currentUser.balance - riding_price).toStringAsFixed(2));
@@ -966,22 +1040,80 @@ class _RideNowState extends State<RideNow>
                 }
               } else if (card.cardType == 'GooglePay') {
                 if (Platform.isAndroid) {
-                  await _handleApplePay(rest_amount, double.parse(
-                        (currentUser.balance - riding_price).toStringAsFixed(2)));
+                  ridingAmount = rest_amount;
+                  var _paymentItems = [
+                    PaymentItem(
+                      label: 'Kiwi City',
+                      amount: rest_amount,
+                      status: PaymentItemStatus.final_price,
+                    )
+                  ];
+                  if (await _payClient.userCanPay(PayProvider.google_pay)) {
+                    final paymentResult = await _payClient.showPaymentSelector(
+                      PayProvider.google_pay, _paymentItems,
+                    );
+                    try {
+                      debugPrint(paymentResult.toString());
+                      final response = await fetchPaymentIntentClientSecret(
+                          paymethod: PayMethodStr.GOOGLE_PAY, amount: rest_amount);
+                      
+                      res = response;
+                      print(response);
+                      if (response['result']) {
+                        final clientSecret = response['data'];
+                        final token =
+                            paymentResult['paymentMethodData']['tokenizationData']['token'];
+                        final tokenJson = Map.castFrom(json.decode(token));
+                        print(tokenJson);
+
+                        final params = PaymentMethodParams.cardFromToken(
+                          paymentMethodData: PaymentMethodDataCardFromToken(
+                            token: tokenJson['id'], // TODO extract the actual token
+                          ),
+                        );
+
+                        // 3. Confirm Google pay payment method
+                        await FlutterStripe.Stripe.instance.confirmPayment(
+                          paymentIntentClientSecret: clientSecret,
+                          data: params,
+                        );
+                      } else {
+                        Alert.showMessage(
+                          type: TypeAlert.error,
+                          title: AppLocalizations.of(context).error,
+                          message: AppLocalizations.of(context).errorMsg,
+                        );
+                        currentUser.balance = double.parse(
+                            (currentUser.balance - riding_price).toStringAsFixed(2));
+                        AppProvider.of(context).setCurrentUser(currentUser);
+                        isPaidBalance = true;
+                      }
+                    } catch (e) {
+
+                      String message = AppLocalizations.of(context).errorMsg;
+                      if (e is PlatformException) {
+                        PlatformException error = e as PlatformException;
+                        message = error.code == "Canceled" ? error.message.toString() : message;
+                      }
+                      print(e);
+                      Alert.showMessage(
+                          type: TypeAlert.error,
+                          title: AppLocalizations.of(context).error,
+                          message: message);
+                      if (!res['result']) {
+                        currentUser.balance = double.parse(
+                            (currentUser.balance - riding_price).toStringAsFixed(2));
+                        AppProvider.of(context).setCurrentUser(currentUser);
+                        isPaidBalance = true;
+                      }
+                    }
+                  }
                 } else {
                   currentUser.balance = double.parse(
                       (currentUser.balance - riding_price).toStringAsFixed(2));
                   AppProvider.of(context).setCurrentUser(currentUser);
                   isPaidBalance = true;
                 }
-                // var googlePayResult = _handleGooglePay(rest_amount);
-                // if (googlePayResult) {
-                //   isPaidBalance = googlePayResult;
-                // } else {
-                //   currentUser.balance = double.parse(
-                //       (currentUser.balance - riding_price).toStringAsFixed(2));
-                //   isPaidBalance = true;
-                // }
               }
             }
           } else {
@@ -998,9 +1130,10 @@ class _RideNowState extends State<RideNow>
 
             UserModel currentUser = AppProvider.of(context).currentUser;
             AppProvider.of(context).setDistance(distance);
-
+            
+            double start_price = AppProvider.of(context).selectedPrice?.startCost ?? 0.0;
             double amount_fixed =
-                double.parse((riding_price + 1).toStringAsFixed(2));
+                double.parse((riding_price + start_price).toStringAsFixed(2));
 
             TransactionModel transaction = new TransactionModel(
               userId: currentUser.id,
@@ -1038,6 +1171,10 @@ class _RideNowState extends State<RideNow>
                 title: AppLocalizations.of(context).error,
                 message: errorMsg);
           }
+          
+          setState(() {
+            isFlag = true;
+          });
         });
   }
 
@@ -1128,25 +1265,15 @@ class _RideNowState extends State<RideNow>
             isPaidBalance = true;
           }
         } else if (card.cardType == 'ApplePay') {
-          if (Platform.isIOS) {
-            await _handleApplePay(rest_amount, double.parse(
-                  (currentUser.balance - riding_price).toStringAsFixed(2)));
-            isPaidBalance = true;
-          } else {
-            currentUser.balance = double.parse(
+          currentUser.balance = double.parse(
                 (currentUser.balance - riding_price).toStringAsFixed(2));
             AppProvider.of(context).setCurrentUser(currentUser);
             isPaidBalance = true;
-          }
         } else if (card.cardType == 'GooglePay') {
-          if (Platform.isAndroid) {
-
-          } else {
-            currentUser.balance = double.parse(
+          currentUser.balance = double.parse(
                 (currentUser.balance - riding_price).toStringAsFixed(2));
             AppProvider.of(context).setCurrentUser(currentUser);
             isPaidBalance = true;
-          }
         }
       }
     } else {
@@ -1163,9 +1290,9 @@ class _RideNowState extends State<RideNow>
 
       UserModel currentUser = AppProvider.of(context).currentUser;
       AppProvider.of(context).setDistance(distance);
-
+      double start_price = AppProvider.of(context).selectedPrice?.startCost ?? 0.0;
       double amount_fixed =
-          double.parse((riding_price + 1).toStringAsFixed(2));
+          double.parse((riding_price + start_price).toStringAsFixed(2));
 
       TransactionModel transaction = new TransactionModel(
         userId: currentUser.id,

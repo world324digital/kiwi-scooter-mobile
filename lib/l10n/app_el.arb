@@ -196,5 +196,6 @@
     "googlePayError": "Παρουσιάστηκε σφάλμα κατά την προσπάθεια εκτέλεσης της πληρωμής",
     "googlePayUnavailable": "Το Google Pay δεν είναι διαθέσιμο σε αυτήν τη συσκευή",
     "applePaySuccess": "Apple pay Success!",
-    "googlePaySuccess": "Η πληρωμή Google Pay ολοκληρώθηκε με επιτυχία"
+    "googlePaySuccess": "Η πληρωμή Google Pay ολοκληρώθηκε με επιτυχία",
+    "depositRequired": "Το υπόλοιπό σας είναι πολύ χαμηλό, το ελάχιστο υπόλοιπο είναι -0,5 EUR.\n Πρέπει να καταθέσετε πρώτα στο πορτοφόλι σας"
 }
