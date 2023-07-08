@@ -71,6 +71,12 @@ class _RideNowState extends State<RideNow>
   int currentHour = 0;
   bool isNoRideDialogOpen = false;
   bool isStarted = false;
+  String ridingAmount = "0";
+  var _payClient = Pay.withAssets(
+      [
+        'google_pay_live.json'
+      ],
+  );
 
   bool inProgress = true; // Ride in progress
   FirebaseService service = FirebaseService();
@@ -821,64 +827,58 @@ class _RideNowState extends State<RideNow>
     }
   }
 
-  Future<void> _handleGooglePay(String amount) async {
+  Future<void> onGooglePayResult(paymentResult) async {
     try {
+      debugPrint(paymentResult.toString());
+      // 2. fetch Intent Client Secret from backend
+      final response = await fetchPaymentIntentClientSecret(
+          paymethod: PayMethodStr.GOOGLE_PAY, amount: ridingAmount);
+      HelperUtility.showProgressDialog(
+        context: context,
+        key: _keyLoader,
+        title: AppLocalizations.of(context).wait,
+        // title: inProgress ? "Pause..." : "Resume...",
+      );
+      if (response['result']) {
+        final clientSecret = response['data'];
+        final token =
+            paymentResult['paymentMethodData']['tokenizationData']['token'];
+        final tokenJson = Map.castFrom(json.decode(token));
+        print(tokenJson);
 
-      // final paymentMethod = await FlutterStripe.Stripe.instance.presentGooglePay(
-      //   price: amount,
-      //   currencyCode: 'EUR',
-      //   billingAddressRequired: false,
-      // );
+        final params = PaymentMethodParams.cardFromToken(
+          paymentMethodData: PaymentMethodDataCardFromToken(
+            token: tokenJson['id'], // TODO extract the actual token
+          ),
+        );
 
-      // print(paymentMethod);
-
-      // if (googlePayResult.status == FlutterStripe.GooglePayStatus.success) {
-      //   // 2. fetch Intent Client Secret from backend
-      //   final response = await fetchPaymentIntentClientSecret(
-      //       paymethod: PayMethodStr.GOOGLE_PAY, amount: amount);
-
-      //   print("Google pay result");
-      //   print(response);
-      //   if (response['result']) {
-      //     final clientSecret = response['data'];
-      //     // 2. Confirm google pay payment
-      //     print(googlePayResult);
-      //     final token =
-      //       googlePayResult['paymentMethodData']['tokenizationData']['token'];
-      //     final tokenJson = Map.castFrom(json.decode(token));
-
-      //     final params = PaymentMethodParams.cardFromToken(
-      //       paymentMethodData: PaymentMethodDataCardFromToken(
-      //         token: tokenJson['id'], // TODO extract the actual token
-      //       ),
-      //     );
-
-      //     // 3. Confirm Google pay payment method
-      //     await FlutterStripe.Stripe.instance.confirmPayment(
-      //       paymentIntentClientSecret: clientSecret,
-      //       data: params,
-      //     );
-      //   } else {
-      //     UserModel currentUser = AppProvider.of(context).currentUser;
-      //     currentUser.balance = balance;
-      //     AppProvider.of(context).setCurrentUser(currentUser);
-      //     Alert.showMessage(
-      //       type: TypeAlert.error,
-      //       title: AppLocalizations.of(context).error,
-      //       message: AppLocalizations.of(context).errorMsg,
-      //     );
-      //   }
-      // } else {
-      //   Alert.showMessage(
-      //     type: TypeAlert.error,
-      //     title: AppLocalizations.of(context).error,
-      //     message: AppLocalizations.of(context).googlePayError);
-      // }
+        // 3. Confirm Google pay payment method
+        await Stripe.instance.confirmPayment(
+          paymentIntentClientSecret: clientSecret,
+          data: params,
+        );
+        HelperUtility.closeProgressDialog(_keyLoader);
+      } else {
+        HelperUtility.closeProgressDialog(_keyLoader);
+        Alert.showMessage(
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: AppLocalizations.of(context).errorMsg,
+        );
+      }
     } catch (e) {
+      HelperUtility.closeProgressDialog(_keyLoader);
+
+      String message = AppLocalizations.of(context).errorMsg;
+      if (e is PlatformException) {
+        PlatformException error = e as PlatformException;
+        message = error.code == "Canceled" ? error.message.toString() : message;
+      }
+      print(e);
       Alert.showMessage(
-        type: TypeAlert.error,
-        title: AppLocalizations.of(context).error,
-        message: AppLocalizations.of(context).googlePayError);
+          type: TypeAlert.error,
+          title: AppLocalizations.of(context).error,
+          message: message);
     }
   }
 
@@ -1000,7 +1000,6 @@ class _RideNowState extends State<RideNow>
 
                     print("apple pay result");
                     res = response;
-                    print(response);
                     if (response['result']) {
                       final clientSecret = response['data'];
                       // 2. Confirm apple pay payment
@@ -1041,22 +1040,80 @@ class _RideNowState extends State<RideNow>
                 }
               } else if (card.cardType == 'GooglePay') {
                 if (Platform.isAndroid) {
-                  await _handleApplePay(rest_amount, double.parse(
-                        (currentUser.balance - riding_price).toStringAsFixed(2)));
+                  ridingAmount = rest_amount;
+                  var _paymentItems = [
+                    PaymentItem(
+                      label: 'Kiwi City',
+                      amount: rest_amount,
+                      status: PaymentItemStatus.final_price,
+                    )
+                  ];
+                  if (await _payClient.userCanPay(PayProvider.google_pay)) {
+                    final paymentResult = await _payClient.showPaymentSelector(
+                      PayProvider.google_pay, _paymentItems,
+                    );
+                    try {
+                      debugPrint(paymentResult.toString());
+                      final response = await fetchPaymentIntentClientSecret(
+                          paymethod: PayMethodStr.GOOGLE_PAY, amount: rest_amount);
+                      
+                      res = response;
+                      print(response);
+                      if (response['result']) {
+                        final clientSecret = response['data'];
+                        final token =
+                            paymentResult['paymentMethodData']['tokenizationData']['token'];
+                        final tokenJson = Map.castFrom(json.decode(token));
+                        print(tokenJson);
+
+                        final params = PaymentMethodParams.cardFromToken(
+                          paymentMethodData: PaymentMethodDataCardFromToken(
+                            token: tokenJson['id'], // TODO extract the actual token
+                          ),
+                        );
+
+                        // 3. Confirm Google pay payment method
+                        await FlutterStripe.Stripe.instance.confirmPayment(
+                          paymentIntentClientSecret: clientSecret,
+                          data: params,
+                        );
+                      } else {
+                        Alert.showMessage(
+                          type: TypeAlert.error,
+                          title: AppLocalizations.of(context).error,
+                          message: AppLocalizations.of(context).errorMsg,
+                        );
+                        currentUser.balance = double.parse(
+                            (currentUser.balance - riding_price).toStringAsFixed(2));
+                        AppProvider.of(context).setCurrentUser(currentUser);
+                        isPaidBalance = true;
+                      }
+                    } catch (e) {
+
+                      String message = AppLocalizations.of(context).errorMsg;
+                      if (e is PlatformException) {
+                        PlatformException error = e as PlatformException;
+                        message = error.code == "Canceled" ? error.message.toString() : message;
+                      }
+                      print(e);
+                      Alert.showMessage(
+                          type: TypeAlert.error,
+                          title: AppLocalizations.of(context).error,
+                          message: message);
+                      if (!res['result']) {
+                        currentUser.balance = double.parse(
+                            (currentUser.balance - riding_price).toStringAsFixed(2));
+                        AppProvider.of(context).setCurrentUser(currentUser);
+                        isPaidBalance = true;
+                      }
+                    }
+                  }
                 } else {
                   currentUser.balance = double.parse(
                       (currentUser.balance - riding_price).toStringAsFixed(2));
                   AppProvider.of(context).setCurrentUser(currentUser);
                   isPaidBalance = true;
                 }
-                // var googlePayResult = _handleGooglePay(rest_amount);
-                // if (googlePayResult) {
-                //   isPaidBalance = googlePayResult;
-                // } else {
-                //   currentUser.balance = double.parse(
-                //       (currentUser.balance - riding_price).toStringAsFixed(2));
-                //   isPaidBalance = true;
-                // }
               }
             }
           } else {

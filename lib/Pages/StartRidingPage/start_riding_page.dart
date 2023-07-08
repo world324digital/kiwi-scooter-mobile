@@ -245,59 +245,70 @@ class _StartRiding extends State<StartRiding> {
                 bool isReservation = widget.data['isReservation'] == null
                     ? false
                     : widget.data['isReservation'];
-                if (balance >= selectedPrice.startCost || balance >= 0 && selectedPrice.startCost - balance < 0.5) {
-                  currentUser.balance = double.parse((balance - selectedPrice.startCost).toStringAsFixed(2));
+                if (balance < -0.5) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  Alert.showMessage(
+                    type: TypeAlert.error,
+                    title: AppLocalizations.of(context).error,
+                    message: AppLocalizations.of(context).depositRequired,
+                  );
+                } else {
+                  if (balance >= selectedPrice.startCost || balance >= 0 && selectedPrice.startCost - balance < 0.5) {
+                    currentUser.balance = double.parse((balance - selectedPrice.startCost).toStringAsFixed(2));
 
-                  FirebaseService service = FirebaseService();
-                  bool updateUserResult = await service.updateUser(currentUser);
-                  if (updateUserResult) {
-                    Future.delayed(const Duration(milliseconds: 200), () {
+                    FirebaseService service = FirebaseService();
+                    bool updateUserResult = await service.updateUser(currentUser);
+                    if (updateUserResult) {
+                      Future.delayed(const Duration(milliseconds: 200), () {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        AppProvider.of(context).setCurrentUser(currentUser);
+                        HelperUtility.goPageReplace(
+                          context: context,
+                          routeName: Routes.TERMS_OF_SERVICE,
+                          arg: {
+                            "viaPayment": true,
+                            "isReservation": isReservation
+                          },
+                        );
+                      });
+                      // HelperUtility.goPage(
+                      //     context: context,
+                      //     routeName: Routes.PAYMENT_METHODS,
+                      //     arg: {"isStart": true});
+                    } else {
                       setState(() {
                         isLoading = false;
                       });
-                      AppProvider.of(context).setCurrentUser(currentUser);
-                      HelperUtility.goPageReplace(
-                        context: context,
-                        routeName: Routes.TERMS_OF_SERVICE,
-                        arg: {
-                          "viaPayment": true,
-                          "isReservation": isReservation
-                        },
+                      Alert.showMessage(
+                        type: TypeAlert.error,
+                        title: AppLocalizations.of(context).error,
+                        message: AppLocalizations.of(context).errorMsg,
                       );
-                    });
-                    // HelperUtility.goPage(
-                    //     context: context,
-                    //     routeName: Routes.PAYMENT_METHODS,
-                    //     arg: {"isStart": true});
+                    }
                   } else {
                     setState(() {
                       isLoading = false;
                     });
-                    Alert.showMessage(
-                      type: TypeAlert.error,
-                      title: AppLocalizations.of(context).error,
-                      message: AppLocalizations.of(context).errorMsg,
-                    );
-                  }
-                } else {
-                  setState(() {
-                    isLoading = false;
-                  });
 
-                  HelperUtility.goPage(
-                    context: context,
-                    routeName: Routes.PAYMENT_METHODS,
-                    arg: {
-                      "isStart": true,
-                      "deposit": false,
-                      "isMore": false,
-                      "isReservation": isReservation
-                    },
-                  );
-                  // Alert.showMessage(
-                  //     type: TypeAlert.error,
-                  //     title: AppLocalizations.of(context).error,
-                  //     message: Messages.INSUFFICIENT_BALANCE);
+                    HelperUtility.goPage(
+                      context: context,
+                      routeName: Routes.PAYMENT_METHODS,
+                      arg: {
+                        "isStart": true,
+                        "deposit": false,
+                        "isMore": false,
+                        "isReservation": isReservation
+                      },
+                    );
+                    // Alert.showMessage(
+                    //     type: TypeAlert.error,
+                    //     title: AppLocalizations.of(context).error,
+                    //     message: Messages.INSUFFICIENT_BALANCE);
+                  }
                 }
 
                 // if (widget.data['isMore'] ?? false) {
